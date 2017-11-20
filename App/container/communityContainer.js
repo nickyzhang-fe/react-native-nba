@@ -2,7 +2,6 @@
  * Created by Cral-Gates on 2017/11/14.
  */
 import React, {Component} from 'react';
-import HeaderBar from '../components/headerBar';
 import {
     View,
     Text,
@@ -11,6 +10,8 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
+import HeaderBar from '../components/headerBar';
+import CommunityItem from '../components/communityItem';
 import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
 import CommonUtil from '../util/commonUtil';
@@ -22,7 +23,8 @@ class CommunityContainer extends Component {
         super(props);
         this.state = {
             dataSource: [],
-            isRefreshing: false
+            isRefreshing: false,
+            lastId: '0'
         }
     }
 
@@ -43,6 +45,8 @@ class CommunityContainer extends Component {
                     renderItem={(item) => this._renderItemView(item)}
                     onEndReached={() => this.onLoadMore()}
                     onRefresh={() => this.onRefresh()}
+                    onEndReachedThreshold={0.1}
+                    initialNumToRender={10}
                     getItemLayout={(item, index) => this._getItemLayout(item, index)}
                     keyExtractor={(item) => this._keyExtractor(item)}
                     refreshing={this.state.isRefreshing}/>
@@ -51,8 +55,9 @@ class CommunityContainer extends Component {
     }
 
     _renderItemView = (item) => {
+        console.log(item);
         return (
-            <TouchableOpacity onPress={() => this.goCommunityDetail()}>
+            <TouchableOpacity onPress={() => this.goCommunityDetail(item)}>
                 <View style={styles.item}>
                     <View style={styles.itemTop}>
                         <View style={{flex: 5}}><Text style={styles.title}> {item.item.title}</Text></View>
@@ -81,14 +86,9 @@ class CommunityContainer extends Component {
         )
     };
 
-    renderEmptyView = () => {
-        return (
-            <TouchableOpacity>
-                <Text>{{数据为空}}</Text>
-            </TouchableOpacity>
-        )
-    };
-
+// <CommunityItem
+// item={item}
+// _onPress={(item) => this.goCommunityDetail(item)}/>
     _keyExtractor = (item, index) => item.id;
 
     _getItemLayout = (item, index) => (
@@ -97,23 +97,42 @@ class CommunityContainer extends Component {
 
     onRefresh = () => {
         let that = this;
-        let url = 'https://shequweb.sports.qq.com/module/timeLineAsGroup?lastId=0&count=40&gid=17&_=1510496938551';
+        let url = 'https://shequweb.sports.qq.com/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
         console.log(url);
+        that.setState({
+            isRefreshing: true
+        });
         NetUtil.get(url, function (res) {
             console.log(res.data.list);
             that.setState({
-                dataSource: res.data.list
+                dataSource: res.data.list,
+                lastId: res.data.lastId,
+                isRefreshing: false
             })
         })
     };
 
     onLoadMore = () => {
-
+        let that = this;
+        let url = 'https://shequweb.sports.qq.com/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
+        console.log(url);
+        that.setState({
+            isRefreshing: true
+        });
+        NetUtil.get(url, function (res) {
+            console.log(res.data.list);
+            that.setState({
+                dataSource: that.state.dataSource.concat(res.data.list),
+                lastId: res.data.lastId,
+                isRefreshing: false
+            })
+        })
     };
 
-    goCommunityDetail = () => {
+    goCommunityDetail = (item) => {
         getNavigator().push({
-            name: 'CommunityDetail'
+            name: 'CommunityDetail',
+            id: item.item.id
         })
     }
 

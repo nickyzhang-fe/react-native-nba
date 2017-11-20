@@ -15,11 +15,7 @@ class FlatList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: [{title: 'Title Text', key: 'item1'},
-                {title: 'Title Text', key: 'item1'},
-                {title: 'Title Text', key: 'item1'},
-                {title: 'Title Text', key: 'item1'},
-                {title: 'Title Text', key: 'item1'}]
+            dataSource: []
         }
     }
 
@@ -49,6 +45,10 @@ class FlatList extends Component {
     }
 }
 
-FlatList.propTypes = {};
+FlatList.propTypes = {
+    refreshing: PropType.bool.isRequired,
+    onRefresh: PropType.func.isRequired,
+    onLoadMore: PropType.func.isRequired
+};
 
 export default FlatList;

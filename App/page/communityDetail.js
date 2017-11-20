@@ -6,7 +6,8 @@ import {
     StyleSheet,
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native';
 
 import HeaderBar from '../components/headerBar';
@@ -19,12 +20,13 @@ class CommunityDetail extends Component {
     constructor(props){
         super(props);
         this.state = {
+            id: this.props.id,
             title: '社区评论'
         }
     }
 
     componentDidMount() {
-
+        InteractionManager.runAfterInteractions(this.getCommunityDetail());
     }
 
     render(){
@@ -44,7 +46,16 @@ class CommunityDetail extends Component {
 
     goBack = () => {
         getNavigator().pop();
-    }
+    };
+
+    getCommunityDetail = () => {
+        let that = this;
+        let url = 'https://shequweb.sports.qq.com/reply/listCite?tid='+ that.props.id +'&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
+        console.log(url);
+        NetUtil.get(url, function (res) {
+            console.log(res.data);
+        })
+    };
 }
 
 const styles = StyleSheet.create({

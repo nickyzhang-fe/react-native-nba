@@ -34,7 +34,8 @@ routeMap.set('DataContainer', {
 });
 
 routeMap.set('CommunityContainer', {
-    component: CommunityContainer
+    component: CommunityContainer,
+    params: ''
 });
 
 routeMap.set('CommunityDetail', {
