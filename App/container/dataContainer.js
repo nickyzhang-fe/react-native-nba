@@ -22,7 +22,7 @@ class DataContainer extends Component {
                     showLeftState={false}
                     showRightState={true}
                     showRightImage={true}
-                    rightImageSource={require('../image/menu_person.png')}
+                    rightImageSource={require('../image/person/github.png')}
                     onPressRight={() => this.showPersonInfo()}/>
             </View>
         )

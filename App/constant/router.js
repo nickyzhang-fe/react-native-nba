@@ -8,6 +8,7 @@ import NewsContainer from '../container/newsContainer';
 import GameContainer from '../container/gameContainer';
 import DataContainer from '../container/dataContainer';
 import CommunityContainer from '../container/communityContainer';
+import CommunityDetail from '../page/communityDetail';
 import PersonInfo from '../page/personInfo';
 import {
     Navigator
@@ -34,6 +35,10 @@ routeMap.set('DataContainer', {
 
 routeMap.set('CommunityContainer', {
     component: CommunityContainer
+});
+
+routeMap.set('CommunityDetail', {
+    component: CommunityDetail
 });
 
 routeMap.set('PersonInfo', {
