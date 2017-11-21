@@ -20,9 +20,11 @@ class CommunityItem extends Component {
     }
 
     render() {
+        console.log(this.props);
         console.log(this.props.item);
+        let item = this.props.item;
         return (
-            <TouchableOpacity onPress={() => this._onPress(item)}>
+            <TouchableOpacity onPress={() => this.props._onPress(item)}>
                 <View style={styles.item}>
                     <View style={styles.itemTop}>
                         <View style={{flex: 5}}><Text style={styles.title}> {item.item.title}</Text></View>
@@ -53,7 +55,7 @@ class CommunityItem extends Component {
 }
 
 FlatList.propTypes = {
-    item: PropType.object.isRequired,
+    item: PropType.object,
     _onPress: PropType.func
 };
 

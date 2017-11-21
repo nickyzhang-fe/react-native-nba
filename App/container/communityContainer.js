@@ -8,14 +8,16 @@ import {
     Image,
     FlatList,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity,
+    InteractionManager
 } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import CommunityItem from '../components/communityItem';
 import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
 import CommonUtil from '../util/commonUtil';
-import {getNavigator} from '../constant/router'
+import {getNavigator} from '../constant/router';
+import Global from '../constant/global';
 
 
 class CommunityContainer extends Component {
@@ -29,7 +31,7 @@ class CommunityContainer extends Component {
     }
 
     componentDidMount() {
-        this.onRefresh();
+        InteractionManager.runAfterInteractions(this.onRefresh());
     }
 
     render() {
@@ -56,39 +58,15 @@ class CommunityContainer extends Component {
 
     _renderItemView = (item) => {
         console.log(item);
+        let that = this;
         return (
-            <TouchableOpacity onPress={() => this.goCommunityDetail(item)}>
-                <View style={styles.item}>
-                    <View style={styles.itemTop}>
-                        <View style={{flex: 5}}><Text style={styles.title}> {item.item.title}</Text></View>
-                        <View style={{alignItems: 'center', flex: 1, alignSelf: 'center'}}>
-                            <Image style={styles.image} source={{uri: item.item.moduleIcon.replace('http', 'https')}}/>
-                            <Text style={styles.teamName}>{item.item.moduleName}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.itemBottom}>
-                        <View style={styles.itemBottomLeft}>
-                            <Text style={styles.subTitle}> {item.item.user.name}</Text>
-                        </View>
+            <CommunityItem
+                item={item}
+                _onPress={(item) => this.goCommunityDetail(item)}/>
 
-                        <View style={styles.itemBottomRight}>
-                            <Image style={styles.image_icon}
-                                   source={require('../image/community/icon_shiwu_comment.png')}/>
-                            <Text style={[styles.subTitle, {marginRight: 20}]}>{item.item.replyNum}</Text>
-                            <Image style={styles.image_icon}
-                                   source={require('../image/community/icon_shiwu_like.png')}/>
-                            <Text style={[styles.subTitle, {marginRight: 15}]}>{item.item.supportNum}</Text>
-                        </View>
-
-                    </View>
-                </View>
-            </TouchableOpacity>
         )
     };
 
-// <CommunityItem
-// item={item}
-// _onPress={(item) => this.goCommunityDetail(item)}/>
     _keyExtractor = (item, index) => item.id;
 
     _getItemLayout = (item, index) => (
@@ -97,11 +75,10 @@ class CommunityContainer extends Component {
 
     onRefresh = () => {
         let that = this;
-        let url = 'https://shequweb.sports.qq.com/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
-        console.log(url);
         that.setState({
-            isRefreshing: true
+            isRefreshing: true,
         });
+        let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=0&count=20&gid=17&_=1510496938551';
         NetUtil.get(url, function (res) {
             console.log(res.data.list);
             that.setState({
@@ -114,13 +91,12 @@ class CommunityContainer extends Component {
 
     onLoadMore = () => {
         let that = this;
-        let url = 'https://shequweb.sports.qq.com/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
+        let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
         console.log(url);
         that.setState({
             isRefreshing: true
         });
         NetUtil.get(url, function (res) {
-            console.log(res.data.list);
             that.setState({
                 dataSource: that.state.dataSource.concat(res.data.list),
                 lastId: res.data.lastId,
@@ -130,6 +106,7 @@ class CommunityContainer extends Component {
     };
 
     goCommunityDetail = (item) => {
+        console.log(item);
         getNavigator().push({
             name: 'CommunityDetail',
             id: item.item.id
@@ -141,54 +118,6 @@ class CommunityContainer extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    item: {
-        backgroundColor: CommonStyle.MAIN_COLOR,
-        borderBottomColor: CommonStyle.GRAY_COLOR,
-        borderBottomWidth: 1,
-        padding: 10,
-        height: 108
-    },
-    itemTop: {
-        flexDirection: 'row',
-        height: 68
-    },
-    itemBottom: {
-        flexDirection: 'row',
-        width: CommonUtil.getScreenWidth() - 20,
-        height: 20,
-    },
-    itemBottomLeft: {
-        flex: 1,
-        alignSelf: 'flex-end'
-    },
-    itemBottomRight: {
-        flexDirection: 'row',
-        flex: 1,
-        alignSelf: 'flex-end',
-        justifyContent: 'flex-end'
-    },
-    image: {
-        height: 40,
-        width: 40,
-        borderRadius: 20
-    },
-    image_icon: {
-        height: 18,
-        width: 18
-    },
-    title: {
-        color: 'black',
-        fontSize: 18,
-    },
-    teamName: {
-        color: 'black',
-        fontSize: 14,
-        marginTop: 10
-    },
-    subTitle: {
-        color: CommonStyle.TEXT_GRAY_COLOR,
-        fontSize: 14
     }
 });
 

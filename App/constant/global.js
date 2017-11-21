@@ -13,9 +13,14 @@ const NAV_BAR_HEIGHT = 44;
 * gitHub地址
 * */
 const GITHUB_URL = 'https://github.com/5ibinbin/react-native-nba';
+/*
+* 社区
+* */
+const TEN_SHE_QU_URL = 'https://shequweb.sports.qq.com';
 
 export default {
     STATUS_BAR_HEIGHT,
     NAV_BAR_HEIGHT,
-    GITHUB_URL
+    GITHUB_URL,
+    TEN_SHE_QU_URL
 }
