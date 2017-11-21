@@ -57,7 +57,6 @@ class CommunityContainer extends Component {
     }
 
     _renderItemView = (item) => {
-        console.log(item);
         let that = this;
         return (
             <CommunityItem
@@ -106,7 +105,7 @@ class CommunityContainer extends Component {
     };
 
     goCommunityDetail = (item) => {
-        console.log(item);
+        // console.log(item);
         getNavigator().push({
             name: 'CommunityDetail',
             id: item.item.id

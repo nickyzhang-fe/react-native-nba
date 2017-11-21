@@ -36,20 +36,20 @@ class App extends Component {
         )
     }
 
-    configureScene = (router) => {
-        let sceneAnimation = getRouteMap().get(router.name).sceneAnimation;
+    configureScene = (route) => {
+        let sceneAnimation = getRouteMap().get(route.name).sceneAnimation;
         if (sceneAnimation) {
             return sceneAnimation;
         }
         return Navigator.SceneConfigs.FloatFromRight;
     };
 
-    renderScene = (router, navigator) => {
+    renderScene = (route, navigator) => {
         this.navigator = navigator;
         registerNavigator(navigator);
-        let Component = getRouteMap().get(router.name).component;
+        let Component = getRouteMap().get(route.name).component;
         return (
-            <Component {...router}/>
+            <Component {...route}/>
         );
     }
 }

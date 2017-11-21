@@ -20,8 +20,6 @@ class CommunityItem extends Component {
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.props.item);
         let item = this.props.item;
         return (
             <TouchableOpacity onPress={() => this.props._onPress(item)}>
