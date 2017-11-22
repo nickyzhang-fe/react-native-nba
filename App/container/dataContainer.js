@@ -4,7 +4,8 @@
 import React, {Component} from 'react';
 import {
     View,
-    Text
+    Text,
+    StyleSheet
 } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import {getNavigator} from '../constant/router'
@@ -31,8 +32,13 @@ class DataContainer extends Component {
     showPersonInfo = () => {
         getNavigator().push({
             name: 'PersonInfo'
-        });
+        })
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+});
 export default DataContainer;

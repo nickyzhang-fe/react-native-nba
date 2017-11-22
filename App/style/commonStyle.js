@@ -18,7 +18,6 @@ const style = {
     MARGIN_LEFT: 5,
     MARGIN_RIGHT: 5,
     FONT_SIZE: 20,
-
 };
 
 export default {

@@ -43,9 +43,9 @@ class commonUtil extends Component {
     }
 
     /*
-    * url 替换
-    * */
-    static replaceHttpHeader(str){
+     * url 替换
+     * */
+    static replaceHttpHeader(str) {
         String.prototype.replace = function () {
             this.replace('http', 'https');
         };
@@ -53,11 +53,25 @@ class commonUtil extends Component {
     }
 
     /*
-    * 随机生成颜色
-    * */
-    static chooseColor(){
-        return '#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).slice(-6);
+     * 随机生成颜色
+     * */
+    static chooseColor() {
+        return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
     }
+
+    /*
+     * 时间戳转时间
+     * */
+    static  formatDateTime(timeStamp) {
+        let date = new Date();
+        date.setTime(timeStamp * 1000);
+        let y = date.getFullYear();
+        let m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        let d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        return y + '-' + m + '-' + d;
+    };
 
     /*
      * 屏幕宽高
@@ -73,7 +87,7 @@ class commonUtil extends Component {
     static FormatDate(timestamp, formater) {
         let date = new Date();
         date.setTime(parseInt(timestamp));
-        formater = (formater != null)? formater : 'yyyy-MM-dd hh:mm';
+        formater = (formater != null) ? formater : 'yyyy-MM-dd hh:mm';
         Date.prototype.Format = function (fmt) {
             var o = {
                 "M+": this.getMonth() + 1, //月

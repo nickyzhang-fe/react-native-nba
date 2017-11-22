@@ -13,7 +13,9 @@
     "react-native": "0.50.3",
     "react-native-cached-image": "^1.4.3",
     "react-native-deprecated-custom-components": "^0.1.1",
+    "react-native-htmlview": "^0.12.1",
     "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-viewpager": "^0.2.13",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"

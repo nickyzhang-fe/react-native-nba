@@ -12,7 +12,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-
+// import ViewPager from 'react-native-viewpager';
 import HeaderBar from '../components/headerBar';
 import {getNavigator} from '../constant/router';
 import NetUtil from '../util/netUtil';
@@ -22,11 +22,14 @@ import CommonStyle from '../style/commonStyle';
 class GameContainer extends Component {
     constructor(props) {
         super(props);
+        // this._renderPage = this._renderPage.bind(this);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        // this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
         this.state = {
+            currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             startTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             endTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            dataSource: this.ds.cloneWithRows([]),
+            // dataSource: new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,}),
         };
     }
 
@@ -35,6 +38,8 @@ class GameContainer extends Component {
     }
 
     render() {
+        // const {dataSource} = this.state;
+        // console.log(dataSource);
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -42,14 +47,30 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
-                <ListView
-                    style={styleSheet.listView}
-                    renderRow={(rowData) => this.renderRow(rowData)}
-                    dataSource={this.state.dataSource}
-                    enableEmptySections={true}/>
             </View>
         )
     }
+
+// <ViewPager
+// style={styleSheet.viewPager}
+// onBeyondRange={this._onBeyondRange}
+// dataSource={dataSource}
+// renderPage={this._renderPage}
+// renderPageIndicator={false}/>
+    _renderPage(id) {
+        console.log(id);
+        return (
+            <ListView
+                style={styleSheet.listView}
+                renderRow={(rowData) => this.renderRow(rowData)}
+                dataSource={this.state.dataSource[this.state.currentTime]}
+                enableEmptySections={true}/>
+        )
+    }
+
+    _onBeyondRange = () => {
+
+    };
 
     renderRow(rowData) {
         return (
@@ -68,7 +89,10 @@ class GameContainer extends Component {
                                     (<Text style={styleSheet.itemTextBig}> {rowData.startTime.slice(10, 16)}</Text>) :
                                     (<View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
-                                        <Text style={[styleSheet.itemText, {marginRight: 10, marginLeft: 10}]}>{(rowData.quarter ==='第4节' && rowData.quarterTime === '00:00') ? '已结束' : rowData.quarter}</Text>
+                                        <Text style={[styleSheet.itemText, {
+                                            marginRight: 10,
+                                            marginLeft: 10
+                                        }]}>{(rowData.quarter === '第4节' && rowData.quarterTime === '00:00') ? '已结束' : rowData.quarter}</Text>
                                         <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
                                     </View>)
                             }
@@ -91,7 +115,8 @@ class GameContainer extends Component {
         NetUtil.get(url, function (res) {
             console.log(res.data);
             that.setState({
-                dataSource: that.ds.cloneWithRows(res.data[that.state.startTime])
+                dataSource: res.data
+                    // that.dataSource.cloneWithPages(res.data[that.state.currentTime])
             })
         })
     };
@@ -103,6 +128,9 @@ class GameContainer extends Component {
 
 const styleSheet = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    viewPager: {
         flex: 1
     },
     listView: {

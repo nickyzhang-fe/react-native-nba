@@ -8,10 +8,12 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 
 import HeaderBar from '../components/headerBar';
+import HTMLView from 'react-native-htmlview';
 import CommonUtil from '../util/commonUtil';
 import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
@@ -22,9 +24,10 @@ class CommunityDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '1584644736401014846',
+            id: this.props.id,
             title: '社区评论',
             topic: {},
+            user: {},
             list: [],
             eliteList: [],
             page: 1
@@ -37,38 +40,59 @@ class CommunityDetail extends Component {
     }
 
     render() {
-        console.log(this.state.topic);
-        let topic = this.state.topic;
-        console.log(topic.id);
-        console.log(!CommonUtil.isEmpty(topic));
-        // console.log(topic.user.avatar);
-        if (CommonUtil.isEmpty(topic)) {
-            return (
-                <View style={styles.container}>
-                    <HeaderBar
-                        title={this.state.title}
-                        showLeftState={true}
-                        showRightState={false}
-                        leftItemTitle={''}
-                        leftImageSource={require('../image/back.png')}
-                        onPress={() => this.goBack()}/>
-                    <View style={styles.title}>
-                        <Image
-                            source={{uri: CommonUtil.isEmpty(topic.user.avatar) ? '' : topic.user.avatar.replace('http', 'https')}}
-                            style={styles.title_image}/>
-                        <Text>{CommonUtil.isEmpty(topic.user.name) ? '' : topic.user.name}</Text>
-                        <Text>{topic.createTime}</Text>
+        const {topic, user, eliteList, list} = this.state;
+        console.log(CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https'));
+        return (
+            <View style={styles.container}>
+                <HeaderBar
+                    title={this.state.title}
+                    showLeftState={true}
+                    showRightState={false}
+                    leftItemTitle={''}
+                    leftImageSource={require('../image/back.png')}
+                    onPress={() => this.goBack()}/>
+                <View style={[styles.title, styles.row]}>
+                    <Image
+                        source={{uri: CommonUtil.isEmpty(user.avatar) ? Global.AVATAR : user.avatar.replace('http', 'https')}}
+                        style={styles.title_image}/>
+                    <View style={[styles.column, {marginLeft: 10}]}>
+                        <Text style={styles.title_name}>{CommonUtil.isEmpty(user.name) ? '' : user.name}</Text>
+                        <Text style={styles.title_time}>{CommonUtil.formatDateTime(topic.createTime)}</Text>
                     </View>
                 </View>
-            )
-        } else {
-            return (
-                <View>
-                    <Text>{'是大法官的说法'}</Text>
-                </View>
-            )
-        }
+                <ScrollView
+                    contentContainerStyle={styles.contentStyle}>
+                        <HTMLView
+                            value={CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https')}
+                            stylesheet={styles}/>
+                </ScrollView>
+            </View>
+        )
     }
+
+    // _renderNode(node, index, parent, type) {
+    //     // console.log(type);
+    //     // console.log(node.name);
+    //     let name = node.name;
+    //     if (name === 'img') {
+    //         let uri = node.attribs.src;
+    //         if (/^\/\/dn-cnode\.qbox\.me\/.*/.test(uri)) {
+    //             uri = 'https:' + uri
+    //         }
+    //         return (
+    //             <View
+    //                 key={index}
+    //                 style={{flex: 1}}>
+    //                 <Text style={{height: 300, width: CommonUtil.getScreenWidth() - 20}}>
+    //                     <Image source={{uri: uri}}
+    //                            style={styles.img}>
+    //                     </Image>
+    //                 </Text>
+    //
+    //             </View>
+    //         )
+    //     }
+    // };
 
     goBack = () => {
         getNavigator().pop();
@@ -79,12 +103,12 @@ class CommunityDetail extends Component {
         let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id + '&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
         console.log(url);
         NetUtil.get(url, function (res) {
-            console.log(res.data.topic.user);
+            console.log(res.data.topic);
             that.setState({
                 topic: res.data.topic,
                 eliteList: res.data.eliteList,
                 list: res.data.list,
-
+                user: res.data.topic.user
             })
         })
     };
@@ -94,12 +118,36 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    title: {
+    row: {
         flexDirection: 'row'
+    },
+    column: {
+        flexDirection: 'column'
+    },
+    contentStyle: {
+        padding: 0,
+        width: CommonUtil.getScreenWidth() - 20
+    },
+    title: {
+        height: 60,
+        width: CommonUtil.getScreenWidth()
     },
     title_image: {
         height: 40,
-        width: 40
+        width: 40,
+        borderRadius: 20,
+        marginLeft: 20,
+        marginTop: 10
+    },
+    title_name: {
+        fontSize: 16,
+        color: CommonStyle.BLACK,
+        marginTop: 12,
+        marginBottom: 4
+    },
+    title_time: {
+        fontSize: 14,
+        color: CommonStyle.TEXT_GRAY_COLOR
     }
 });
 

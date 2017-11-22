@@ -10,6 +10,10 @@ const STATUS_BAR_HEIGHT = 20;
  * */
 const NAV_BAR_HEIGHT = 44;
 /*
+* 头像
+* */
+const AVATAR = 'https://crm.jtgroup.com.cn:8100/jintianProd/uploader/avatar.png';
+/*
 * gitHub地址
 * */
 const GITHUB_URL = 'https://github.com/5ibinbin/react-native-nba';
@@ -22,5 +26,6 @@ export default {
     STATUS_BAR_HEIGHT,
     NAV_BAR_HEIGHT,
     GITHUB_URL,
-    TEN_SHE_QU_URL
+    TEN_SHE_QU_URL,
+    AVATAR
 }
