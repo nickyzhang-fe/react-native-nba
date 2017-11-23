@@ -2,7 +2,6 @@
  * Created by Cral-Gates on 2017/11/14.
  */
 
-import App from '../../App';
 import MainContainer from '../container/mainContainer';
 import NewsContainer from '../container/newsContainer';
 import GameContainer from '../container/gameContainer';

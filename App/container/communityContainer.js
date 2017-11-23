@@ -91,7 +91,6 @@ class CommunityContainer extends Component {
     onLoadMore = () => {
         let that = this;
         let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
-        console.log(url);
         that.setState({
             isRefreshing: true
         });
@@ -105,7 +104,6 @@ class CommunityContainer extends Component {
     };
 
     goCommunityDetail = (item) => {
-        // console.log(item);
         getNavigator().push({
             name: 'CommunityDetail',
             id: item.item.id

@@ -22,14 +22,14 @@ import CommonStyle from '../style/commonStyle';
 class GameContainer extends Component {
     constructor(props) {
         super(props);
-        // this._renderPage = this._renderPage.bind(this);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        // this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
+        this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
         this.state = {
             currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            startTime: CommonUtil.FormatDate(new Date().getTime() - 6*24*60*60*1000, 'yyyy-MM-dd'),
-            endTime: CommonUtil.FormatDate(new Date().getTime() + 6*24*60*60*1000, 'yyyy-MM-dd'),
-            dataSource: this.ds.cloneWithRows([])
+            startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            dataPageSource: this.ps.cloneWithPages([]),
+            dataListSource: this.ds.cloneWithRows([])
         };
     }
 
@@ -38,8 +38,8 @@ class GameContainer extends Component {
     }
 
     render() {
-        // const {dataSource} = this.state;
-        // console.log(dataSource);
+        const {dataPageSource} = this.state;
+        console.log(dataPageSource);
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -47,34 +47,37 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
-                <ListView
-                    style={styleSheet.listView}
-                    renderRow={(rowData) => this.renderRow(rowData)}
-                    dataSource={this.state.dataSource}
-                    enableEmptySections={true}/>
+                <ViewPager
+                    style={styleSheet.container}
+                    initialPage={this.state.currentTime}
+                    onBeyondRange={(id)=>this._onBeyondRange(id)}
+                    dataSource={this.state.dataPageSource}
+                    renderPage={this._renderPage.bind(this)}
+                    renderPageIndicator={false}
+                    onChangePage={this.onChangePage.bind(this)}/>
             </View>
         )
     }
 
-// <ViewPager
-// style={styleSheet.viewPager}
-// onBeyondRange={this._onBeyondRange}
-// dataSource={dataSource}
-// renderPage={this._renderPage}
-// renderPageIndicator={false}/>
-    _renderPage(id) {
-        console.log(id);
+    _renderPage(data, pageId) {
+        console.log(data);
+        console.log(pageId);
         return (
             <ListView
                 style={styleSheet.listView}
                 renderRow={(rowData) => this.renderRow(rowData)}
-                dataSource={this.state.dataSource[this.state.currentTime]}
+                dataSource={this.state.dataListSource.cloneWithRows(data)}
                 enableEmptySections={true}/>
         )
     }
 
-    _onBeyondRange = () => {
+    _onBeyondRange = (id) => {
+        
+        console.log(id);
+    };
 
+    onChangePage = (id) => {
+        console.log(id);
     };
 
     renderRow(rowData) {
@@ -115,13 +118,12 @@ class GameContainer extends Component {
 
     getMatchList = () => {
         let that = this;
+        let tempArray = [];
         let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
-        console.log(url);
         NetUtil.get(url, function (res) {
-            console.log(res.data);
+            console.log(typeof res.data);
             that.setState({
-                dataSource: that.state.dataSource.cloneWithRows(res.data[that.state.currentTime])
-
+                dataPageSource: that.state.dataPageSource.cloneWithPages(res.data)
             })
         })
     };
@@ -135,13 +137,10 @@ const styleSheet = StyleSheet.create({
     container: {
         flex: 1
     },
-    viewPager: {
-        flex: 1
-    },
     listView: {
         flex: 1,
         backgroundColor: CommonStyle.MAIN_COLOR,
-        height: CommonUtil.getScreenHeight()
+        width: CommonUtil.getScreenWidth()
     },
     item: {
         flexDirection: 'column',
