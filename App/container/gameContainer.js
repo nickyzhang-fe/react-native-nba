@@ -12,7 +12,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
-// import ViewPager from 'react-native-viewpager';
+import ViewPager from 'react-native-viewpager';
 import HeaderBar from '../components/headerBar';
 import {getNavigator} from '../constant/router';
 import NetUtil from '../util/netUtil';
@@ -27,9 +27,9 @@ class GameContainer extends Component {
         // this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
         this.state = {
             currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            startTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            endTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            // dataSource: new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,}),
+            startTime: CommonUtil.FormatDate(new Date().getTime() - 6*24*60*60*1000, 'yyyy-MM-dd'),
+            endTime: CommonUtil.FormatDate(new Date().getTime() + 6*24*60*60*1000, 'yyyy-MM-dd'),
+            dataSource: this.ds.cloneWithRows([])
         };
     }
 
@@ -47,6 +47,11 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
+                <ListView
+                    style={styleSheet.listView}
+                    renderRow={(rowData) => this.renderRow(rowData)}
+                    dataSource={this.state.dataSource}
+                    enableEmptySections={true}/>
             </View>
         )
     }
@@ -115,8 +120,8 @@ class GameContainer extends Component {
         NetUtil.get(url, function (res) {
             console.log(res.data);
             that.setState({
-                dataSource: res.data
-                    // that.dataSource.cloneWithPages(res.data[that.state.currentTime])
+                dataSource: that.state.dataSource.cloneWithRows(res.data[that.state.currentTime])
+
             })
         })
     };

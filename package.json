@@ -10,7 +10,7 @@
     "@remobile/react-native-toast": "^1.0.7",
     "prop-types": "^15.6.0",
     "react": "16.0.0",
-    "react-native": "0.50.3",
+    "react-native": "0.50.0",
     "react-native-cached-image": "^1.4.3",
     "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-htmlview": "^0.12.1",
