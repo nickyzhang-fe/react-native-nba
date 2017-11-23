@@ -28,6 +28,7 @@ class GameContainer extends Component {
             currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            pageNum: 0,
             dataPageSource: this.ps.cloneWithPages([]),
             dataListSource: this.ds.cloneWithRows([])
         };
@@ -38,8 +39,9 @@ class GameContainer extends Component {
     }
 
     render() {
-        const {dataPageSource} = this.state;
+        const {dataPageSource, pageNum} = this.state;
         console.log(dataPageSource);
+        console.log(dataPageSource.pageIdentities[5]);
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -48,9 +50,10 @@ class GameContainer extends Component {
                     showRightState={false}
                     showRightImage={false}/>
                 <ViewPager
+                    ref={(viewPager) => {this.viewPager = viewPager}}
                     style={styleSheet.container}
-                    initialPage={this.state.currentTime}
-                    onBeyondRange={(id)=>this._onBeyondRange(id)}
+                    initialPage={pageNum}
+                    onBeyondRange={this._onBeyondRange}
                     dataSource={this.state.dataPageSource}
                     renderPage={this._renderPage.bind(this)}
                     renderPageIndicator={false}
@@ -72,12 +75,15 @@ class GameContainer extends Component {
     }
 
     _onBeyondRange = (id) => {
-        
-        console.log(id);
+        console.log('onBeyondRange'+id);
     };
 
     onChangePage = (id) => {
-        console.log(id);
+        console.log("onchangePage"+id);
+    };
+
+    goPager = (index) => {
+        this.viewPager.goToPage(index);
     };
 
     renderRow(rowData) {
@@ -121,10 +127,15 @@ class GameContainer extends Component {
         let tempArray = [];
         let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
         NetUtil.get(url, function (res) {
-            console.log(typeof res.data);
+            for (let key in res.data) {
+                tempArray.push(res.data[key])
+            }
+            console.log(tempArray);
             that.setState({
-                dataPageSource: that.state.dataPageSource.cloneWithPages(res.data)
-            })
+                dataPageSource: that.state.dataPageSource.cloneWithPages(tempArray),
+                pageNum: 6
+            });
+            that.goPager(that.state.pageNum);
         })
     };
 
