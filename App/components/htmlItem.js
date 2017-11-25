@@ -22,9 +22,6 @@ class HtmlItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModal: false,
-            images: [],
-            imageIndex: 1
         }
     }
 
@@ -55,6 +52,25 @@ class HtmlItem extends Component {
         )
     }
 
+//     return (
+// <View style={styles.container}>
+// <Modal
+// animationType='slide'
+// transparent={false}
+// visible={this.state.isModal}
+// onRequestClose={() => {
+//     this._setModalVisible(false)
+// }}>
+// <TouchableOpacity onPress={this.closeModal.bind(this)} style={styles.modalStyle}>
+// <View>
+// <Image style={{width: CommonUtil.getScreenWidth(), minHeight: 200}}
+// source={{uri: this.state.images[0]}}/>
+// </View>
+// </TouchableOpacity>
+// </Modal>
+// </View>
+// )
+
     dealType = (item, i) => {
         let that = this;
 
@@ -69,7 +85,7 @@ class HtmlItem extends Component {
             this.state.images = [item.image.raw.url.replace('http', 'https')];
             console.log(this.state.images);
             return (
-                <TouchableOpacity onPress={this.showModal.bind(this)} key={i}>
+                <TouchableOpacity key={i}>
                     <View style={styles.item}>
                         <Image style={styles.image} source={{uri: item.image.raw.url.replace('http', 'https')}}/>
                     </View>
