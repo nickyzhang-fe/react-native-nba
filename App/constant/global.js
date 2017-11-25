@@ -21,11 +21,16 @@ const GITHUB_URL = 'https://github.com/5ibinbin/react-native-nba';
 * 社区
 * */
 const TEN_SHE_QU_URL = 'https://shequweb.sports.qq.com';
+/*
+* 背景图
+* */
+const DEFAULT_PIC = require('../image/default_pic.png');
 
 export default {
     STATUS_BAR_HEIGHT,
     NAV_BAR_HEIGHT,
     GITHUB_URL,
     TEN_SHE_QU_URL,
-    AVATAR
+    AVATAR,
+    DEFAULT_PIC
 }
