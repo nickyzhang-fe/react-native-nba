@@ -10,30 +10,54 @@ import {
     Text,
     FlatList,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal
 } from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
 import CommonStyle from '../style/commonStyle';
 import CommonUtil from '../util/commonUtil';
+import Global from '../constant/global';
 
 class HtmlItem extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isModal: false,
+            images: [],
+            imageIndex: 1
+        }
     }
 
     render() {
         let item = this.props.item;
         return (
             <View style={styles.container}>
+                <Modal
+                    animationType='slide'
+                    transparent={false}
+                    visible={this.state.isModal}
+                    onRequestClose={() => {
+                        this._setModalVisible(false)
+                    }}>
+                    <TouchableOpacity onPress={this.closeModal.bind(this)} style={styles.modalStyle}>
+                        <View>
+                            <Image style={{width: CommonUtil.getScreenWidth(), minHeight: 200}} source={{uri: this.state.images[0]}}/>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <ScrollView>
                     {
                         item.map((item, i) => this.dealType(item, i))
                     }
                 </ScrollView>
+
             </View>
         )
     }
 
     dealType = (item, i) => {
+        let that = this;
+
         if (item.type === 0 && !CommonUtil.isEmpty(item.info)) {
             return (
                 <View style={styles.item} key={i}>
@@ -42,15 +66,39 @@ class HtmlItem extends Component {
             );
         }
         if (item.type === 1) {
+            this.state.images = [item.image.raw.url.replace('http', 'https')];
+            console.log(this.state.images);
             return (
-                <TouchableOpacity onPress={}>
-                    <View style={styles.item} key={i}>
+                <TouchableOpacity onPress={this.showModal.bind(this)} key={i}>
+                    <View style={styles.item}>
                         <Image style={styles.image} source={{uri: item.image.raw.url.replace('http', 'https')}}/>
                     </View>
                 </TouchableOpacity>
             )
         }
     };
+
+    changeImage = (index) => {
+        console.log(index);
+    };
+
+    _setModalVisible(visible) {
+        this.setState({
+            isModal: visible
+        });
+    };
+
+    showModal = () => {
+        this.setState({
+            isModal: true,
+        })
+    };
+
+    closeModal = () => {
+        this.setState({
+            isModal: false
+        })
+    }
 
 }
 
@@ -63,6 +111,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column'
+    },
+    modalStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: CommonStyle.BLACK
     },
     item: {
         width: CommonUtil.getScreenWidth(),
