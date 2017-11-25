@@ -131,6 +131,7 @@ class GameContainer extends Component {
                 tempArray.push(res.data[key])
             }
             console.log(tempArray);
+            console.log(Math.floor(tempArray.length/2));
             that.setState({
                 dataPageSource: that.state.dataPageSource.cloneWithPages(tempArray),
                 pageNum: 6

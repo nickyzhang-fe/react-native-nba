@@ -13,7 +13,7 @@ import {
     Navigator,
 } from 'react-native-deprecated-custom-components';
 
-class App extends Component {
+class App extends Component<{}> {
     constructor(props) {
         super(props);
         console.log(this.props);

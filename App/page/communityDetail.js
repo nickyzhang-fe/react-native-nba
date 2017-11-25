@@ -14,6 +14,7 @@ import {
 
 import HeaderBar from '../components/headerBar';
 import HTMLView from 'react-native-htmlview';
+import HtmlItem from '../components/htmlItem';
 import CommonUtil from '../util/commonUtil';
 import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
@@ -42,6 +43,9 @@ class CommunityDetail extends Component {
     render() {
         const {topic, user, eliteList, list} = this.state;
         console.log(CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https'));
+        console.log( topic);
+        console.log( topic.content);
+        console.log(typeof topic.content);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -60,15 +64,18 @@ class CommunityDetail extends Component {
                         <Text style={styles.title_time}>{CommonUtil.formatDateTime(topic.createTime)}</Text>
                     </View>
                 </View>
-                <ScrollView
-                    contentContainerStyle={styles.contentStyle}>
-                        <HTMLView
-                            value={CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https')}
-                            stylesheet={styles}/>
-                </ScrollView>
+                <HtmlItem
+                    item={CommonUtil.isEmpty(topic.content) ? [] : topic.content}/>
             </View>
         )
     }
+
+// <ScrollView
+// contentContainerStyle={styles.contentStyle}>
+// <HTMLView
+// value={CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https')}
+// stylesheet={styles}/>
+// </ScrollView>
 
     // _renderNode(node, index, parent, type) {
     //     // console.log(type);
@@ -103,7 +110,7 @@ class CommunityDetail extends Component {
         let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id + '&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
         console.log(url);
         NetUtil.get(url, function (res) {
-            console.log(res.data.topic);
+            console.log(res.data.topic.content);
             that.setState({
                 topic: res.data.topic,
                 eliteList: res.data.eliteList,
