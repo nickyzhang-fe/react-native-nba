@@ -13,7 +13,6 @@ import {
     TouchableOpacity,
     Modal
 } from 'react-native';
-import ImageViewer from 'react-native-image-zoom-viewer';
 import CommonStyle from '../style/commonStyle';
 import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
@@ -27,53 +26,19 @@ class HtmlItem extends Component {
 
     render() {
         let item = this.props.item;
+        console.log(item);
         return (
             <View style={styles.container}>
-                <Modal
-                    animationType='slide'
-                    transparent={false}
-                    visible={this.state.isModal}
-                    onRequestClose={() => {
-                        this._setModalVisible(false)
-                    }}>
-                    <TouchableOpacity onPress={this.closeModal.bind(this)} style={styles.modalStyle}>
-                        <View>
-                            <Image style={{width: CommonUtil.getScreenWidth(), minHeight: 200}} source={{uri: this.state.images[0]}}/>
-                        </View>
-                    </TouchableOpacity>
-                </Modal>
                 <ScrollView>
                     {
                         item.map((item, i) => this.dealType(item, i))
                     }
                 </ScrollView>
-
             </View>
         )
     }
 
-//     return (
-// <View style={styles.container}>
-// <Modal
-// animationType='slide'
-// transparent={false}
-// visible={this.state.isModal}
-// onRequestClose={() => {
-//     this._setModalVisible(false)
-// }}>
-// <TouchableOpacity onPress={this.closeModal.bind(this)} style={styles.modalStyle}>
-// <View>
-// <Image style={{width: CommonUtil.getScreenWidth(), minHeight: 200}}
-// source={{uri: this.state.images[0]}}/>
-// </View>
-// </TouchableOpacity>
-// </Modal>
-// </View>
-// )
-
     dealType = (item, i) => {
-        let that = this;
-
         if (item.type === 0 && !CommonUtil.isEmpty(item.info)) {
             return (
                 <View style={styles.item} key={i}>
@@ -93,29 +58,6 @@ class HtmlItem extends Component {
             )
         }
     };
-
-    changeImage = (index) => {
-        console.log(index);
-    };
-
-    _setModalVisible(visible) {
-        this.setState({
-            isModal: visible
-        });
-    };
-
-    showModal = () => {
-        this.setState({
-            isModal: true,
-        })
-    };
-
-    closeModal = () => {
-        this.setState({
-            isModal: false
-        })
-    }
-
 }
 
 

@@ -41,7 +41,6 @@ class GameContainer extends Component {
     render() {
         const {dataPageSource, pageNum} = this.state;
         console.log(dataPageSource);
-        console.log(dataPageSource.pageIdentities[5]);
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -133,8 +132,8 @@ class GameContainer extends Component {
             console.log(tempArray);
             console.log(Math.floor(tempArray.length/2));
             that.setState({
-                dataPageSource: that.state.dataPageSource.cloneWithPages(tempArray),
-                pageNum: 4
+                dataPageSource: that.state.dataPageSource.cloneWithPages(res.data),
+                pageNum: 5
             });
             that.goPager(that.state.pageNum);
         })

@@ -7,12 +7,14 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    InteractionManager
 } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import CommonStyle from '../style/commonStyle';
 import CommonUtil from '../util/commonUtil';
 import NetUtil from '../util/netUtil';
+import Global from '../constant/global';
 
 class NewsContainer extends Component {
     constructor(props) {
@@ -24,7 +26,7 @@ class NewsContainer extends Component {
     }
 
     componentDidMount() {
-        this.onRefresh();
+        InteractionManager.runAfterInteractions(this.getNewsList());
     }
 
     render() {
@@ -35,47 +37,21 @@ class NewsContainer extends Component {
                     title="新闻"
                     showLeftState={false}
                     showRightState={false}/>
+                <View>
+                    <Text>{'test'}</Text>
+                </View>
             </View>
         )
     }
 
-
-
-
-    _renderItem = (item) => {
-        console.log(item.item.title);
-        return (
-            <TouchableOpacity>
-                <View style={{height: 50, width: CommonUtil.getScreenWidth(), backgroundColor: 'white'}}>
-                    <Text style={styles.item}>{item.item.title}</Text>
-                </View>
-            </TouchableOpacity>
-        )
-    };
-
-    renderEmptyComponent = () => {
-        return (
-            <TouchableOpacity>
-                <Text>{{数据为空}}</Text>
-            </TouchableOpacity>
-        )
-    };
-
-    onRefresh = () => {
+    getNewsList = () => {
         let that = this;
-        let url = 'https://tags.open.qq.com/interface/tag/articles.php?p=1&l=20&tag=NBA&oe=gbk&ie=utf-8&source=web&site=sports&_=1510498594797';
+        let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=0&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
         console.log(url);
-        // NetUtil.get(url, function (res) {
-        //     console.log(res.data);
-        //     that.setState({
-        //         dataSource: res.data
-        //     })
-        // })
+        NetUtil.get(url, function (res) {
+            console.log(res.data);
+        })
     };
-
-    onLoadMore = () => {
-
-    }
 }
 
 const styles = StyleSheet.create({

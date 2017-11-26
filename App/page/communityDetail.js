@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import HeaderBar from '../components/headerBar';
-import HTMLView from 'react-native-htmlview';
 import HtmlItem from '../components/htmlItem';
 import CommonUtil from '../util/commonUtil';
 import NetUtil from '../util/netUtil';
@@ -42,10 +41,6 @@ class CommunityDetail extends Component {
 
     render() {
         const {topic, user, eliteList, list} = this.state;
-        console.log(CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https'));
-        console.log( topic);
-        console.log( topic.content);
-        console.log(typeof topic.content);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -69,37 +64,6 @@ class CommunityDetail extends Component {
             </View>
         )
     }
-
-// <ScrollView
-// contentContainerStyle={styles.contentStyle}>
-// <HTMLView
-// value={CommonUtil.isEmpty(topic.rawContent) ? '' : topic.rawContent.replace(/http/g, 'https')}
-// stylesheet={styles}/>
-// </ScrollView>
-
-    // _renderNode(node, index, parent, type) {
-    //     // console.log(type);
-    //     // console.log(node.name);
-    //     let name = node.name;
-    //     if (name === 'img') {
-    //         let uri = node.attribs.src;
-    //         if (/^\/\/dn-cnode\.qbox\.me\/.*/.test(uri)) {
-    //             uri = 'https:' + uri
-    //         }
-    //         return (
-    //             <View
-    //                 key={index}
-    //                 style={{flex: 1}}>
-    //                 <Text style={{height: 300, width: CommonUtil.getScreenWidth() - 20}}>
-    //                     <Image source={{uri: uri}}
-    //                            style={styles.img}>
-    //                     </Image>
-    //                 </Text>
-    //
-    //             </View>
-    //         )
-    //     }
-    // };
 
     goBack = () => {
         getNavigator().pop();

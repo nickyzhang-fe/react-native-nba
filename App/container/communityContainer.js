@@ -31,7 +31,7 @@ class CommunityContainer extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(this.onRefresh());
+        InteractionManager.runAfterInteractions(this.getCommunityList());
     }
 
     render() {
@@ -46,7 +46,7 @@ class CommunityContainer extends Component {
                     dataExtra={this.state}
                     renderItem={(item) => this._renderItemView(item)}
                     onEndReached={() => this.onLoadMore()}
-                    onRefresh={() => this.onRefresh()}
+                    onRefresh={() => this.getCommunityList()}
                     onEndReachedThreshold={0.1}
                     initialNumToRender={10}
                     getItemLayout={(item, index) => this._getItemLayout(item, index)}
@@ -72,7 +72,7 @@ class CommunityContainer extends Component {
         {length: 108, offset: 108 * index, index}
     );
 
-    onRefresh = () => {
+    getCommunityList = () => {
         let that = this;
         that.setState({
             isRefreshing: true,
