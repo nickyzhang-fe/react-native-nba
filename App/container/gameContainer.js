@@ -22,8 +22,8 @@ import CommonStyle from '../style/commonStyle';
 class GameContainer extends Component {
     constructor(props) {
         super(props);
-        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
@@ -64,6 +64,9 @@ class GameContainer extends Component {
     _renderPage(data, pageId) {
         console.log(data);
         console.log(pageId);
+        this.setState({
+            pageNum: pageId
+        });
         return (
             <ListView
                 style={styleSheet.listView}
