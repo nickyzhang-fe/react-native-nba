@@ -1,16 +1,17 @@
 ### 基于React Native的NBA Player
 
 ### 版本
-`"react": "16.0.0"`
+`"react": "16.0.0"`  
+`"node": "6.10.2"`
 
 ### 声明
 > 该APP所用到的API均由 [「腾讯NBA」](http://sports.qq.com/nba/)提供，[本人](https://github.com/5ibinbin)采取非正常手段获取。获取有侵犯权益的嫌疑。请您了解相关情况，并保证不侵犯[「腾讯NBA」](http://sports.qq.com/nba/)的相关利益，并遵守开源协议，谢谢！！！
 
 ### 项目描述
 - 利用`react-native-viewpager`实现比赛日程的左右滑动
-- 查看`NBA`热门社区，实现评论功能
-- 新闻查看
-
+- 获取当日比赛的直播信息，支持当日直播(未实现)
+- 查看`NBA`热门社区，实现评论功能(未实现)
+- 新闻查看(未实现)
 
 ### 项目运行
 
@@ -29,7 +30,7 @@
 
 		npm install --save react-redux
 
-- 安装 redux-thunk
+- 安装 redux-thunk  
 
 		npm install --save redux-thunk
 
