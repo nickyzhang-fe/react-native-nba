@@ -150,7 +150,7 @@ class GameContainer extends Component {
         console.log(rowData);
         getNavigator().push({
             name: 'GameDetail',
-            rowData: rowData
+            gameDetail: rowData
         })
     }
 }
@@ -179,7 +179,7 @@ const styleSheet = StyleSheet.create({
         textAlign: 'center',
         height: 20,
         lineHeight: 20,
-        fontSize: 20,
+        fontSize: 18,
         color: CommonStyle.MAIN_COLOR
     },
     itemBottom: {
@@ -204,12 +204,13 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
     },
     itemImg: {
-        height: 50,
-        width: 50
+        height: 45,
+        width: 45,
+        marginBottom: 10
     },
     itemText: {
         color: CommonStyle.MAIN_COLOR,
-        fontSize: 18
+        fontSize: 16
     },
     itemTextBig: {
         color: CommonStyle.MAIN_COLOR,

@@ -24,17 +24,21 @@ class GameDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            item: this.props.gameDetail,
+            title: this.props.gameDetail.leftName + 'vs' + this.props.gameDetail.rightName,
+            mid: this.props.gameDetail.mid,
+            baseInfo: ''
         };
-        console.log(this.props.state)
     }
 
     componentWillMount() {
+        InteractionManager.runAfterInteractions(this.getBaseInfo());
         InteractionManager.runAfterInteractions(this.getGameDetail());
     }
 
     render() {
-        const {} = this.state;
+        const baseInfo = this.state.baseInfo;
+        console.log(baseInfo);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -44,12 +48,78 @@ class GameDetail extends Component {
                     leftItemTitle={''}
                     leftImageSource={require('../image/back.png')}
                     onPress={() => this.goBack()}/>
+                {
+                    this.renderBaseInfo(baseInfo)
+                }
             </View>
         )
     }
 
+    renderBaseInfo = (baseInfo) => {
+        console.log(baseInfo);
+        if (CommonUtil.isEmpty(baseInfo)){
+            return;
+        }
+        return (
+            <View style={[styles.item, {backgroundColor: CommonStyle.DARK_RED}]}>
+                <View><Text style={styles.itemTop}>{baseInfo.venue}</Text></View>
+                <View style={styles.itemBottom}>
+                    <View style={styles.itemBottomLeft}>
+                        <Image style={styles.itemImg}
+                               source={{uri: baseInfo.leftBadge.replace('http', 'https')}}/>
+                        <Text style={styles.itemText}>{baseInfo.leftName}</Text>
+                    </View>
+                    <View style={styles.itemBottomMiddle}>
+                        {
+                            new Date().getTime() < new Date(baseInfo.startTime) ?
+                                (<Text style={styles.itemTextBig}> {baseInfo.startTime.slice(10, 16)}</Text>) :
+                                (<View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <Text style={styles.itemTextBig}>{baseInfo.leftGoal}</Text>
+                                    <Text style={[styles.itemText, {marginRight: 10, marginLeft: 10}]}>
+                                        {this.getMatchStatus(baseInfo.matchPeriod)}</Text>
+                                    <Text style={styles.itemTextBig}>{baseInfo.rightGoal}</Text>
+                                </View>)
+                        }
+                    </View>
+                    <View style={styles.itemBottomRight}>
+                        <Image style={styles.itemImg}
+                               source={{uri: baseInfo.rightBadge.replace('http', 'https')}}/>
+                        <Text style={styles.itemText}>{baseInfo.rightName}</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    };
+
     goBack = () => {
         getNavigator().pop();
+    };
+
+    getMatchStatus = (status) => {
+        switch (status){
+            case '0':
+                return '未开始';
+                break;
+            case '1':
+                return '进行中';
+                break;
+            case '2':
+                return '已结束';
+                break;
+        }
+    };
+
+    getBaseInfo = () => {
+        let that = this;
+        let url = 'http://sportsnba.qq.com/match/baseInfo?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
+        NetUtil.get(url, function (res) {
+            console.log(res.data);
+            that.setState({
+                baseInfo: res.data
+            });
+        })
     };
 
     getGameDetail = () => {
@@ -66,6 +136,55 @@ const styles = StyleSheet.create({
     },
     column: {
         flexDirection: 'column'
+    },
+    item: {
+        flexDirection: 'column',
+        width: CommonUtil.getScreenWidth(),
+        height: 120,
+        paddingTop: 10,
+
+    },
+    itemTop: {
+        textAlign: 'center',
+        height: 20,
+        lineHeight: 20,
+        fontSize: 18,
+        color: CommonStyle.MAIN_COLOR
+    },
+    itemBottom: {
+        flexDirection: 'row'
+    },
+    itemBottomLeft: {
+        flex: 2,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    itemBottomMiddle: {
+        flex: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    itemBottomRight: {
+        flex: 2,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    itemImg: {
+        height: 50,
+        width: 50,
+        marginBottom: 10
+    },
+    itemText: {
+        color: CommonStyle.MAIN_COLOR,
+        fontSize: 16
+    },
+    itemTextBig: {
+        color: CommonStyle.MAIN_COLOR,
+        fontSize: 24,
+        fontWeight: "bold"
     }
 });
 
