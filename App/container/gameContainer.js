@@ -48,25 +48,29 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
-                <ViewPager
-                    ref={(viewPager) => {this.viewPager = viewPager}}
-                    style={styleSheet.container}
-                    initialPage={pageNum}
-                    onBeyondRange={this._onBeyondRange}
-                    dataSource={this.state.dataPageSource}
-                    renderPage={this._renderPage.bind(this)}
-                    renderPageIndicator={false}
-                    onChangePage={this.onChangePage.bind(this)}/>
+                <ListView
+                    style={styleSheet.listView}
+                    renderRow={(rowData) => this.renderRow(rowData)}
+                    dataSource={this.state.dataListSource}
+                    enableEmptySections={true}/>
+
             </View>
         )
     }
 
+// <ViewPager
+// ref={(viewPager) => {this.viewPager = viewPager}}
+// style={styleSheet.container}
+// initialPage={pageNum}
+// onBeyondRange={this._onBeyondRange}
+// dataSource={this.state.dataPageSource}
+// renderPage={this._renderPage.bind(this)}
+// renderPageIndicator={false}
+// onChangePage={this.onChangePage.bind(this)}/>
+
     _renderPage(data, pageId) {
         console.log(data);
         console.log(pageId);
-        this.setState({
-            pageNum: pageId
-        });
         return (
             <ListView
                 style={styleSheet.listView}
@@ -88,9 +92,10 @@ class GameContainer extends Component {
         this.viewPager.goToPage(index);
     };
 
-    renderRow(rowData) {
+    renderRow(item) {
+        const rowData = item.matchInfo;
         return (
-            <TouchableOpacity onPress={() => this.goMatchDetail()}>
+            <TouchableOpacity onPress={() => this.goMatchDetail(rowData)}>
                 <View style={[styleSheet.item, {backgroundColor: CommonUtil.chooseColor()}]}>
                     <View><Text style={styleSheet.itemTop}>{rowData.matchDesc}</Text></View>
                     <View style={styleSheet.itemBottom}>
@@ -127,23 +132,26 @@ class GameContainer extends Component {
     getMatchList = () => {
         let that = this;
         let tempArray = [];
-        let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
+        let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&'+
+            'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&'+
+            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date='+ this.state.currentTime;
+        // let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
         NetUtil.get(url, function (res) {
-            for (let key in res.data) {
-                tempArray.push(res.data[key])
-            }
-            console.log(tempArray);
-            console.log(Math.floor(tempArray.length/2));
+            console.log(res.data.matches);
             that.setState({
-                dataPageSource: that.state.dataPageSource.cloneWithPages(res.data),
+                dataListSource: that.state.dataListSource.cloneWithRows(res.data.matches),
                 pageNum: 5
             });
-            that.goPager(that.state.pageNum);
+            // that.goPager(that.state.pageNum);
         })
     };
 
-    goMatchDetail = () => {
-
+    goMatchDetail = (rowData) => {
+        console.log(rowData);
+        getNavigator().push({
+            name: 'GameDetail',
+            rowData: rowData
+        })
     }
 }
 
@@ -196,8 +204,8 @@ const styleSheet = StyleSheet.create({
         justifyContent: 'center',
     },
     itemImg: {
-        height: 60,
-        width: 60
+        height: 50,
+        width: 50
     },
     itemText: {
         color: CommonStyle.MAIN_COLOR,
