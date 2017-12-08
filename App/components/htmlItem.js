@@ -21,6 +21,7 @@ class HtmlItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            image: ''
         }
     }
 
@@ -39,20 +40,25 @@ class HtmlItem extends Component {
     }
 
     dealType = (item, i) => {
-        if (item.type === 0 && !CommonUtil.isEmpty(item.info)) {
+        if ((item.type === 0 && !CommonUtil.isEmpty(item.info)) || (item.type === 'text' && !CommonUtil.isEmpty(item.info))) {
             return (
                 <View style={styles.item} key={i}>
                     <Text style={styles.text}>&nbsp;&nbsp;&nbsp;&nbsp;{item.info}</Text>
                 </View>
             );
         }
-        if (item.type === 1) {
-            this.state.images = [item.image.raw.url.replace('http', 'https')];
-            console.log(this.state.images);
+        if (item.type === 1 || item.type === 'img') {
+            console.log(CommonUtil.isEmpty(item.img));
+            if (!CommonUtil.isEmpty(item.img)){
+                this.state.image = item.img.imgurl0.imgurl.replace('http', 'https');
+            } else {
+                this.state.image = item.image.raw.url.replace('http', 'https');
+            }
+            console.log(this.state.image);
             return (
                 <TouchableOpacity key={i}>
                     <View style={styles.item}>
-                        <Image style={styles.image} source={{uri: item.image.raw.url.replace('http', 'https')}}/>
+                        <Image style={styles.image} source={{uri: this.state.image}}/>
                     </View>
                 </TouchableOpacity>
             )
@@ -68,7 +74,8 @@ FlatList.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginBottom: 10
     },
     modalStyle: {
         flex: 1,

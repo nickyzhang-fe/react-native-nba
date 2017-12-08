@@ -147,7 +147,6 @@ class GameContainer extends Component {
     };
 
     goMatchDetail = (rowData) => {
-        console.log(rowData);
         getNavigator().push({
             name: 'GameDetail',
             gameDetail: rowData

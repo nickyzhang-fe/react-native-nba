@@ -34,7 +34,6 @@ class NewsContainer extends Component {
     }
 
     render() {
-        console.log(this.state.dataSource);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -57,10 +56,9 @@ class NewsContainer extends Component {
     }
 
     renderItemView = (item) => {
-        console.log(item);
         const {cover_map} = item.item;
         return (
-            <TouchableOpacity onPress={(item) => this.goNewsDetail(item)}>
+            <TouchableOpacity onPress={() => this.goNewsDetail(item)}>
                 <View style={styles.item}>
                     <Image style={styles.image} source={{uri: cover_map.imgurl.replace('http', 'https')}}/>
                     <View><Text style={styles.title}>{cover_map.title}</Text></View>
@@ -76,7 +74,7 @@ class NewsContainer extends Component {
     _keyExtractor = (item, index) => item.newsId;
 
     _getItemLayout = (item, index) => (
-        {length: 208, offset: 208 * index, index}
+        {length: 300, offset: 300 * index, index}
     );
 
     onLoadMore = () => {
@@ -111,12 +109,9 @@ class NewsContainer extends Component {
             '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner&articleIds=' + ids;
         NetUtil.get(url, function (res) {
-            console.log(11222222);
-            console.log(res.data);
             for (let i in res.data) {
                 tempArray.push(res.data[i]);
             }
-            console.log(tempArray);
             that.setState({
                 dataSource: tempArray,
                 isRefreshing: false
@@ -126,8 +121,8 @@ class NewsContainer extends Component {
 
     goNewsDetail = (item) => {
         getNavigator().push({
-            name: 'CommunityDetail',
-            id: item
+            name: 'NewsDetail',
+            item: item
         })
     }
 }

@@ -4,6 +4,7 @@
 
 import MainContainer from '../container/mainContainer';
 import NewsContainer from '../container/newsContainer';
+import NewsDetail from '../page/newsDetail';
 import GameContainer from '../container/gameContainer';
 import GameDetail from '../page/gameDetail';
 import DataContainer from '../container/dataContainer';
@@ -23,6 +24,10 @@ routeMap.set('MainContainer', {
 
 routeMap.set('NewsContainer', {
     component: NewsContainer
+});
+
+routeMap.set('NewsDetail', {
+    component: NewsDetail
 });
 
 routeMap.set('GameContainer', {
