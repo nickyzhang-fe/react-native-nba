@@ -33,6 +33,9 @@
 - 安装 redux-thunk  
 
 		npm install --save redux-thunk
+- `npm install react-native-orientation --save`
+- `npm install react-native-wechat --save`
+
 
 
 ### 项目问题处理

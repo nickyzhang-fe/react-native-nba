@@ -7,10 +7,12 @@ import {
     Text,
     Image,
     Modal,
+    Platform,
     InteractionManager,
     TouchableOpacity,
     ScrollView,
-    StyleSheet
+    StyleSheet,
+    Clipboard
 } from 'react-native';
 
 import HeaderBar from '../components/headerBar';
@@ -20,6 +22,15 @@ import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
 import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
+import Toast from '../components/toast';
+// import * as WeChat from 'react-native-wechat';
+
+const share = [
+    {icon: require('../image/share/weixing.png'), name: '微信'},
+    {icon: require('../image/share/penyouquan.png'), name: '朋友圈'},
+    {icon: require('../image/share/qqhaoyou.png'), name: 'QQ'},
+    {icon: require('../image/share/qqkongjian.png'), name: 'QQ空间'},
+    {icon: require('../image/share/icon_link.png'), name: '复制链接'}];
 
 class NewsDetail extends Component {
     constructor(props) {
@@ -35,10 +46,6 @@ class NewsDetail extends Component {
         };
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -47,10 +54,11 @@ class NewsDetail extends Component {
                     transparent={this.state.transparent}
                     visible={this.state.modalVisible}
                     onRequestClose={() => this._onRequestClose()}>
-                    <View style={styles.modal}>
-                        <View style={styles.modalItem} onPress={() => this._closeModal()}>
-                            <Image style={styles.shareImage} source={require('../image/tab/btn_bbs_down.png')}/>
-                            <Text style={styles.shareText}>{'微信'}</Text>
+                    <View style={styles.modal} onPress={() => this._closeModal()}>
+                        <View style={styles.modalContent}>
+                            {
+                                share.map((item, index) => this.renderShareItem(item, index))
+                            }
                         </View>
                     </View>
                 </Modal>
@@ -64,7 +72,7 @@ class NewsDetail extends Component {
                     leftImageSource={require('../image/back.png')}
                     rightImageSource={require('../image/share/share.png')}
                     onPress={() => this.goBack()}
-                    onPressRight={() => this.share()}/>
+                    onPressRight={() => this.showModal()}/>
                 <View ><Text style={styles.title}>{this.props.item.item.title}</Text></View>
                 <HtmlItem
                     item={CommonUtil.isEmpty(this.state.detail.item.content) ? [] : this.state.detail.item.content}/>
@@ -72,13 +80,30 @@ class NewsDetail extends Component {
         )
     }
 
+    renderShareItem = (item, index) => {
+        return (
+            <TouchableOpacity onPress={() => this.share(index)} key={index}>
+                <View style={styles.modalItem}>
+                    <Image style={styles.shareImage} source={item.icon}/>
+                    <Text style={styles.shareText}>{item.name}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    };
+
     goBack = () => {
         getNavigator().pop();
     };
 
-    share = () => {
+    showModal = () => {
         this.setState({
             modalVisible: true
+        })
+    };
+
+    _closeModal = () => {
+        this.setState({
+            modalVisible: false
         })
     };
 
@@ -86,10 +111,59 @@ class NewsDetail extends Component {
         console.log('request');
     };
 
-    _closeModal = () => {
-        this.setState({
-            modalVisible: false
-        })
+    share = (index) => {
+        let platform = Platform.OS === 'ios' ? 'ios' : 'android';
+        switch (index) {
+            case 0:
+                break;
+                this.shareToSession();
+            case 1:
+                this.shareToTimeline();
+                break;
+            case 2:
+                Toast.show('暂未开放');
+                break;
+            case 3:
+                Toast.show('暂未开放');
+                break;
+            case 4:
+                this.setToClipboard();
+                break;
+        }
+        this._closeModal();
+    };
+
+    shareToSession() {
+        WeChat.isWXAppInstalled()
+            .then((isInstalled) => {
+                if (isInstalled) {
+                    WeChat.shareToSession(this.state.shareUrl)
+                        .catch((error) => {
+                            Toast.show(error.message);
+                        });
+                } else {
+                    Toast.show('没有安装微信软件，请您安装微信之后再试');
+                }
+            });
+    }
+
+    shareToTimeline() {
+        WeChat.isWXAppInstalled()
+            .then((isInstalled) => {
+                if (isInstalled) {
+                    WeChat.shareToTimeline(this.state.shareUrl)
+                        .catch((error) => {
+                            Toast.show(error.message);
+                        });
+                } else {
+                    Toast.show('没有安装微信软件，请您安装微信之后再试');
+                }
+            });
+    }
+
+    setToClipboard() {
+        Clipboard.setString(this.state.shareUrl);
+        Toast.show('已复制到剪贴板');
     }
 }
 
@@ -105,20 +179,31 @@ const styles = StyleSheet.create({
     },
     modal: {
         flex: 1,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        width: CommonUtil.getScreenWidth()
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        width: CommonUtil.getScreenWidth(),
+        height: CommonUtil.getScreenHeight()
     },
-    modalItem: {
+    modalContent: {
+        flexDirection: 'row',
         position: 'absolute',
         left: 0,
         bottom: 0,
-        height: 250,
+        width: CommonUtil.getScreenWidth(),
+        height: CommonUtil.getScreenWidth() / 2,
         backgroundColor: CommonStyle.BACKGROUND_COLOR,
-        width: CommonUtil.getScreenWidth()
+        flexWrap: 'wrap'
+    },
+    modalItem: {
+        height: CommonUtil.getScreenWidth() / 4,
+
+        width: CommonUtil.getScreenWidth() / 3,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     shareImage: {
         height: 60,
-        width: 60
+        width: 60,
+        marginBottom: 10
     },
     shareText: {
         fontSize: 16,
