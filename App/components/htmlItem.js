@@ -48,13 +48,11 @@ class HtmlItem extends Component {
             );
         }
         if (item.type === 1 || item.type === 'img') {
-            console.log(CommonUtil.isEmpty(item.img));
             if (!CommonUtil.isEmpty(item.img)){
                 this.state.image = item.img.imgurl0.imgurl.replace('http', 'https');
             } else {
                 this.state.image = item.image.raw.url.replace('http', 'https');
             }
-            console.log(this.state.image);
             return (
                 <TouchableOpacity key={i}>
                     <View style={styles.item}>
