@@ -27,7 +27,7 @@ class App extends Component<{}> {
     componentWillMount() {
         Orientation.lockToPortrait();
         if (Platform.OS === 'android') {
-            Orientation.registerOnOrientationChanged();
+            // Orientation.registerOnOrientationChanged();
             BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
         }
     }

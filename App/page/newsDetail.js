@@ -55,11 +55,16 @@ class NewsDetail extends Component {
                     visible={this.state.modalVisible}
                     onRequestClose={() => this._onRequestClose()}>
                     <View style={styles.modal} onPress={() => this._closeModal()}>
-                        <View style={styles.modalContent}>
-                            {
-                                share.map((item, index) => this.renderShareItem(item, index))
-                            }
+                        <View style={{position: 'absolute', bottom: 0, backgroundColor: CommonStyle.BACKGROUND_COLOR}}>
+                            <View style={styles.modalContent}>
+                                {
+                                    share.map((item, index) => this.renderShareItem(item, index))
+                                }
+                            </View>
+                            <TouchableOpacity onPress={() => this._closeModal()}><View style={styles.modalCancel}><Text
+                                style={styles.modalCancelTxt}>{'取消'}</Text></View></TouchableOpacity>
                         </View>
+
                     </View>
                 </Modal>
                 <HeaderBar
@@ -185,20 +190,29 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         flexDirection: 'row',
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
         width: CommonUtil.getScreenWidth(),
-        height: CommonUtil.getScreenWidth() / 2,
-        backgroundColor: CommonStyle.BACKGROUND_COLOR,
-        flexWrap: 'wrap'
+        height: CommonUtil.getScreenWidth() / 2 + 30,
+        flexWrap: 'wrap',
+        paddingTop: 20,
+        paddingBottom: 10
     },
     modalItem: {
         height: CommonUtil.getScreenWidth() / 4,
-
         width: CommonUtil.getScreenWidth() / 3,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    modalCancel: {
+        height: 60,
+        width: CommonUtil.getScreenWidth(),
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderTopColor: CommonStyle.GRAY_COLOR,
+        borderTopWidth: 1
+    },
+    modalCancelTxt: {
+        color: CommonStyle.LIGHT_BLUE_COLOR,
+        fontSize: 18
     },
     shareImage: {
         height: 60,
