@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     image_icon: {
-        height: 18,
-        width: 18
+        height: 16,
+        width: 16
     },
     title: {
         color: 'black',
-        fontSize: 18,
+        fontSize: 16,
     },
     teamName: {
         color: 'black',
