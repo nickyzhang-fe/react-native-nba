@@ -191,9 +191,9 @@ const styles = StyleSheet.create({
     modalContent: {
         flexDirection: 'row',
         width: CommonUtil.getScreenWidth(),
-        height: CommonUtil.getScreenWidth() / 2 + 30,
+        height: CommonUtil.getScreenWidth() / 2 + 20,
         flexWrap: 'wrap',
-        paddingTop: 20,
+        paddingTop: 10,
         paddingBottom: 10
     },
     modalItem: {
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     modalCancel: {
-        height: 60,
+        height: 50,
         width: CommonUtil.getScreenWidth(),
         justifyContent: 'center',
         alignItems: 'center',
@@ -215,12 +215,12 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     shareImage: {
-        height: 60,
-        width: 60,
+        height: 50,
+        width: 50,
         marginBottom: 10
     },
     shareText: {
-        fontSize: 16,
+        fontSize: 14,
         color: CommonStyle.BLACK
     }
 });

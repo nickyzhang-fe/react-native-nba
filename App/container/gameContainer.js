@@ -40,7 +40,6 @@ class GameContainer extends Component {
 
     render() {
         const {dataPageSource, pageNum} = this.state;
-        console.log(dataPageSource);
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -112,7 +111,7 @@ class GameContainer extends Component {
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
                                         <View style={{alignItems: 'center', marginHorizontal: 10}}>
                                             {
-                                                (rowData.quarter === '第4节' && rowData.quarterTime === '00:00') ?
+                                                (rowData.matchPeriod === '2') ?
                                                     <View><Text
                                                         style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR}]}>{'已结束'}</Text></View> : (
                                                     <View><Text
@@ -167,7 +166,6 @@ const styleSheet = StyleSheet.create({
     },
     listView: {
         flex: 1,
-        // backgroundColor: CommonStyle.WHITE,
         width: CommonUtil.getScreenWidth()
     },
     item: {
@@ -178,10 +176,7 @@ const styleSheet = StyleSheet.create({
         paddingTop: 10,
         marginTop: 10,
         marginLeft: 10,
-        marginRight: 10,
-        // borderBottomColor: CommonStyle.GRAY_COLOR,
-        // borderBottomWidth: 1,
-        // backgroundColor: 'black'
+        marginRight: 10
     },
     itemTop: {
         textAlign: 'center',

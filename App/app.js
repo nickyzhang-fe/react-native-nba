@@ -16,12 +16,15 @@ import {
 import {getRouteMap, registerNavigator} from './constant/router';
 // import * as WeChat from "react-native-wechat";
 import * as Orientation from "react-native-orientation";
+import Toast from './components/toast';
 
 let lastClickTime = 0;
 
 class App extends Component<{}> {
     constructor(props) {
         super(props);
+        this.renderScene = this.renderScene.bind(this);
+        this.onBackAndroid = this.onBackAndroid.bind(this);
     }
 
     componentWillMount() {
