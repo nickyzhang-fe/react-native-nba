@@ -35,7 +35,7 @@ class App extends Component<{}> {
         }
     }
 
-    componentDidMount (){
+    componentDidMount() {
         //想要使用微信分享, 你必须到微信分享平台 https://open.weixin.qq.com/ 申请appid
         // WeChat.registerApp('wxa106668d81b9dba8');
     }
@@ -50,8 +50,9 @@ class App extends Component<{}> {
         return (
             <View style={styles.container}>
                 <StatusBar
-                    backgroundColor='black'
-                    barStyle='default'/>
+                    backgroundColor='#283C87'
+                    barStyle='default'
+                    translucent={true}/>
                 <Navigator
                     style={styles.navigator}
                     configureScene={this.configureScene}
@@ -63,7 +64,7 @@ class App extends Component<{}> {
         )
     }
 
-    configureScene(route){
+    configureScene(route) {
         let sceneAnimation = getRouteMap().get(route.name).sceneAnimation;
         if (sceneAnimation) {
             return sceneAnimation;
@@ -71,7 +72,7 @@ class App extends Component<{}> {
         return Navigator.SceneConfigs.FloatFromRight;
     };
 
-    renderScene(route, navigator){
+    renderScene(route, navigator) {
         this.navigator = navigator;
         registerNavigator(navigator);
         let Component = getRouteMap().get(route.name).component;

@@ -70,8 +70,8 @@ class HeaderBar extends Component {
         return (
             <View style={[styles.container,
                 {
-                    height: showStateBar ? NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT : NAV_BAR_HEIGHT,
-                    paddingTop: showStateBar ? STATUS_BAR_HEIGHT : 0
+                    height: showStateBar ? NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT : NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
+                    paddingTop: showStateBar ? STATUS_BAR_HEIGHT : STATUS_BAR_HEIGHT
                 }]}>
                 {
                     showStateBar ? (
