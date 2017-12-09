@@ -14,9 +14,9 @@ import {
     Navigator,
 } from 'react-native-deprecated-custom-components';
 import {getRouteMap, registerNavigator} from './constant/router';
-// import * as WeChat from "react-native-wechat";
 import * as Orientation from "react-native-orientation";
 import Toast from './components/toast';
+// import * as WeChat from 'react-native-wechat';
 
 let lastClickTime = 0;
 
@@ -63,7 +63,7 @@ class App extends Component<{}> {
         )
     }
 
-    configureScene = (route) => {
+    configureScene(route){
         let sceneAnimation = getRouteMap().get(route.name).sceneAnimation;
         if (sceneAnimation) {
             return sceneAnimation;
@@ -71,7 +71,7 @@ class App extends Component<{}> {
         return Navigator.SceneConfigs.FloatFromRight;
     };
 
-    renderScene = (route, navigator) => {
+    renderScene(route, navigator){
         this.navigator = navigator;
         registerNavigator(navigator);
         let Component = getRouteMap().get(route.name).component;
