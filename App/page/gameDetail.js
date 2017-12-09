@@ -63,7 +63,7 @@ class GameDetail extends Component {
             return;
         }
         return (
-            <View style={[styles.item, {backgroundColor: CommonStyle.DARK_RED}]}>
+            <View style={[styles.item, {backgroundColor: CommonStyle.THEME}]}>
                 <View><Text style={styles.itemTop}>{baseInfo.venue}</Text></View>
                 <View style={styles.itemBottom}>
                     <View style={styles.itemBottomLeft}>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         height: 20,
         lineHeight: 20,
         fontSize: 18,
-        color: CommonStyle.MAIN_COLOR
+        color: CommonStyle.WHITE
     },
     itemBottom: {
         flexDirection: 'row'
@@ -211,11 +211,11 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     itemText: {
-        color: CommonStyle.MAIN_COLOR,
+        color: CommonStyle.WHITE,
         fontSize: 16
     },
     itemTextBig: {
-        color: CommonStyle.MAIN_COLOR,
+        color: CommonStyle.WHITE,
         fontSize: 24,
         fontWeight: "bold"
     }

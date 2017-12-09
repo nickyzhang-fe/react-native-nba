@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     title: {
-        fontSize: 22,
+        fontSize: 20,
         color: CommonStyle.BLACK,
         paddingTop: 10,
         paddingHorizontal: 20,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1
     },
     modalCancelTxt: {
-        color: CommonStyle.LIGHT_BLUE_COLOR,
+        color: CommonStyle.THEME,
         fontSize: 18
     },
     shareImage: {

@@ -81,11 +81,11 @@ class GameContainer extends Component {
     }
 
     _onBeyondRange = (id) => {
-        console.log('onBeyondRange'+id);
+        console.log('onBeyondRange' + id);
     };
 
     onChangePage = (id) => {
-        console.log("onchangePage"+id);
+        console.log("onchangePage" + id);
     };
 
     goPager = (index) => {
@@ -96,13 +96,13 @@ class GameContainer extends Component {
         const rowData = item.matchInfo;
         return (
             <TouchableOpacity onPress={() => this.goMatchDetail(rowData)}>
-                <View style={[styleSheet.item, {backgroundColor: CommonUtil.chooseColor()}]}>
+                <View style={[styleSheet.item, {backgroundColor: CommonStyle.WHITE}]}>
                     <View><Text style={styleSheet.itemTop}>{rowData.matchDesc}</Text></View>
                     <View style={styleSheet.itemBottom}>
                         <View style={styleSheet.itemBottomLeft}>
                             <Image style={styleSheet.itemImg}
                                    source={{uri: rowData.leftBadge.replace('http', 'https')}}/>
-                            <Text style={styleSheet.itemText}>{rowData.leftName}</Text>
+                            <Text style={styleSheet.nbaName}>{rowData.leftName}</Text>
                         </View>
                         <View style={styleSheet.itemBottomMiddle}>
                             {
@@ -110,10 +110,16 @@ class GameContainer extends Component {
                                     (<Text style={styleSheet.itemTextBig}> {rowData.startTime.slice(10, 16)}</Text>) :
                                     (<View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
-                                        <Text style={[styleSheet.itemText, {
-                                            marginRight: 10,
-                                            marginLeft: 10
-                                        }]}>{(rowData.quarter === '第4节' && rowData.quarterTime === '00:00') ? '已结束' : rowData.quarter}</Text>
+                                        <View style={{alignItems: 'center', marginHorizontal: 10}}>
+                                            {
+                                                (rowData.quarter === '第4节' && rowData.quarterTime === '00:00') ?
+                                                    <View><Text
+                                                        style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR}]}>{'已结束'}</Text></View> : (
+                                                    <View><Text
+                                                        style={styleSheet.itemText}>{rowData.quarter}</Text><Text
+                                                        style={styleSheet.itemText}>{rowData.quarterTime}</Text></View>)
+                                            }
+                                        </View>
                                         <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
                                     </View>)
                             }
@@ -121,7 +127,7 @@ class GameContainer extends Component {
                         <View style={styleSheet.itemBottomRight}>
                             <Image style={styleSheet.itemImg}
                                    source={{uri: rowData.rightBadge.replace('http', 'https')}}/>
-                            <Text style={styleSheet.itemText}>{rowData.rightName}</Text>
+                            <Text style={styleSheet.nbaName}>{rowData.rightName}</Text>
                         </View>
                     </View>
                 </View>
@@ -132,9 +138,9 @@ class GameContainer extends Component {
     getMatchList = () => {
         let that = this;
         let tempArray = [];
-        let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&'+
-            'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&'+
-            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date='+ this.state.currentTime;
+        let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
+            'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
+            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + this.state.currentTime;
         // let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
         NetUtil.get(url, function (res) {
             console.log(res.data.matches);
@@ -156,11 +162,12 @@ class GameContainer extends Component {
 
 const styleSheet = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.LINE_GRAY_COLOR,
     },
     listView: {
         flex: 1,
-        backgroundColor: CommonStyle.MAIN_COLOR,
+        // backgroundColor: CommonStyle.WHITE,
         width: CommonUtil.getScreenWidth()
     },
     item: {
@@ -172,14 +179,16 @@ const styleSheet = StyleSheet.create({
         marginTop: 10,
         marginLeft: 10,
         marginRight: 10,
-
+        // borderBottomColor: CommonStyle.GRAY_COLOR,
+        // borderBottomWidth: 1,
+        // backgroundColor: 'black'
     },
     itemTop: {
         textAlign: 'center',
         height: 20,
         lineHeight: 20,
         fontSize: 18,
-        color: CommonStyle.MAIN_COLOR
+        color: CommonStyle.TEXT_COLOR
     },
     itemBottom: {
         flexDirection: 'row'
@@ -207,14 +216,18 @@ const styleSheet = StyleSheet.create({
         width: 45,
         marginBottom: 10
     },
-    itemText: {
-        color: CommonStyle.MAIN_COLOR,
+    nbaName: {
+        color: CommonStyle.TEXT_GRAY_COLOR,
         fontSize: 16
     },
+    itemText: {
+        color: CommonStyle.DARK_RED,
+        fontSize: 14
+    },
     itemTextBig: {
-        color: CommonStyle.MAIN_COLOR,
-        fontSize: 24,
-        fontWeight: "bold"
+        color: CommonStyle.BLACK,
+        fontSize: 28,
+        fontWeight: "400"
     }
 });
 

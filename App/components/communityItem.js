@@ -59,7 +59,7 @@ FlatList.propTypes = {
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: CommonStyle.MAIN_COLOR,
+        backgroundColor: CommonStyle.WHITE,
         borderBottomColor: CommonStyle.GRAY_COLOR,
         borderBottomWidth: 1,
         padding: 10,

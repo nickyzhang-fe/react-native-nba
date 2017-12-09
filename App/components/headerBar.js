@@ -117,7 +117,7 @@ class HeaderBar extends Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        backgroundColor: commonStyle.DARK_RED,
+        backgroundColor: commonStyle.THEME,
         alignItems: 'center'
     },
     nav_title: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 20,
-        color: commonStyle.MAIN_COLOR,
+        color: commonStyle.WHITE,
         textAlign: 'center'
     },
     leftItem: {
