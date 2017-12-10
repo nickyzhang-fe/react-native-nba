@@ -9,7 +9,8 @@ import {
     FlatList,
     StyleSheet,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    ScrollView
 } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import CommunityItem from '../components/communityItem';
@@ -19,20 +20,12 @@ import CommonUtil from '../util/commonUtil';
 import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
 
-
 class CommunityContainer extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            dataSource: [],
-            isRefreshing: false,
-            lastId: '0'
-        }
     }
 
-    componentDidMount() {
-        InteractionManager.runAfterInteractions(this.getCommunityList());
-    }
+    componentDidMount() {}
 
     render() {
         return (
@@ -41,80 +34,95 @@ class CommunityContainer extends Component {
                     title="NBA社区"
                     showLeftState={false}
                     showRightState={false}/>
-                <FlatList
-                    data={this.state.dataSource}
-                    dataExtra={this.state}
-                    renderItem={(item) => this._renderItemView(item)}
-                    onEndReached={() => this.onLoadMore()}
-                    onRefresh={() => this.getCommunityList()}
-                    onEndReachedThreshold={0.1}
-                    initialNumToRender={10}
-                    getItemLayout={(item, index) => this._getItemLayout(item, index)}
-                    keyExtractor={(item) => this._keyExtractor(item)}
-                    refreshing={this.state.isRefreshing}/>
+                <ScrollView>
+                    <View style={styles.forumTitle}>
+                        <View style={styles.forumTag}/>
+                        <Text style={styles.forumTagTxt}>{'热门社区'}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        {
+                            Global.HOTFORUM.map((item, index) => this.renderHotForum(item, index))
+                        }
+                    </View>
+
+                    <View style={styles.forumTitle}>
+                        <View style={styles.forumTag}/>
+                        <Text style={styles.forumTagTxt}>{'全部社区'}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        {
+                            Global.ALLFORUM.map((item, index) => this.renderHotForum(item, index))
+                        }
+                    </View>
+                </ScrollView>
+
             </View>
         )
     }
 
-    _renderItemView = (item) => {
-        let that = this;
+    renderHotForum = (item, index) => {
+        console.log(item);
         return (
-            <CommunityItem
-                item={item}
-                _onPress={(item) => this.goCommunityDetail(item)}/>
-
+            <TouchableOpacity key={index} onPress={() => this.goForumList(item)}>
+                <View style={styles.forumItem}>
+                    <Image style={styles.forumImg} source={{uri: item.icon}}/>
+                    <Text style={styles.forumTxt}>{item.name}</Text>
+                </View>
+            </TouchableOpacity>
         )
     };
 
-    _keyExtractor = (item, index) => item.id;
-
-    _getItemLayout = (item, index) => (
-        {length: 108, offset: 108 * index, index}
-    );
-
-    getCommunityList = () => {
-        let that = this;
-        that.setState({
-            isRefreshing: true,
-        });
-        let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=0&count=20&gid=17&_=1510496938551';
-        NetUtil.get(url, function (res) {
-            console.log(res.data.list);
-            that.setState({
-                dataSource: res.data.list,
-                lastId: res.data.lastId,
-                isRefreshing: false
+    goForumList = (item) => {
+        if (item.name === '热议NBA'){
+            getNavigator().push({
+                name: 'ForumNBA'
             })
-        })
+        } else {
+
+        }
     };
-
-    onLoadMore = () => {
-        let that = this;
-        let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=' + this.state.lastId + '&count=20&gid=17&_=1510496938551';
-        that.setState({
-            isRefreshing: true
-        });
-        NetUtil.get(url, function (res) {
-            that.setState({
-                dataSource: that.state.dataSource.concat(res.data.list),
-                lastId: res.data.lastId,
-                isRefreshing: false
-            })
-        })
-    };
-
-    goCommunityDetail = (item) => {
-        getNavigator().push({
-            name: 'CommunityDetail',
-            id: item.item.id
-        })
-    }
-
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    forumTitle: {
+        height: 50,
+        width: CommonUtil.getScreenWidth(),
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR,
+        borderTopWidth: 1,
+        borderTopColor: CommonStyle.GRAY_COLOR
+    },
+    forumTag: {
+        height: 24,
+        width: 5,
+        backgroundColor: CommonStyle.THEME,
+        marginHorizontal: 10
+    },
+    forumTagTxt: {
+        fontSize: 18,
+        color: CommonStyle.BLACK,
+        fontWeight: '400'
+    },
+    forumItem: {
+        height: CommonUtil.getScreenWidth() / 4,
+        width: CommonUtil.getScreenWidth() / 4,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    forumImg: {
+        height: 50,
+        width: 50,
+        borderRadius: 25,
+        marginBottom: 5
+    },
+    forumTxt: {
+        fontSize: 16,
+        color: CommonStyle.BLACK
     }
 });
 

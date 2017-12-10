@@ -9,6 +9,7 @@ import GameContainer from '../container/gameContainer';
 import GameDetail from '../page/gameDetail';
 import DataContainer from '../container/dataContainer';
 import CommunityContainer from '../container/communityContainer';
+import ForumNBA from '../page/forumNBA';
 import CommunityDetail from '../page/communityDetail';
 import PersonInfo from '../page/personInfo';
 import {
@@ -45,6 +46,10 @@ routeMap.set('DataContainer', {
 routeMap.set('CommunityContainer', {
     component: CommunityContainer,
     params: ''
+});
+
+routeMap.set('ForumNBA', {
+    component: ForumNBA
 });
 
 routeMap.set('CommunityDetail', {

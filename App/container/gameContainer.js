@@ -105,22 +105,23 @@ class GameContainer extends Component {
                         </View>
                         <View style={styleSheet.itemBottomMiddle}>
                             {
-                                new Date().getTime() < new Date(rowData.startTime) ?
-                                    (<Text style={styleSheet.itemTextBig}> {rowData.startTime.slice(10, 16)}</Text>) :
-                                    (<View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                (rowData.matchPeriod === '2') ?
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
-                                        <View style={{alignItems: 'center', marginHorizontal: 10}}>
-                                            {
-                                                (rowData.matchPeriod === '2') ?
-                                                    <View><Text
-                                                        style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR}]}>{'已结束'}</Text></View> : (
-                                                    <View><Text
-                                                        style={styleSheet.itemText}>{rowData.quarter}</Text><Text
-                                                        style={styleSheet.itemText}>{rowData.quarterTime}</Text></View>)
-                                            }
-                                        </View>
+                                        <Text style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR, marginHorizontal: 10}]}>{'已结束'}</Text>
                                         <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
-                                    </View>)
+                                    </View> :
+                                    (rowData.matchPeriod === '0' ?
+                                        <View style={{justifyContent: 'center', alignItems: 'center'}}><Text
+                                            style={styleSheet.itemTextBig}>{rowData.startTime.slice(10,16)}</Text></View> :
+                                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                            <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
+                                            <View style={{flexDirection: 'column', marginHorizontal: 10}}>
+                                                <Text style={styleSheet.itemText}>{rowData.quarter}</Text>
+                                                <Text style={styleSheet.itemText}>{rowData.quarterTime}</Text>
+                                            </View>
+                                            <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
+                                        </View>)
                             }
                         </View>
                         <View style={styleSheet.itemBottomRight}>
