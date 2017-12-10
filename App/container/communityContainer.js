@@ -111,19 +111,19 @@ const styles = StyleSheet.create({
         fontWeight: '400'
     },
     forumItem: {
-        height: CommonUtil.getScreenWidth() / 4,
+        height: CommonUtil.getScreenWidth() / 5,
         width: CommonUtil.getScreenWidth() / 4,
         justifyContent: 'center',
         alignItems: 'center'
     },
     forumImg: {
-        height: 50,
-        width: 50,
-        borderRadius: 25,
+        height: 44,
+        width: 44,
+        borderRadius: 22,
         marginBottom: 5
     },
     forumTxt: {
-        fontSize: 16,
+        fontSize: 14,
         color: CommonStyle.BLACK
     }
 });
