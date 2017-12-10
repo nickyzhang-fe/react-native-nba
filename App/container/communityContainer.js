@@ -61,7 +61,6 @@ class CommunityContainer extends Component {
     }
 
     renderHotForum = (item, index) => {
-        console.log(item);
         return (
             <TouchableOpacity key={index} onPress={() => this.goForumList(item)}>
                 <View style={styles.forumItem}>
@@ -78,7 +77,10 @@ class CommunityContainer extends Component {
                 name: 'ForumNBA'
             })
         } else {
-
+            getNavigator().push({
+                name: 'ForumTeam',
+                team: item
+            })
         }
     };
 }
