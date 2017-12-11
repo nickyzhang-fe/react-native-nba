@@ -20,6 +20,7 @@ import NetUtil from '../util/netUtil';
 import CommonStyle from '../style/commonStyle';
 import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
+import Toast from '../components/toast';
 
 class CommunityDetail extends Component {
     constructor(props) {
@@ -67,7 +68,9 @@ class CommunityDetail extends Component {
                 <View style={styles.footer}>
                     <TextInput style={styles.input} placeholder={'请输入评论'} multiline={false} autoCapitalize='none'
                                placeholderTextColor={CommonStyle.THEME}/>
-                    <View style={styles.commitTxtbg}><Text style={styles.commitText}>{'评论'}</Text></View>
+                    <TouchableOpacity onPress={() => this.commit()}>
+                        <View style={styles.commitTxtbg}><Text style={styles.commitText}>{'评论'}</Text></View>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -80,9 +83,7 @@ class CommunityDetail extends Component {
     getCommunityDetail = () => {
         let that = this;
         let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id + '&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
-        console.log(url);
         NetUtil.get(url, function (res) {
-            console.log(res.data.topic.content);
             that.setState({
                 topic: res.data.topic,
                 eliteList: res.data.eliteList,
@@ -93,7 +94,7 @@ class CommunityDetail extends Component {
     };
 
     commit = () => {
-
+        Toast.show('暂不支持评论哟!');
     }
 }
 
