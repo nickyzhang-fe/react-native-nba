@@ -91,7 +91,8 @@ class CommunityDetail extends Component {
                 </ScrollView>
                 <View style={styles.footer}>
                     <TextInput style={styles.input} placeholder={'请输入评论'} multiline={false} autoCapitalize='none'
-                               placeholderTextColor={CommonStyle.THEME}/>
+                               placeholderTextColor={CommonStyle.THEME} keyboardAppearance={'light'}
+                    underlineColorAndroid={'transparent'} selectionColor={CommonStyle.THEME}/>
                     <TouchableOpacity onPress={() => this.commit()}>
                         <View style={styles.commitTxtbg}><Text style={styles.commitText}>{'评论'}</Text></View>
                     </TouchableOpacity>
