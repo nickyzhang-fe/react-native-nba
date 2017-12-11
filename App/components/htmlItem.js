@@ -27,14 +27,11 @@ class HtmlItem extends Component {
 
     render() {
         let item = this.props.item;
-        console.log(item);
         return (
             <View style={styles.container}>
-                <ScrollView>
-                    {
-                        item.map((item, i) => this.dealType(item, i))
-                    }
-                </ScrollView>
+                {
+                    item.map((item, i) => this.dealType(item, i))
+                }
             </View>
         )
     }
@@ -48,7 +45,7 @@ class HtmlItem extends Component {
             );
         }
         if (item.type === 1 || item.type === 'img') {
-            if (!CommonUtil.isEmpty(item.img)){
+            if (!CommonUtil.isEmpty(item.img)) {
                 this.state.image = item.img.imgurl0.imgurl.replace('http', 'https');
             } else {
                 this.state.image = item.image.raw.url.replace('http', 'https');
@@ -97,7 +94,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         marginLeft: 10,
-        minHeight: 300,
+        minHeight: 400,
         width: CommonUtil.getScreenWidth() - 20
     }
 });
