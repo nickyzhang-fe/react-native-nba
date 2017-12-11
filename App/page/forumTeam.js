@@ -87,7 +87,6 @@ class ForumTeam extends Component {
         let url = 'http://shequweb.sports.qq.com/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page +
             '&count=' + this.state.pageSize +'&period=all&order=&elite=0&activity=0';
         NetUtil.get(url, function (res) {
-            console.log(res.data.list);
             that.setState({
                 dataSource: res.data.list,
                 isRefreshing: false
@@ -100,7 +99,6 @@ class ForumTeam extends Component {
         that.setState({
             isRefreshing: true,
         });
-        console.log(this.state.page);
         let url = 'http://shequweb.sports.qq.com/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page++ +
             '&count=' + this.state.pageSize +'&period=all&order=&elite=0&activity=0';
         NetUtil.get(url, function (res) {

@@ -78,9 +78,11 @@ class NewsDetail extends Component {
                     rightImageSource={require('../image/share/share.png')}
                     onPress={() => this.goBack()}
                     onPressRight={() => this.showModal()}/>
-                <View ><Text style={styles.title}>{this.props.item.item.title}</Text></View>
-                <HtmlItem
-                    item={CommonUtil.isEmpty(this.state.detail.item.content) ? [] : this.state.detail.item.content}/>
+                <ScrollView>
+                    <View ><Text style={styles.title}>{this.props.item.item.title}</Text></View>
+                    <HtmlItem
+                        item={CommonUtil.isEmpty(this.state.detail.item.content) ? [] : this.state.detail.item.content}/>
+                </ScrollView>
             </View>
         )
     }

@@ -32,9 +32,9 @@ class CommunityDetail extends Component {
             user: {},
             list: [],
             eliteList: [],
-            page: 1
+            page: 1,
+            pageSize: 20
         };
-
     }
 
     componentWillMount() {
@@ -52,7 +52,9 @@ class CommunityDetail extends Component {
                     leftItemTitle={''}
                     leftImageSource={require('../image/back.png')}
                     onPress={() => this.goBack()}/>
-                <ScrollView style={{marginBottom: 52}}>
+                <ScrollView
+                    style={{marginBottom: 52}}
+                    onMomentumScrollEnd={this._contentViewScroll}>
                     <View style={[styles.title, styles.row]}>
                         <Image
                             source={{uri: CommonUtil.isEmpty(user.avatar) ? Global.AVATAR : user.avatar.replace('http', 'https')}}
@@ -64,6 +66,28 @@ class CommunityDetail extends Component {
                     </View>
                     <HtmlItem
                         item={CommonUtil.isEmpty(topic.content) ? [] : topic.content}/>
+                    <View>
+                        {
+                            CommonUtil.isEmpty(eliteList) ?
+                                <View></View> :
+                                <View>
+                                    <View style={styles.commitTitle}>
+                                        <View style={styles.commitTag}/>
+                                        <Text style={styles.commitTagTxt}>{'精华回帖'}</Text>
+                                    </View>
+                                    {
+                                        (eliteList.map((item, i) => this.renderCommitItem(item, i)))
+                                    }
+                                    <View style={styles.commitTitle}>
+                                        <View style={styles.commitTag}/>
+                                        <Text style={styles.commitTagTxt}>{'全部回帖'}</Text>
+                                    </View>
+                                    {
+                                        (list.map((item, i) => this.renderCommitItem(item, i)))
+                                    }
+                                </View>
+                        }
+                    </View>
                 </ScrollView>
                 <View style={styles.footer}>
                     <TextInput style={styles.input} placeholder={'请输入评论'} multiline={false} autoCapitalize='none'
@@ -76,13 +100,42 @@ class CommunityDetail extends Component {
         )
     }
 
+    renderCommitItem = (item, i) => {
+        return (
+            <View key={i} style={styles.commitItem}>
+                <View style={{flexDirection: 'row'}}>
+                    <Image style={styles.icon} source={{uri: item.user.avatar.replace('http', 'https')}}/>
+                    <View>
+                        <Text style={styles.commitUserName}>{item.user.name}</Text>
+                        <Text style={styles.commitTime}>{item.createTime}</Text>
+                    </View>
+                </View>
+                <View>
+                    <Text style={styles.commitSummary}>{item.summary}</Text>
+                </View>
+            </View>
+        )
+    };
+
     goBack = () => {
         getNavigator().pop();
     };
 
+    _contentViewScroll = (e) => {
+        var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
+        var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
+        var oriageScrollHeight = e.nativeEvent.layoutMeasurement.height; //scrollView高度
+        if (offsetY + oriageScrollHeight + 80 >= contentSizeHeight) {
+            this.onLoadMore();
+        }
+    };
+
     getCommunityDetail = () => {
         let that = this;
-        let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id + '&page=1&listType=allWithElite&count=20&sort=asc&he=&_=1510497824444';
+        let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id +
+            '&page=' + this.state.page + '&listType=allWithElite&count=' +
+            this.state.pageSize + '&sort=asc&he=&_=1510497824444';
+        console.log(url);
         NetUtil.get(url, function (res) {
             that.setState({
                 topic: res.data.topic,
@@ -93,9 +146,21 @@ class CommunityDetail extends Component {
         })
     };
 
+    onLoadMore = () => {
+        let that = this;
+        let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id +
+            '&page=' + this.state.page++ + '&listType=allWithElite&count=' +
+            this.state.pageSize + '&sort=asc&he=&_=1510497824444';
+        NetUtil.get(url, function (res) {
+            that.setState({
+                list: that.state.list.concat(res.data.list)
+            });
+        })
+    };
+
     commit = () => {
         Toast.show('暂不支持评论哟!');
-    }
+    };
 }
 
 const styles = StyleSheet.create({
@@ -166,6 +231,58 @@ const styles = StyleSheet.create({
     commitText: {
         color: CommonStyle.WHITE,
         fontSize: 12
+    },
+    commitTitle: {
+        height: 50,
+        width: CommonUtil.getScreenWidth(),
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR,
+        borderTopWidth: 1,
+        borderTopColor: CommonStyle.GRAY_COLOR
+    },
+    commitTag: {
+        height: 24,
+        width: 5,
+        backgroundColor: CommonStyle.THEME,
+        marginHorizontal: 10
+    },
+    commitTagTxt: {
+        fontSize: 18,
+        color: CommonStyle.BLACK,
+        fontWeight: '400'
+    },
+    commitItem: {
+        width: CommonUtil.getScreenWidth(),
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderBottomColor: CommonStyle.GRAY_COLOR,
+        borderBottomWidth: 1
+    },
+    icon: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        marginHorizontal: 10,
+        marginVertical: 5
+    },
+    commitUserName: {
+        fontSize: 16,
+        color: CommonStyle.BLACK,
+        marginTop: 8
+    },
+    commitTime: {
+        fontSize: 12,
+        color: CommonStyle.TEXT_GRAY_COLOR,
+        marginTop: 2
+    },
+    commitSummary: {
+        fontSize: 16,
+        color: CommonStyle.BLACK,
+        fontWeight: '400',
+        marginLeft: 10,
+        marginVertical: 4
     }
 });
 
