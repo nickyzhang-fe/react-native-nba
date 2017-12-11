@@ -38,6 +38,7 @@
 		npm install --save redux-thunk
 - `npm install react-native-orientation --save`
 - `npm install react-native-wechat --save`
+- `npm install react-native-splash-screen --save`
 
 ### 项目问题处理
 - 如遇到安装`Navigator`时报错
