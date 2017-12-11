@@ -120,7 +120,8 @@ const styles = StyleSheet.create({
         height: 44,
         width: 44,
         borderRadius: 22,
-        marginBottom: 5
+        marginBottom: 5,
+        marginTop: 10
     },
     forumTxt: {
         fontSize: 14,

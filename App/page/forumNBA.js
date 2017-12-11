@@ -59,12 +59,10 @@ class ForumNBA extends Component {
     }
 
     _renderItemView = (item) => {
-        let that = this;
         return (
             <CommunityItem
                 item={item}
                 _onPress={(item) => this.goCommunityDetail(item)}/>
-
         )
     };
 

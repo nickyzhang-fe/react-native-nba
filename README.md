@@ -39,8 +39,6 @@
 - `npm install react-native-orientation --save`
 - `npm install react-native-wechat --save`
 
-
-
 ### 项目问题处理
 - 如遇到安装`Navigator`时报错
 	- 安装`react-native-deprecated-custom-components`
