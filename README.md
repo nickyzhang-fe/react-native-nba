@@ -16,6 +16,7 @@
 - 使用`react-native-wechat`实现新闻的分享功能(未实现)
 - 实现`Android`的返回功能
 - 支持`Android`沉浸式状态栏
+- 使用`react-native-splash-screen`添加`Android`和`iOS`启动页
 
 ### 项目运行
 
