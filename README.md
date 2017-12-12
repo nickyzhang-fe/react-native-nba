@@ -59,9 +59,9 @@
 
 	> 这个index.android.bundle是用来调用原生控件的js脚本，每次当你改变了 index.android.js，你都需要使用上面的代码片段，来及时的更新index.android.bundle，然后打包才可以把新的index.android.js应用上，所以当没有index.android.bundle文件时，RN是无法运行的.
 - 使用`react-native-splash-screen`时报`java.lang.UnsupportedOperationException: Can't convert to color: type=0x1`
-> [看这里](https://github.com/crazycodeboy/react-native-splash-screen/issues/123)
+	> [看这里](https://github.com/crazycodeboy/react-native-splash-screen/issues/123)
 - 使用`react-native-splash-screen`时报 `java.lang.NoSuchFieldException: No field mAssets in class Landroid/content/res/MiuiResourcesImpl`
-> `Android Studio --> File --> Invalidate Caches/Restart` 试一下，如果这个不行，那就`gg`
+	> `Android Studio --> File --> Invalidate Caches/Restart` 试一下，如果这个不行，那就`gg`
 
 ### Android签名
 
