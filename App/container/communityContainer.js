@@ -47,11 +47,20 @@ class CommunityContainer extends Component {
 
                     <View style={styles.forumTitle}>
                         <View style={styles.forumTag}/>
-                        <Text style={styles.forumTagTxt}>{'全部社区'}</Text>
+                        <Text style={styles.forumTagTxt}>{'西部社区'}</Text>
                     </View>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                         {
-                            Global.ALLFORUM.map((item, index) => this.renderHotForum(item, index))
+                            Global.WESTFORUM.map((item, index) => this.renderHotForum(item, index))
+                        }
+                    </View>
+                    <View style={styles.forumTitle}>
+                        <View style={styles.forumTag}/>
+                        <Text style={styles.forumTagTxt}>{'东部社区'}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        {
+                            Global.EASTFORUM.map((item, index) => this.renderHotForum(item, index))
                         }
                     </View>
                 </ScrollView>
