@@ -51,11 +51,9 @@ class HtmlItem extends Component {
                 this.state.image = item.image.raw.url.replace('http', 'https');
             }
             return (
-                <TouchableOpacity key={i}>
-                    <View style={styles.item}>
-                        <Image style={styles.image} source={{uri: this.state.image}}/>
-                    </View>
-                </TouchableOpacity>
+                <View style={styles.item} key={i}>
+                    <Image style={styles.image} source={{uri: this.state.image}}/>
+                </View>
             )
         }
     };

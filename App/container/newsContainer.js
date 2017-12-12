@@ -25,7 +25,7 @@ class NewsContainer extends Component {
             dataSource: [],
             isRefreshing: false,
             ids: [],
-            page: 1
+            page: 0
         };
     }
 
@@ -77,10 +77,6 @@ class NewsContainer extends Component {
         {length: 300, offset: 300 * index, index}
     );
 
-    onLoadMore = () => {
-
-    };
-
     getNewsListIds = () => {
         let that = this;
         let url = 'http://sportsnba.qq.com/news/index?appver=4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner';
@@ -93,12 +89,14 @@ class NewsContainer extends Component {
         })
     };
 
-    getNewsList = () => {
+    getNewsList = (state) => {
         let that = this;
         let ids = '';
         let tempArray = [];
         that.setState({
             isRefreshing: true,
+            page: 1,
+            dataSource: []
         });
         for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.page - 1)) {
@@ -113,7 +111,34 @@ class NewsContainer extends Component {
                 tempArray.push(res.data[i]);
             }
             that.setState({
-                dataSource: tempArray,
+                dataSource: that.state.dataSource.concat(tempArray),
+                isRefreshing: false
+            })
+        })
+    };
+
+    onLoadMore = () => {
+        let that = this;
+        let ids = '';
+        let tempArray = [];
+        that.setState({
+            isRefreshing: true,
+            page: that.state.page++
+        });
+        for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
+            if (i <= (20 * that.state.page - 1)) {
+                ids += that.state.ids[i].id + ',';
+            }
+        }
+        let url = 'http://sportsnba.qq.com/news/item?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner&articleIds=' + ids;
+        NetUtil.get(url, function (res) {
+            for (let i in res.data) {
+                tempArray.push(res.data[i]);
+            }
+            that.setState({
+                dataSource: that.state.dataSource.concat(tempArray),
                 isRefreshing: false
             })
         })
