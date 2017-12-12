@@ -95,8 +95,7 @@ class NewsContainer extends Component {
         let tempArray = [];
         that.setState({
             isRefreshing: true,
-            page: 1,
-            dataSource: []
+            page: 1
         });
         for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.page - 1)) {
@@ -111,7 +110,7 @@ class NewsContainer extends Component {
                 tempArray.push(res.data[i]);
             }
             that.setState({
-                dataSource: that.state.dataSource.concat(tempArray),
+                dataSource: tempArray,
                 isRefreshing: false
             })
         })
