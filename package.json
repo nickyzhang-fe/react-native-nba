@@ -19,6 +19,7 @@
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-splash-screen": "^3.0.6",
     "react-native-viewpager": "^0.2.13",
+    "react-native-wechat": "^1.9.9",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
