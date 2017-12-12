@@ -89,7 +89,7 @@ class NewsContainer extends Component {
         })
     };
 
-    getNewsList = (state) => {
+    getNewsList = () => {
         let that = this;
         let ids = '';
         let tempArray = [];
