@@ -18,16 +18,12 @@ class TabBar extends Component {
         this.props.scrollValue.addListener(this.setAnimationValue);
     }
 
-    setAnimationValue = (value) => {
-        console.log(value);
-    };
-
     render() {
         return (
             <View style={styles.tabs}>
                 {this.props.tabs.map((tab, i) => {
                     let color = this.props.activeTab === i ? 'green' : 'gray';
-                    let icon = this.props.activeTab == i ? this.props.selectedTabIconNames[i] : this.props.tabIconNames[i];
+                    let icon = this.props.activeTab === i ? this.props.selectedTabIconNames[i] : this.props.tabIconNames[i];
                     return (
                         <TouchableOpacity
                             key={i}
@@ -45,6 +41,10 @@ class TabBar extends Component {
             </View>
         );
     }
+
+    setAnimationValue = (value) => {
+        console.log(value);
+    };
 }
 
 TabBar.PropTypes = {

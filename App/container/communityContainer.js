@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
         height: CommonUtil.getScreenWidth() / 5,
         width: CommonUtil.getScreenWidth() / 4,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingBottom: 8
     },
     forumImg: {
         height: 44,

@@ -27,12 +27,14 @@ class GameDetail extends Component {
             item: this.props.gameDetail,
             title: this.props.gameDetail.leftName + 'vs' + this.props.gameDetail.rightName,
             mid: this.props.gameDetail.mid,
+            matchPeriod: this.props.gameDetail.matchPeriod,
             baseInfo: '',
             ids: [],
             matchList: [],
             page: 1,
             pageSize: 20
         };
+        console.log(this.props.gameDetail);
     }
 
     componentWillMount() {
@@ -42,6 +44,8 @@ class GameDetail extends Component {
 
     render() {
         const baseInfo = this.state.baseInfo;
+        const detail = this.state.matchList;
+        console.log(detail);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -51,15 +55,27 @@ class GameDetail extends Component {
                     leftItemTitle={''}
                     leftImageSource={require('../image/back.png')}
                     onPress={() => this.goBack()}/>
-                {
-                    this.renderBaseInfo(baseInfo)
-                }
+                <ScrollView>
+                    {
+                        this.renderBaseInfo(baseInfo)
+                    }
+                    {
+                        CommonUtil.isEmpty(detail) ? <View></View> :
+                            <View>
+                                {
+                                    this.state.matchPeriod === '2' ?
+                                        (detail.map((item, index) => this.renderMatchEnd(item, index))) :
+                                        (<View></View>)
+                                }
+                            </View>
+                    }
+                </ScrollView>
             </View>
         )
     }
 
     renderBaseInfo = (baseInfo) => {
-        if (CommonUtil.isEmpty(baseInfo)){
+        if (CommonUtil.isEmpty(baseInfo)) {
             return;
         }
         return (
@@ -93,12 +109,34 @@ class GameDetail extends Component {
         )
     };
 
+    renderMatchEnd = (item, index) => {
+        console.log(item);
+        console.log(index);
+        return (
+            <View key={index} style={styles.itemBottom}>
+                <View style={styles.matchLeft}>
+                    <Text>{item.quarter}</Text>
+                    <Text>{item.time}</Text>
+                </View>
+                <View style={[styles.matchRight, styles.itemBottom]}>
+                    <View>
+
+                    </View>
+                    <View>
+                        <Text>{item.teamName}</Text>
+                        <Text>{item.content}</Text>
+                    </View>
+                </View>
+            </View>
+        )
+    };
+
     goBack = () => {
         getNavigator().pop();
     };
 
     getMatchStatus = (status) => {
-        switch (status){
+        switch (status) {
             case '0':
                 return '未开始';
                 break;
@@ -125,9 +163,9 @@ class GameDetail extends Component {
 
     getGameDetailIds = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId'+
+        let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '
-            +'=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
+            + '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
         NetUtil.get(url, function (res) {
             console.log(res.data);
             that.setState({
@@ -140,21 +178,25 @@ class GameDetail extends Component {
     getGameDetail = () => {
         let that = this;
         let ids = '';
-        for (let i = 20*(that.state.page -1); i <= that.state.ids.index.length - 1; i++){
-            if (i <= (20*that.state.page - 1)){
-                ids += that.state.ids.index[i]+',';
+        let tempArray = [];
+        for (let i = 20 * (that.state.page - 1); i <= that.state.ids.index.length - 1; i++) {
+            if (i <= (20 * that.state.page - 1)) {
+                ids += that.state.ids.index[i] + ',';
             }
         }
         console.log(ids);
-        let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId'+
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height'+
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid='+ this.state.mid +
+        let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
             '&ids=' + ids;
         console.log(url);
         NetUtil.get(url, function (res) {
             console.log(res);
+            for (let i in res.data.detail){
+                tempArray.push(res.data.detail[i]);
+            }
             that.setState({
-                matchList: res.data.detail
+                matchList: tempArray
             })
         })
     };
@@ -218,6 +260,16 @@ const styles = StyleSheet.create({
         color: CommonStyle.WHITE,
         fontSize: 24,
         fontWeight: "bold"
+    },
+    matchLeft: {
+        width: 100,
+        minHeight: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    matchRight: {
+        width: CommonUtil.getScreenWidth() - 100,
+
     }
 });
 
