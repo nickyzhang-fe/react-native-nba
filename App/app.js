@@ -16,6 +16,7 @@ import {
 import {getRouteMap, registerNavigator} from './constant/router';
 import * as Orientation from "react-native-orientation";
 import Toast from './components/toast';
+import SplashScreen from 'react-native-splash-screen';
 // import * as WeChat from 'react-native-wechat';
 
 let lastClickTime = 0;
@@ -36,8 +37,10 @@ class App extends Component<{}> {
     }
 
     componentDidMount() {
-        //想要使用微信分享, 你必须到微信分享平台 https://open.weixin.qq.com/ 申请appid
         // WeChat.registerApp('wxa106668d81b9dba8');
+        setTimeout(() => {
+            SplashScreen.hide();
+        }, 2000);
     }
 
     componentWillUnmount() {
