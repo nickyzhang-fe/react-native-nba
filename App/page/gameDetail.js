@@ -7,6 +7,7 @@ import {
     View,
     Text,
     Image,
+    FlatList,
     TouchableOpacity,
     InteractionManager,
     ScrollView
@@ -31,8 +32,9 @@ class GameDetail extends Component {
             baseInfo: '',
             ids: [],
             matchList: [],
-            page: 1,
-            pageSize: 20
+            gamePage: 0,
+            pageSize: 20,
+            isRefreshing: false
         };
     }
 
@@ -53,24 +55,52 @@ class GameDetail extends Component {
                     leftItemTitle={''}
                     leftImageSource={require('../image/back.png')}
                     onPress={() => this.goBack()}/>
-                <ScrollView>
                     {
                         this.renderBaseInfo(baseInfo)
                     }
-                    {
-                        CommonUtil.isEmpty(detail) ? <View></View> :
-                            <View>
-                                {
-                                    this.state.matchPeriod === '2' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
-                                        (this.state.matchPeriod === '1' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
-                                            ((detail.map((item, index) => this.renderMatchDetail(item, index)))))
-                                }
-                            </View>
-                    }
+                <FlatList
+                    data={this.state.matchList}
+                    dataExtra={this.state}
+                    renderItem={(item, index) => this.renderMatchDetail(item, index)}
+                    onRefresh={() => this.getGameDetailIds()}
+                    onEndReached={() => this.getGameDetailMore()}
+                    onEndReachedThreshold={0.1}
+                    initialNumToRender={10}
+                    keyExtractor={(item) => this._keyExtractor(item)}
+                    refreshing={this.state.isRefreshing}/>
+
+                <ScrollView>
                 </ScrollView>
             </View>
         )
     }
+// {
+//     CommonUtil.isEmpty(detail) ? <View/> :
+// <FlatList
+// data={this.state.matchList}
+// dataExtra={this.state}
+// renderItem={(item, index) => this.renderMatchDetail(item, index)}
+// onRefresh={() => this.getGameDetailIds()}
+// onEndReached={() => this.getGameDetailMore()}
+// onEndReachedThreshold={0.1}
+// initialNumToRender={10}
+// keyExtractor={(item) => this._keyExtractor(item)}
+// refreshing={this.state.isRefreshing}/>
+// }
+
+// <View>
+// {
+//     this.state.matchPeriod === '2' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
+//         (this.state.matchPeriod === '1' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
+//             ((detail.map((item, index) => this.renderMatchDetail(item, index)))))
+// }
+// </View>
+
+    _keyExtractor = (item, index) => index;
+
+    _getItemLayout = (item, index) => (
+        {length: 300, offset: 300 * index, index}
+    );
 
     renderBaseInfo = (baseInfo) => {
         if (CommonUtil.isEmpty(baseInfo)) {
@@ -107,10 +137,10 @@ class GameDetail extends Component {
         )
     };
 
-    renderMatchDetail = (item, index) => {
-        console.log(item);
+    renderMatchDetail = (ids, index) => {
+        let item = ids.item;
         return (
-            <View key={index} style={styles.itemBottom}>
+            <View key={ids.index} style={styles.itemBottom}>
                 {
                     item.hasOwnProperty('commentator') ?
                         <View style={styles.matchLeft}>
@@ -184,12 +214,16 @@ class GameDetail extends Component {
 
     getGameDetailIds = () => {
         let that = this;
+        that.setState({
+            isRefreshing: true,
+            gamePage: 1
+        });
         let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '
             + '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
         NetUtil.get(url, function (res) {
             that.setState({
-                ids: res.data
+                ids: res.data.index
             });
             that.getGameDetail()
         })
@@ -199,9 +233,9 @@ class GameDetail extends Component {
         let that = this;
         let ids = '';
         let tempArray = [];
-        for (let i = 20 * (that.state.page - 1); i <= that.state.ids.index.length - 1; i++) {
-            if (i <= (20 * that.state.page - 1)) {
-                ids += that.state.ids.index[i] + ',';
+        for (let i = 20 * (that.state.gamePage - 1); i <= that.state.ids.length - 1; i++) {
+            if (i <= (20 * that.state.gamePage - 1)) {
+                ids += that.state.ids[i] + ',';
             }
         }
         let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
@@ -213,10 +247,43 @@ class GameDetail extends Component {
                 tempArray.push(res.data.detail[i]);
             }
             that.setState({
-                matchList: tempArray
+                matchList: tempArray,
+                isRefreshing: false
             })
         })
     };
+
+    getGameDetailMore = () => {
+        let that = this;
+        let ids = '';
+        let tempArray = [];
+        console.log(that.state.gamePage);
+        that.setState({
+            isRefreshing: true,
+            gamePage: that.state.gamePage++
+        });
+        console.log(that.state.gamePage);
+        for (let i = 20 * (that.state.gamePage - 1); i <= that.state.ids.length - 1; i++) {
+            if (i <= (20 * that.state.gamePage - 1)) {
+                ids += that.state.ids[i] + ',';
+            }
+        }
+        console.log(ids);
+        let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
+            '&ids=' + ids;
+        NetUtil.get(url, function (res) {
+            for (let i in res.data.detail) {
+                tempArray.push(res.data.detail[i]);
+            }
+            that.setState({
+                matchList: that.state.matchList.concat(tempArray),
+                isRefreshing: false
+            });
+            console.log(that.state.gamePage)
+        })
+    }
 }
 
 const styles = StyleSheet.create({
