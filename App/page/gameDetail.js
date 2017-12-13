@@ -34,7 +34,6 @@ class GameDetail extends Component {
             page: 1,
             pageSize: 20
         };
-        console.log(this.props.gameDetail);
     }
 
     componentWillMount() {
@@ -45,8 +44,6 @@ class GameDetail extends Component {
     render() {
         const baseInfo = this.state.baseInfo;
         const detail = this.state.matchList;
-        console.log(detail);
-        console.log(baseInfo);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -112,7 +109,6 @@ class GameDetail extends Component {
 
     renderMatchDetail = (item, index) => {
         console.log(item);
-        console.log(index);
         return (
             <View key={index} style={styles.itemBottom}>
                 {
@@ -192,7 +188,6 @@ class GameDetail extends Component {
             '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '
             + '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
         NetUtil.get(url, function (res) {
-            console.log(res.data);
             that.setState({
                 ids: res.data
             });
@@ -209,14 +204,11 @@ class GameDetail extends Component {
                 ids += that.state.ids.index[i] + ',';
             }
         }
-        console.log(ids);
         let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
             '&ids=' + ids;
-        console.log(url);
         NetUtil.get(url, function (res) {
-            console.log(res);
             for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);
             }

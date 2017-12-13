@@ -12,7 +12,6 @@ const colors = {
     LIGHT_GRAY_COLOR: '#ccccc44',//浅灰色
     DARK_RED: '#ff0000',
     BLACK: '#000000',
-    // THEME: '#1C2A5F',
     THEME: '#283C87'
 };
 
