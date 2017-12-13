@@ -92,7 +92,7 @@ class App extends Component<{}> {
         }
         let now = new Date().getTime();
         if (now - lastClickTime < 2500) {//2.5秒内点击后退键两次推出应用程序
-            return false;//控制权交给原生
+            return false;
         }
         lastClickTime = now;
         Toast.show('再按一次退出程序');

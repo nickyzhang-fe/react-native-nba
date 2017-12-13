@@ -26,9 +26,13 @@ const TEN_SHE_QU_URL = 'https://shequweb.sports.qq.com';
 * */
 const DEFAULT_PIC = require('../image/default_pic.png');
 /*
+ * 默认logo
+ * */
+const DEFAULT_LOGO = 'https://mat1.gtimg.com/chinanba/images/NBA_APP_Logo_58';
+/*
 * 热门社区
 * */
-const HOTFORUM = [
+const HOT_FORUM = [
     {icon: "http://img1.gtimg.com/nba/pics/hv1/161/37/2250/146315846.jpg", name: '热议NBA', id: 69},
     {icon: "http://img1.gtimg.com/nba/pics/hv1/135/37/2250/146315820.jpg", name: '勇士', id: 62},
     {icon: "http://img1.gtimg.com/nba/pics/hv1/118/37/2250/146315803.jpg", name: '骑士', id: 61},
@@ -42,7 +46,7 @@ const HOTFORUM = [
 /*
 * 西部社区
 * */
-const WESTFORUM = [
+const WEST_FORUM = [
     {icon: "http://img1.gtimg.com/nba/pics/hv1/135/37/2250/146315820.jpg", name: '勇士', id: 62},
     {icon: "http://img1.gtimg.com/sports/pics/hv1/62/37/2250/146315747.jpg", name: '火箭', id: 70},
     {icon: "http://img1.gtimg.com/sports/pics/hv1/104/37/2250/146315789.jpg", name: '马刺', id: 75},
@@ -62,7 +66,7 @@ const WESTFORUM = [
 /*
 * 东部社区
 * */
-const EASTFORUM = [
+const EAST_FORUM = [
     {icon: "http://img1.gtimg.com/sports/pics/hv1/78/37/2250/146315763.jpg", name: '凯尔特人', id: 76},
     {icon: "http://img1.gtimg.com/nba/pics/hv1/118/37/2250/146315803.jpg", name: '骑士', id: 61},
     {icon: "http://img1.gtimg.com/sports/pics/hv1/105/37/2250/146315790.jpg", name: '猛龙', id: 125},
@@ -87,7 +91,8 @@ export default {
     TEN_SHE_QU_URL,
     AVATAR,
     DEFAULT_PIC,
-    HOTFORUM,
-    WESTFORUM,
-    EASTFORUM
+    DEFAULT_LOGO,
+    HOT_FORUM,
+    WEST_FORUM,
+    EAST_FORUM
 }

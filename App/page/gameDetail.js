@@ -46,6 +46,7 @@ class GameDetail extends Component {
         const baseInfo = this.state.baseInfo;
         const detail = this.state.matchList;
         console.log(detail);
+        console.log(baseInfo);
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -63,9 +64,9 @@ class GameDetail extends Component {
                         CommonUtil.isEmpty(detail) ? <View></View> :
                             <View>
                                 {
-                                    this.state.matchPeriod === '2' ?
-                                        (detail.map((item, index) => this.renderMatchEnd(item, index))) :
-                                        (<View></View>)
+                                    this.state.matchPeriod === '2' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
+                                        (this.state.matchPeriod === '1' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
+                                            ((detail.map((item, index) => this.renderMatchDetail(item, index)))))
                                 }
                             </View>
                     }
@@ -109,24 +110,46 @@ class GameDetail extends Component {
         )
     };
 
-    renderMatchEnd = (item, index) => {
+    renderMatchDetail = (item, index) => {
         console.log(item);
         console.log(index);
         return (
             <View key={index} style={styles.itemBottom}>
+                {
+                    item.hasOwnProperty('commentator') ?
+                        <View style={styles.matchLeft}>
+                            <Text style={[styles.matchTime, {marginTop: 10}]}>{'直播员'}</Text>
+                        </View> :
+                        <View style={styles.matchLeft}>
+                            <Text style={styles.matchTime}>{item.quarter}</Text>
+                            <Text style={styles.matchTime}>{item.time}</Text>
+                        </View>
+                }
                 <View style={styles.matchLeft}>
-                    <Text>{item.quarter}</Text>
-                    <Text>{item.time}</Text>
+                    <Text style={styles.matchTime}>{item.quarter}</Text>
+                    <Text style={styles.matchTime}>{item.time}</Text>
                 </View>
-                <View style={[styles.matchRight, styles.itemBottom]}>
-                    <View>
-
-                    </View>
-                    <View>
-                        <Text>{item.teamName}</Text>
-                        <Text>{item.content}</Text>
-                    </View>
+                <View style={styles.matchMiddle}>
+                    {
+                        item.hasOwnProperty('commentator') ?
+                            <Image style={styles.matchImage} source={{uri: item.commentator.logo}}/> :
+                            (item.hasOwnProperty('player4NBAApp') ?
+                                <Image style={styles.matchImage} source={{uri: item.player4NBAApp.pic}}/> :
+                                ((item.teamName === this.state.baseInfo.leftName) ?
+                                    <Image style={styles.matchImage} source={{uri: this.state.baseInfo.leftBadge}}/> :
+                                    (item.teamName === this.state.baseInfo.rightName ?
+                                        <Image style={styles.matchImage}
+                                               source={{uri: this.state.baseInfo.rightBadge}}/> :
+                                        <Image style={styles.matchImage} source={{uri: Global.DEFAULT_LOGO}}/>)))
+                    }
                 </View>
+                <View style={styles.matchRight}>
+                    <Text
+                        style={styles.matchTeam}>{item.hasOwnProperty('commentator') ? item.commentator.nick : item.teamName}</Text>
+                    <Text style={styles.matchContent}>{item.content}</Text>
+                </View>
+                <View style={styles.longLine}/>
+                <View style={styles.circle}/>
             </View>
         )
     };
@@ -156,7 +179,7 @@ class GameDetail extends Component {
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
         NetUtil.get(url, function (res) {
             that.setState({
-                baseInfo: res.data
+                baseInfo: res.data,
             });
         })
     };
@@ -192,7 +215,7 @@ class GameDetail extends Component {
         console.log(url);
         NetUtil.get(url, function (res) {
             console.log(res);
-            for (let i in res.data.detail){
+            for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);
             }
             that.setState({
@@ -262,14 +285,56 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     matchLeft: {
-        width: 100,
-        minHeight: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
+        width: 70,
+        minHeight: 60,
+        alignItems: 'center',
+        paddingTop: 10
+    },
+    matchTime: {
+        fontSize: 12,
+        color: CommonStyle.TEXT_GRAY_COLOR,
+    },
+    matchMiddle: {
+        width: 50,
+        paddingTop: 10,
+        alignItems: 'flex-end'
     },
     matchRight: {
-        width: CommonUtil.getScreenWidth() - 100,
-
+        width: CommonUtil.getScreenWidth() - 130,
+        padding: 10,
+        minHeight: 70
+    },
+    matchImage: {
+        height: 30,
+        width: 30,
+        borderRadius: 15
+    },
+    matchTeam: {
+        fontSize: 14,
+        color: CommonStyle.BLACK,
+        marginTop: 4
+    },
+    matchContent: {
+        fontSize: 12,
+        color: CommonStyle.TEXT_GRAY_COLOR,
+        flexWrap: 'wrap',
+        marginTop: 6
+    },
+    longLine: {
+        position: 'absolute',
+        left: 70,
+        backgroundColor: CommonStyle.GRAY_COLOR,
+        width: 1,
+        height: '100%'
+    },
+    circle: {
+        position: 'absolute',
+        left: 67.5,
+        top: 22,
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+        backgroundColor: CommonStyle.THEME
     }
 });
 

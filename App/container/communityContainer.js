@@ -41,7 +41,7 @@ class CommunityContainer extends Component {
                     </View>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                         {
-                            Global.HOTFORUM.map((item, index) => this.renderHotForum(item, index))
+                            Global.HOT_FORUM.map((item, index) => this.renderHotForum(item, index))
                         }
                     </View>
 
@@ -51,7 +51,7 @@ class CommunityContainer extends Component {
                     </View>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                         {
-                            Global.WESTFORUM.map((item, index) => this.renderHotForum(item, index))
+                            Global.WEST_FORUM.map((item, index) => this.renderHotForum(item, index))
                         }
                     </View>
                     <View style={styles.forumTitle}>
@@ -60,7 +60,7 @@ class CommunityContainer extends Component {
                     </View>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                         {
-                            Global.EASTFORUM.map((item, index) => this.renderHotForum(item, index))
+                            Global.EAST_FORUM.map((item, index) => this.renderHotForum(item, index))
                         }
                     </View>
                 </ScrollView>
