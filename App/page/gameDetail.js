@@ -125,10 +125,6 @@ class GameDetail extends Component {
                             <Text style={styles.matchTime}>{item.time}</Text>
                         </View>
                 }
-                <View style={styles.matchLeft}>
-                    <Text style={styles.matchTime}>{item.quarter}</Text>
-                    <Text style={styles.matchTime}>{item.time}</Text>
-                </View>
                 <View style={styles.matchMiddle}>
                     {
                         item.hasOwnProperty('commentator') ?
@@ -144,9 +140,15 @@ class GameDetail extends Component {
                     }
                 </View>
                 <View style={styles.matchRight}>
-                    <Text
-                        style={styles.matchTeam}>{item.hasOwnProperty('commentator') ? item.commentator.nick : item.teamName}</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <Text style={styles.matchTeam}>{CommonUtil.isEmpty(item.teamName) ? '直播员' : item.teamName}</Text>
+                        <Text style={{color: CommonStyle.DARK_RED}}>{item.hasOwnProperty('leftGoal') ? (item.leftGoal+':'+item.rightGoal) : ''}</Text>
+                    </View>
                     <Text style={styles.matchContent}>{item.content}</Text>
+                    {
+                        item.hasOwnProperty('video') ?
+                            <Image style={styles.matchLiveImage} source={{uri: item.video.pic_160x90}}/>:<View/>
+                    }
                 </View>
                 <View style={styles.longLine}/>
                 <View style={styles.circle}/>
@@ -309,13 +311,18 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 15
     },
+    matchLiveImage: {
+        height: 90,
+        width: 160,
+        marginTop: 10
+    },
     matchTeam: {
         fontSize: 14,
         color: CommonStyle.BLACK,
         marginTop: 4
     },
     matchContent: {
-        fontSize: 12,
+        fontSize: 14,
         color: CommonStyle.TEXT_GRAY_COLOR,
         flexWrap: 'wrap',
         marginTop: 6
