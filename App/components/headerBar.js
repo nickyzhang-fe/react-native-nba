@@ -76,10 +76,12 @@ class HeaderBar extends Component {
                 {
                     showStateBar ? (
                         <StatusBar
-                            backgroundColor='#ffde00'
+                            backgroundColor='#283C87'
                             animated={true}
                             translucent={true}
-                            hidden={true}/>
+                            hidden={false}
+                            barStyle={'light-content'}
+                            showHideTransition={'slide'}/>
                     ) : null
                 }
                 <View>

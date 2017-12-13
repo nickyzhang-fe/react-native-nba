@@ -166,7 +166,8 @@ class CommunityDetail extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.BACKGROUND_COLOR
     },
     row: {
         flexDirection: 'row'

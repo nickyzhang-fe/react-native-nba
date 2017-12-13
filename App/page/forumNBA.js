@@ -118,7 +118,8 @@ class ForumNBA extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.BACKGROUND_COLOR
     }
 });
 
