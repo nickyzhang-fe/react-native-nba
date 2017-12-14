@@ -16,16 +16,6 @@ import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
 import HeaderBar from '../components/headerBar';
 
-const BLOG = {
-    url: Global.BLOG_URL,
-    title: '我的博客'
-};
-
-const GITHUB = {
-    url: Global.GITHUB_URL,
-    title: '我的项目'
-};
-
 class RankItem extends Component {
     constructor(props) {
         super(props);

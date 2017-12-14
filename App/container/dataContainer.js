@@ -15,6 +15,16 @@ import CommonStyle from '../style/commonStyle';
 import Global from '../constant/global';
 import RankItem from '../components/rankItem';
 
+const BLOG = {
+    url: Global.BLOG_URL,
+    title: '我的博客'
+};
+
+const GITHUB = {
+    url: Global.GITHUB_URL,
+    title: '我的项目'
+};
+
 class DataContainer extends Component {
     constructor(props) {
         super(props);
