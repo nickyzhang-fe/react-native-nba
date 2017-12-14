@@ -61,27 +61,27 @@ class PersonInfo extends Component {
                     onPress={() => this.goBack()}
                     onPressRight={() => this.hidePersonInfo()}/>
                 <WebView
-                    ref="webView"
-                    style={styles.webview}
+                    ref="webview"
+                    style={styles.webView}
                     source={{uri: this.state.url}}
                     automaticallyAdjustContentInsets={false}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    onNavigationStateChange={this._onNavigationStateChange.bind(this)}/>
+                    />
             </View>
         )
     }
-
+    // onNavigationStateChange={this._onNavigationStateChange.bind(this)}
     hidePersonInfo = () => {
         getNavigator().pop();
     };
 
     _onNavigationStateChange(navState) {
-
+        console.log(navState);
         this.setState({
             url: navState.url,
-            // title: navState.title,
+            title: navState.title,
             loading: navState.loading,
             isBackButtonEnable: navState.canGoBack,
             isForwardButtonEnable: navState.canGoForward

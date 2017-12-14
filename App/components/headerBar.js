@@ -98,7 +98,7 @@ class HeaderBar extends Component {
                     }
                 </View>
                 <View style={styles.nav_title}>
-                    <Text style={styles.textStyle}>{this.props.title}</Text>
+                    <Text style={styles.textStyle} numberOfLines={1}>{this.props.title}</Text>
                 </View>
                 <View style={styles.rightItem}>
                     < TouchableOpacity onPress={this.props.onPressRight}>
