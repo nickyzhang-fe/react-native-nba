@@ -36,7 +36,7 @@ class MainContainer extends Component {
         return (
             <ScrollableTabView
                 tabBarPosition="bottom"
-                locked={false}
+                locked={true}
                 scrollWithoutAnimation={true}
                 prerenderingSiblingsNumber={4}
                 overlayBottom={true}

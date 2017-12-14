@@ -18,6 +18,10 @@ const AVATAR = 'https://crm.jtgroup.com.cn:8100/jintianProd/uploader/avatar.png'
 * */
 const GITHUB_URL = 'https://github.com/5ibinbin/react-native-nba';
 /*
+* blog地址
+* */
+const BLOG_URL = 'http://www.5ibinbin.com';
+/*
 * 社区
 * */
 const TEN_SHE_QU_URL = 'https://shequweb.sports.qq.com';
@@ -88,6 +92,7 @@ export default {
     STATUS_BAR_HEIGHT,
     NAV_BAR_HEIGHT,
     GITHUB_URL,
+    BLOG_URL,
     TEN_SHE_QU_URL,
     AVATAR,
     DEFAULT_PIC,

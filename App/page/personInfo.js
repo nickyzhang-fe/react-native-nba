@@ -7,7 +7,9 @@ import {
     View,
     Text,
     WebView,
-    StyleSheet
+    StyleSheet,
+    BackAndroid,
+    BackHandler
 } from 'react-native';
 
 import HeaderBar from '../components/headerBar';
@@ -15,16 +17,42 @@ import {getNavigator} from '../constant/router';
 import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
 
-class PersonInfo extends Component{
-    constructor(props){
+class PersonInfo extends Component {
+    constructor(props) {
         super(props);
+        this.state = {
+            url: this.props.url.url,
+            title: this.props.url.title,
+            loading: true,
+            isBackButtonEnable: false,
+            isForwardButtonEnable: false
+        };
+        console.log(this.props.url);
     }
 
-    render(){
-        return(
+    componentDidMount() {
+        BackHandler.addEventListener("webHardwareBackPress", ()=> {
+            try {
+                if (this.state.isBackButtonEnable) {
+                    this.refs._webView.goBack();//返回上一个页面
+                    return true;//true 系统不再处理 false交给系统处理
+                }
+            } catch (error) {
+                return false;
+            }
+            return false;
+        })
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener("webHardwareBackPress");
+    }
+
+    render() {
+        return (
             <View style={styles.container}>
                 <HeaderBar
-                    title="项目地址"
+                    title={this.state.title}
                     showLeftState={true}
                     showRightState={false}
                     leftItemTitle={''}
@@ -32,18 +60,30 @@ class PersonInfo extends Component{
                     onPress={() => this.hidePersonInfo()}/>
                 <WebView
                     style={styles.webView}
-                    ref={'webView'}
-                    source={{uri: Global.GITHUB_URL}}
+                    ref="_webView"
+                    source={{uri: this.state.url}}
                     automaticallyAdjustContentInsets={false}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
-                    startInLoadingState={true}/>
+                    startInLoadingState={true}
+                    mixedContentMode={'always'}
+                    onNavigationStateChange={this._onNavigationStateChange.bind(this)}/>
             </View>
         )
     }
 
     hidePersonInfo = () => {
         getNavigator().pop();
+    };
+
+    _onNavigationStateChange(navState) {
+        this.setState({
+            url: navState.url,
+            // title: navState.title,
+            loading: navState.loading,
+            isBackButtonEnable: navState.canGoBack,
+            isForwardButtonEnable: navState.canGoForward,
+        })
     }
 }
 
