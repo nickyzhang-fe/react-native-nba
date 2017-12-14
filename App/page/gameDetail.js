@@ -55,9 +55,9 @@ class GameDetail extends Component {
                     leftItemTitle={''}
                     leftImageSource={require('../image/back.png')}
                     onPress={() => this.goBack()}/>
-                    {
-                        this.renderBaseInfo(baseInfo)
-                    }
+                {
+                    this.renderBaseInfo(baseInfo)
+                }
                 <FlatList
                     data={this.state.matchList}
                     dataExtra={this.state}
@@ -65,15 +65,13 @@ class GameDetail extends Component {
                     onRefresh={() => this.getGameDetailIds()}
                     onEndReached={() => this.getGameDetailMore()}
                     onEndReachedThreshold={0.1}
-                    initialNumToRender={10}
+                    initialNumToRender={5}
                     keyExtractor={(item) => this._keyExtractor(item)}
                     refreshing={this.state.isRefreshing}/>
-
-                <ScrollView>
-                </ScrollView>
             </View>
         )
     }
+
 // {
 //     CommonUtil.isEmpty(detail) ? <View/> :
 // <FlatList
@@ -139,6 +137,7 @@ class GameDetail extends Component {
 
     renderMatchDetail = (ids, index) => {
         let item = ids.item;
+        console.log(ids.index);
         return (
             <View key={ids.index} style={styles.itemBottom}>
                 {
@@ -167,13 +166,15 @@ class GameDetail extends Component {
                 </View>
                 <View style={styles.matchRight}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={styles.matchTeam}>{CommonUtil.isEmpty(item.teamName) ? '直播员' : item.teamName}</Text>
-                        <Text style={{color: CommonStyle.DARK_RED}}>{item.hasOwnProperty('leftGoal') ? (item.leftGoal+':'+item.rightGoal) : ''}</Text>
+                        <Text
+                            style={styles.matchTeam}>{CommonUtil.isEmpty(item.teamName) ? '直播员' : item.teamName}</Text>
+                        <Text
+                            style={{color: CommonStyle.DARK_RED}}>{item.hasOwnProperty('leftGoal') ? (item.leftGoal + ':' + item.rightGoal) : ''}</Text>
                     </View>
                     <Text style={styles.matchContent}>{item.content}</Text>
                     {
                         item.hasOwnProperty('video') ?
-                            <Image style={styles.matchLiveImage} source={{uri: item.video.pic_160x90}}/>:<View/>
+                            <Image style={styles.matchLiveImage} source={{uri: item.video.pic_160x90}}/> : <View/>
                     }
                 </View>
                 <View style={styles.longLine}/>
@@ -216,7 +217,8 @@ class GameDetail extends Component {
         let that = this;
         that.setState({
             isRefreshing: true,
-            gamePage: 1
+            gamePage: 1,
+            matchList: []
         });
         let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '

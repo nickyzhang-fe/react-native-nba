@@ -633,6 +633,7 @@
 				00E356EF1AD99517003FC87E /* NBATests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				86B24ECA1FDC232400B22D2F /* Frameworks */,
+				86382CB51FE1F9240056F8DA /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -648,6 +649,21 @@
 				2D02E4901E0B4A5D006451C7 /* NBA-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		86382CB51FE1F9240056F8DA /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				7FCBF26B6F7046D9AE94BF59 /* libRCTOrientation.a */,
+				1BECBD45A58C4C63BF6D8611 /* libSplashScreen.a */,
+				6AB17111C5744F0896171EC0 /* libReact.a */,
+				095C5E03AC634A1A8F2B018B /* libyoga.a */,
+				6FCBC9EB322C4063A85C2391 /* libcxxreact.a */,
+				B245E2EC8A534999ACACC333 /* libjschelpers.a */,
+				1FAC840EADFB4B2A851D2049 /* libthird-party.a */,
+				B5FDE6B75FB049C3A934AB8E /* libdouble-conversion.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		868634791FDF8AC0006A908B /* Products */ = {
