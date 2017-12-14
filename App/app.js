@@ -7,6 +7,7 @@ import {
     StatusBar,
     View,
     BackAndroid,
+    BackHandler,
     Platform
 } from 'react-native';
 
@@ -25,14 +26,14 @@ class App extends Component<{}> {
     constructor(props) {
         super(props);
         this.renderScene = this.renderScene.bind(this);
-        this.onBackAndroid = this.onBackAndroid.bind(this);
+        this.onBackHandler = this.onBackHandler.bind(this);
     }
 
     componentWillMount() {
         Orientation.lockToPortrait();
         if (Platform.OS === 'android') {
             // Orientation.registerOnOrientationChanged();
-            BackAndroid.addEventListener('hardwareBackPress', this.onBackAndroid);
+            BackHandler.addEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
 
@@ -40,12 +41,12 @@ class App extends Component<{}> {
         // WeChat.registerApp('wxa106668d81b9dba8');
         setTimeout(() => {
             SplashScreen.hide();
-        }, 2000);
+        }, 1000);
     }
 
     componentWillUnmount() {
         if (Platform.OS === 'android') {
-            BackAndroid.removeEventListener('hardwareBackPress', this.onBackAndroid);
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
 
@@ -84,7 +85,7 @@ class App extends Component<{}> {
         );
     };
 
-    onBackAndroid() {
+    onBackHandler() {
         const routers = this.navigator.getCurrentRoutes();
         if (routers.length > 1) {
             this.navigator.pop();

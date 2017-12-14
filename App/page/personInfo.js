@@ -8,7 +8,6 @@ import {
     Text,
     WebView,
     StyleSheet,
-    BackAndroid,
     BackHandler
 } from 'react-native';
 
@@ -16,6 +15,7 @@ import HeaderBar from '../components/headerBar';
 import {getNavigator} from '../constant/router';
 import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
+import Toast from '../components/toast';
 
 class PersonInfo extends Component {
     constructor(props) {
@@ -27,11 +27,10 @@ class PersonInfo extends Component {
             isBackButtonEnable: false,
             isForwardButtonEnable: false
         };
-        console.log(this.props.url);
     }
 
     componentDidMount() {
-        BackHandler.addEventListener("webHardwareBackPress", ()=> {
+        BackHandler.addEventListener("hardwareBackPress", () => {
             try {
                 if (this.state.isBackButtonEnable) {
                     this.refs._webView.goBack();//返回上一个页面
@@ -45,7 +44,7 @@ class PersonInfo extends Component {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener("webHardwareBackPress");
+        BackHandler.removeEventListener("hardwareBackPress");
     }
 
     render() {
@@ -54,19 +53,21 @@ class PersonInfo extends Component {
                 <HeaderBar
                     title={this.state.title}
                     showLeftState={true}
-                    showRightState={false}
+                    showRightState={true}
+                    showRightImage={true}
                     leftItemTitle={''}
-                    leftImageSource={require('../image/close.png')}
-                    onPress={() => this.hidePersonInfo()}/>
+                    leftImageSource={require('../image/back.png')}
+                    rightImageSource={require('../image/close.png')}
+                    onPress={() => this.goBack()}
+                    onPressRight={() => this.hidePersonInfo()}/>
                 <WebView
-                    style={styles.webView}
                     ref="_webView"
+                    style={styles.webView}
                     source={{uri: this.state.url}}
                     automaticallyAdjustContentInsets={false}
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    mixedContentMode={'always'}
                     onNavigationStateChange={this._onNavigationStateChange.bind(this)}/>
             </View>
         )
@@ -77,6 +78,7 @@ class PersonInfo extends Component {
     };
 
     _onNavigationStateChange(navState) {
+        console.log(navState);
         this.setState({
             url: navState.url,
             // title: navState.title,
@@ -84,6 +86,16 @@ class PersonInfo extends Component {
             isBackButtonEnable: navState.canGoBack,
             isForwardButtonEnable: navState.canGoForward,
         })
+    }
+
+    goBack = () => {
+        if (this.state.isBackButtonEnable) {
+            this.refs._webView.goBack();//返回上一个页面
+            return true;//true 系统不再处理 false交给系统处理
+        } else {
+            Toast.show('当前已是第一页');
+            return false;
+        }
     }
 }
 

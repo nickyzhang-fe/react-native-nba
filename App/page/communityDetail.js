@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: CommonStyle.BLACK,
         marginTop: 12,
-        marginBottom: 4
+        marginBottom: 2
     },
     title_time: {
         fontSize: 14,
