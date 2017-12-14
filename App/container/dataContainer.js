@@ -43,14 +43,13 @@ class DataContainer extends Component {
                     leftImageSource={require('../image/menu_person.png')}
                     onPressRight={() => this.showPersonInfo(GITHUB)}
                     onPress={() => this.showPersonInfo(BLOG)}/>
-
                 <View style={styles.container}>
                     <ScrollableTabView
-                        style={[styles.container]}
+                        style={styles.container}
                         locked={false}
                         tabBarPosition={'top'}
                         initialPage={0}
-                        prerenderingSiblingsNumber={4}
+                        prerenderingSiblingsNumber={1}
                         tabBarBackgroundColor={CommonStyle.THEME}
                         tabBarActiveTextColor={CommonStyle.WHITE}
                         tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}
