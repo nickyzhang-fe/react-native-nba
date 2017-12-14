@@ -47,6 +47,8 @@ class DataContainer extends Component {
                     tabBarPosition={'top'}
                     overlayTop={true}
                     initialPage={0}
+                    scrollWithoutAnimation={true}
+                    prerenderingSiblingsNumber={4}
                     tabBarBackgroundColor={CommonStyle.THEME}
                     tabBarActiveTextColor={CommonStyle.WHITE}
                     tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}

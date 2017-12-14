@@ -61,7 +61,7 @@ class NewsContainer extends Component {
             <TouchableOpacity onPress={() => this.goNewsDetail(item)}>
                 <View style={styles.item}>
                     <Image style={styles.image} source={{uri: cover_map.imgurl.replace('http', 'https')}}/>
-                    <View><Text style={styles.title}>{cover_map.title}</Text></View>
+                    <View><Text style={styles.title} numberOfLines={1}>{cover_map.title}</Text></View>
                     <View style={styles.bottom}>
                         <Text style={styles.subTitle}>{cover_map.pub_time_new}</Text>
                         <Text style={styles.subTitle}>{cover_map.source}</Text>

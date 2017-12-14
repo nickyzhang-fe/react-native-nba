@@ -29,22 +29,22 @@ class PersonInfo extends Component {
         };
     }
 
-    componentDidMount() {
-        BackHandler.addEventListener("hardwareBackPress", () => {
-            try {
-                if (this.state.isBackButtonEnable) {
-                    this.refs._webView.goBack();//返回上一个页面
-                    return true;//true 系统不再处理 false交给系统处理
-                }
-            } catch (error) {
-                return false;
-            }
-            return false;
-        })
+    componentWillMount() {
+        // BackHandler.addEventListener("hardwareBackPress", () => {
+        //     try {
+        //         if (this.state.isBackButtonEnable) {
+        //             this.refs.webview.goBack();//返回上一个页面
+        //             return true;//true 系统不再处理 false交给系统处理
+        //         }
+        //     } catch (error) {
+        //         return false;
+        //     }
+        //     return false;
+        // })
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener("hardwareBackPress");
+        // BackHandler.removeEventListener("hardwareBackPress");
     }
 
     render() {
@@ -61,8 +61,8 @@ class PersonInfo extends Component {
                     onPress={() => this.goBack()}
                     onPressRight={() => this.hidePersonInfo()}/>
                 <WebView
-                    ref="_webView"
-                    style={styles.webView}
+                    ref="webView"
+                    style={styles.webview}
                     source={{uri: this.state.url}}
                     automaticallyAdjustContentInsets={false}
                     javaScriptEnabled={true}
@@ -78,22 +78,22 @@ class PersonInfo extends Component {
     };
 
     _onNavigationStateChange(navState) {
-        console.log(navState);
+
         this.setState({
             url: navState.url,
             // title: navState.title,
             loading: navState.loading,
             isBackButtonEnable: navState.canGoBack,
-            isForwardButtonEnable: navState.canGoForward,
+            isForwardButtonEnable: navState.canGoForward
         })
     }
 
     goBack = () => {
         if (this.state.isBackButtonEnable) {
-            this.refs._webView.goBack();//返回上一个页面
+            this.refs.webview.goBack();//返回上一个页面
             return true;//true 系统不再处理 false交给系统处理
         } else {
-            Toast.show('当前已是第一页');
+            this.hidePersonInfo();
             return false;
         }
     }
