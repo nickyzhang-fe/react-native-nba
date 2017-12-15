@@ -58,46 +58,29 @@ class GameDetail extends Component {
                 {
                     this.renderBaseInfo(baseInfo)
                 }
-                <FlatList
-                    data={this.state.matchList}
-                    dataExtra={this.state}
-                    renderItem={(item, index) => this.renderMatchDetail(item, index)}
-                    onRefresh={() => this.getGameDetailIds()}
-                    onEndReached={() => this.getGameDetailMore()}
-                    onEndReachedThreshold={0.1}
-                    initialNumToRender={10}
-                    keyExtractor={(item) => this._keyExtractor(item)}
-                    refreshing={this.state.isRefreshing}/>
+                {
+                    !CommonUtil.isEmpty(detail) ?
+                        <FlatList
+                            data={this.state.matchList}
+                            dataExtra={this.state.matchList}
+                            renderItem={(item, index) => this.renderMatchDetail(item, index)}
+                            onRefresh={() => this.getGameDetailIds()}
+                            onEndReached={() => this.loadMore()}
+                            onEndReachedThreshold={0.1}
+                            initialNumToRender={10}
+                            keyExtractor={(item) => this._keyExtractor(item)}
+                            refreshing={this.state.isRefreshing}/>:
+                        <View/>
+                }
+
             </View>
         )
     }
 
-// {
-//     CommonUtil.isEmpty(detail) ? <View/> :
-// <FlatList
-// data={this.state.matchList}
-// dataExtra={this.state}
-// renderItem={(item, index) => this.renderMatchDetail(item, index)}
-// onRefresh={() => this.getGameDetailIds()}
-// onEndReached={() => this.getGameDetailMore()}
-// onEndReachedThreshold={0.1}
-// initialNumToRender={10}
-// keyExtractor={(item) => this._keyExtractor(item)}
-// refreshing={this.state.isRefreshing}/>
-// }
-
-// <View>
-// {
-//     this.state.matchPeriod === '2' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
-//         (this.state.matchPeriod === '1' ? (detail.map((item, index) => this.renderMatchDetail(item, index))) :
-//             ((detail.map((item, index) => this.renderMatchDetail(item, index)))))
-// }
-// </View>
-
     _keyExtractor = (item, index) => index;
 
     _getItemLayout = (item, index) => (
-        {length: 300, offset: 300 * index, index}
+        {length: 100, offset: 100 * index, index}
     );
 
     renderBaseInfo = (baseInfo) => {
@@ -221,12 +204,15 @@ class GameDetail extends Component {
         NetUtil.get(url, function (res) {
             that.setState({
                 ids: res.data.index
+            }, function () {
+
             });
             that.getGameDetail()
         })
     };
 
     getGameDetail = () => {
+        console.log(`times`);
         let that = this;
         let ids = '';
         let tempArray = [];
@@ -235,6 +221,10 @@ class GameDetail extends Component {
                 ids += that.state.ids[i] + ',';
             }
         }
+        that.setState({
+            isRefreshing: true,
+            gamePage: 1
+        });
         let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
@@ -246,15 +236,22 @@ class GameDetail extends Component {
             that.setState({
                 matchList: tempArray,
                 isRefreshing: false,
-                gamePage: 1
+                gamePage: 2
+            }, function () {
+                console.log(`refresh ${that.state.gamePage}`)
             })
         })
     };
 
-    getGameDetailMore = () => {
+    loadMore = () => {
+        console.log(`加载更多`);
         let that = this;
         let ids = '';
         let tempArray = [];
+        if (that.state.gamePage <= 1){
+            console.log(that.state.gamePage);
+            return;
+        }
         for (let i = 20 * (that.state.gamePage - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.gamePage - 1)) {
                 ids += that.state.ids[i] + ',';
@@ -265,6 +262,7 @@ class GameDetail extends Component {
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
             '&ids=' + ids;
         NetUtil.get(url, function (res) {
+            console.log(res.data);
             for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);
             }
@@ -273,7 +271,7 @@ class GameDetail extends Component {
                 isRefreshing: false,
                 gamePage: that.state.gamePage + 1
             }, function () {
-                console.log(that.state.gamePage)
+                console.log(`that.state.gamePage ${that.state.gamePage}`)
             });
         })
     }
