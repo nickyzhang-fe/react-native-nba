@@ -49,7 +49,7 @@ class DataContainer extends Component {
                         locked={false}
                         tabBarPosition={'top'}
                         initialPage={0}
-                        prerenderingSiblingsNumber={1}
+                        prerenderingSiblingsNumber={4}
                         tabBarBackgroundColor={CommonStyle.THEME}
                         tabBarActiveTextColor={CommonStyle.WHITE}
                         tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}

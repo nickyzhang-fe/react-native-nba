@@ -65,7 +65,7 @@ class GameDetail extends Component {
                     onRefresh={() => this.getGameDetailIds()}
                     onEndReached={() => this.getGameDetailMore()}
                     onEndReachedThreshold={0.1}
-                    initialNumToRender={5}
+                    initialNumToRender={10}
                     keyExtractor={(item) => this._keyExtractor(item)}
                     refreshing={this.state.isRefreshing}/>
             </View>
@@ -137,7 +137,7 @@ class GameDetail extends Component {
 
     renderMatchDetail = (ids, index) => {
         let item = ids.item;
-        console.log(ids.index);
+        // console.log(`render ${ids.index}`);
         return (
             <View key={ids.index} style={styles.itemBottom}>
                 {
@@ -215,11 +215,6 @@ class GameDetail extends Component {
 
     getGameDetailIds = () => {
         let that = this;
-        that.setState({
-            isRefreshing: true,
-            gamePage: 1,
-            matchList: []
-        });
         let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '
             + '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
@@ -235,8 +230,8 @@ class GameDetail extends Component {
         let that = this;
         let ids = '';
         let tempArray = [];
-        for (let i = 20 * (that.state.gamePage - 1); i <= that.state.ids.length - 1; i++) {
-            if (i <= (20 * that.state.gamePage - 1)) {
+        for (let i = 0; i <= that.state.ids.length - 1; i++) {
+            if (i <= 19) {
                 ids += that.state.ids[i] + ',';
             }
         }
@@ -250,7 +245,8 @@ class GameDetail extends Component {
             }
             that.setState({
                 matchList: tempArray,
-                isRefreshing: false
+                isRefreshing: false,
+                gamePage: 1
             })
         })
     };
@@ -259,18 +255,11 @@ class GameDetail extends Component {
         let that = this;
         let ids = '';
         let tempArray = [];
-        console.log(that.state.gamePage);
-        that.setState({
-            isRefreshing: true,
-            gamePage: that.state.gamePage++
-        });
-        console.log(that.state.gamePage);
         for (let i = 20 * (that.state.gamePage - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.gamePage - 1)) {
                 ids += that.state.ids[i] + ',';
             }
         }
-        console.log(ids);
         let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
@@ -281,9 +270,11 @@ class GameDetail extends Component {
             }
             that.setState({
                 matchList: that.state.matchList.concat(tempArray),
-                isRefreshing: false
+                isRefreshing: false,
+                gamePage: that.state.gamePage + 1
+            }, function () {
+                console.log(that.state.gamePage)
             });
-            console.log(that.state.gamePage)
         })
     }
 }
