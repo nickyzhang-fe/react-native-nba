@@ -45,7 +45,10 @@ FlatList.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.DARK_RED,
+        height: CommonUtil.getScreenHeight() - 64,
+        width: CommonUtil.getScreenWidth()
     }
 });
 
