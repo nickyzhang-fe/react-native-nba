@@ -67,7 +67,7 @@ class GameDetail extends Component {
                             onRefresh={() => this.getGameDetailIds()}
                             onEndReached={() => this.loadMore()}
                             onEndReachedThreshold={0.1}
-                            initialNumToRender={0}
+                            initialNumToRender={20}
                             keyExtractor={(item) => this._keyExtractor(item)}
                             refreshing={this.state.isRefreshing}/> :
                         <View/>
@@ -76,7 +76,7 @@ class GameDetail extends Component {
         )
     }
 
-    _keyExtractor = (item, index) => index;
+    _keyExtractor = (item, index) => JSON.stringify(item);
 
     _getItemLayout = (item, index) => (
         {length: 100, offset: 100 * index, index}
@@ -119,7 +119,6 @@ class GameDetail extends Component {
 
     renderMatchDetail = (ids, index) => {
         let item = ids.item;
-        // console.log(`render ${ids.index}`);
         return (
             <View key={ids.index} style={styles.itemBottom}>
                 {
@@ -223,7 +222,7 @@ class GameDetail extends Component {
         let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
             '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
             '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
-            '&ids=' + ids;
+            '&ids=' + ids.substring(0, ids.length - 1);
         NetUtil.get(url, function (res) {
             for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);
