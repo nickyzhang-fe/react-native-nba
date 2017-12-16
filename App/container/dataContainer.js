@@ -33,19 +33,21 @@ class DataContainer extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HeaderBar
-                    title="数据"
-                    showLeftState={true}
-                    showRightState={true}
-                    showRightImage={true}
-                    leftItemTitle={''}
-                    rightImageSource={require('../image/person/github.png')}
-                    leftImageSource={require('../image/menu_person.png')}
-                    onPressRight={() => this.showPersonInfo(GITHUB)}
-                    onPress={() => this.showPersonInfo(BLOG)}/>
+                <View>
+                    <HeaderBar
+                        title="数据"
+                        showLeftState={true}
+                        showRightState={true}
+                        showRightImage={true}
+                        leftItemTitle={''}
+                        rightImageSource={require('../image/person/github.png')}
+                        leftImageSource={require('../image/menu_person.png')}
+                        onPressRight={() => this.showPersonInfo(GITHUB)}
+                        onPress={() => this.showPersonInfo(BLOG)}/>
+                </View>
+
                 <View style={styles.container}>
                     <ScrollableTabView
-                        style={styles.container}
                         locked={false}
                         tabBarPosition={'top'}
                         initialPage={0}
@@ -55,7 +57,6 @@ class DataContainer extends Component {
                         tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}
                         tabBarInactiveTextColor={CommonStyle.TEXT_GRAY_COLOR}
                         renderTabBar={() => <DefaultTabBar/>}>
-
                         <RankItem tabLabel="球队排行"/>
                         <RankItem tabLabel="日榜"/>
                         <RankItem tabLabel="球员榜"/>

@@ -204,8 +204,9 @@ class GameDetail extends Component {
             that.setState({
                 ids: res.data.index,
                 gamePage: 1
+            }, function () {
+                that.getGameDetail()
             });
-            that.getGameDetail()
         })
     };
 

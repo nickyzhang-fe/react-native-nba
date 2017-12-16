@@ -31,14 +31,13 @@ class RankItem extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Text>{'西部'}</Text>
                 <Text>{'东部'}</Text>
             </View>
         )
     }
 }
-
 
 FlatList.propTypes = {
     item: PropType.object

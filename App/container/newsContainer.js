@@ -25,7 +25,7 @@ class NewsContainer extends Component {
             dataSource: [],
             isRefreshing: false,
             ids: [],
-            page: 0
+            page: 1
         };
     }
 
@@ -58,7 +58,7 @@ class NewsContainer extends Component {
     renderItemView = (item) => {
         const {cover_map} = item.item;
         return (
-            <TouchableOpacity onPress={() => this.goNewsDetail(item)}>
+            <TouchableOpacity onPress={() => this.goNewsDetail(item)} key={cover_map.newsId} activeOpacity={1}>
                 <View style={styles.item}>
                     <Image style={styles.image} source={{uri: cover_map.imgurl.replace('http', 'https')}}/>
                     <View><Text style={styles.title} numberOfLines={1}>{cover_map.title}</Text></View>
@@ -93,10 +93,10 @@ class NewsContainer extends Component {
         let that = this;
         let ids = '';
         let tempArray = [];
-        that.setState({
-            isRefreshing: true,
-            page: 1
-        });
+        // that.setState({
+        //     isRefreshing: true,
+        //     page: 1
+        // });
         for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.page - 1)) {
                 ids += that.state.ids[i].id + ',';
@@ -111,7 +111,8 @@ class NewsContainer extends Component {
             }
             that.setState({
                 dataSource: tempArray,
-                isRefreshing: false
+                isRefreshing: false,
+                page: 2
             })
         })
     };
@@ -120,10 +121,6 @@ class NewsContainer extends Component {
         let that = this;
         let ids = '';
         let tempArray = [];
-        that.setState({
-            isRefreshing: true,
-            page: that.state.page++
-        });
         for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.page - 1)) {
                 ids += that.state.ids[i].id + ',';
@@ -138,7 +135,8 @@ class NewsContainer extends Component {
             }
             that.setState({
                 dataSource: that.state.dataSource.concat(tempArray),
-                isRefreshing: false
+                isRefreshing: false,
+                page: that.state.page + 1
             })
         })
     };

@@ -23,7 +23,6 @@ import Global from '../constant/global';
 class ForumTeam extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.team);
         this.state = {
             dataSource: [],
             isRefreshing: false,
@@ -63,7 +62,6 @@ class ForumTeam extends Component {
     }
 
     _renderItemView = (item) => {
-        let that = this;
         return (
             <CommunityItem
                 item={item}
@@ -119,7 +117,6 @@ class ForumTeam extends Component {
             id: item.item.id
         })
     }
-
 }
 
 const styles = StyleSheet.create({
