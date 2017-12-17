@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         fontWeight: '400'
     },
     forumItem: {
-        height: CommonUtil.getScreenWidth() / 5,
+        height: CommonUtil.getScreenWidth() / 4 ,
         width: CommonUtil.getScreenWidth() / 4,
         justifyContent: 'center',
         alignItems: 'center',

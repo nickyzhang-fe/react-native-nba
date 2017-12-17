@@ -18,6 +18,7 @@ import {getRouteMap, registerNavigator} from './constant/router';
 import * as Orientation from "react-native-orientation";
 import Toast from './components/toast';
 import SplashScreen from 'react-native-splash-screen';
+import CommonStyle from './style/commonStyle'
 // import * as WeChat from 'react-native-wechat';
 
 let lastClickTime = 0;
@@ -103,11 +104,12 @@ class App extends Component<{}> {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.WHITE
     },
     navigator: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: CommonStyle.WHITE
     }
 });
 

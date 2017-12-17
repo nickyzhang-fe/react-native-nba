@@ -59,10 +59,8 @@ class DataContainer extends Component {
                         onPressRight={() => this.showPersonInfo(GITHUB)}
                         onPress={() => this.showPersonInfo(BLOG)}/>
                 </View>
-
                 <View style={styles.container}>
                     <ScrollableTabView
-                        style={styles.content}
                         locked={false}
                         tabBarPosition={'top'}
                         prerenderingSiblingsNumber={4}
