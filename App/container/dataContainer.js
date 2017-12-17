@@ -63,16 +63,15 @@ class DataContainer extends Component {
                                 textStyle={styles.tabText}
                             />
                         )}>
-                        <RankItem key={1} tabLabel="球队排行" style={styles.subView}/>
-                        <RankItem key={2} tabLabel="日榜" style={styles.subView}/>
-                        <RankItem key={3} tabLabel="球员榜" style={styles.subView}/>
-                        <RankItem key={4} tabLabel="球队榜" style={styles.subView}/>
+                        <RankItem tabLabel="球队排行"/>
+                        <RankItem tabLabel="日榜"/>
+                        <RankItem tabLabel="球员榜"/>
+                        <RankItem tabLabel="球队榜"/>
                     </ScrollableTabView>
                 </View>
             </View>
         )
     }
-
 
     showPersonInfo = (url) => {
         getNavigator().push({
@@ -92,7 +91,8 @@ const styles = StyleSheet.create({
         height: CommonUtil.getScreenHeight() - 64
     },
     subView: {
-        flex: 1
+        flex: 1,
+        backgroundColor: CommonStyle.THEME
     },
     tab: {
         paddingBottom: 0

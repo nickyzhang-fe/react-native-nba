@@ -143,7 +143,6 @@ class GameContainer extends Component {
             'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + this.state.currentTime;
         // let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
         NetUtil.get(url, function (res) {
-            console.log(res.data.matches);
             that.setState({
                 dataListSource: that.state.dataListSource.cloneWithRows(res.data.matches),
                 pageNum: 5

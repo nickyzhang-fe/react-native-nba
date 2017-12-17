@@ -136,7 +136,6 @@ class CommunityDetail extends Component {
         let url = Global.TEN_SHE_QU_URL + '/reply/listCite?tid=' + that.state.id +
             '&page=' + this.state.page + '&listType=allWithElite&count=' +
             this.state.pageSize + '&sort=asc&he=&_=1510497824444';
-        console.log(url);
         NetUtil.get(url, function (res) {
             that.setState({
                 topic: res.data.topic,
