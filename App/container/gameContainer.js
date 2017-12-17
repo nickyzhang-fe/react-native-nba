@@ -68,8 +68,6 @@ class GameContainer extends Component {
 // onChangePage={this.onChangePage.bind(this)}/>
 
     _renderPage(data, pageId) {
-        console.log(data);
-        console.log(pageId);
         return (
             <ListView
                 style={styleSheet.listView}
@@ -141,13 +139,11 @@ class GameContainer extends Component {
         let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
             'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
             'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + this.state.currentTime;
-        // let url = 'https://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=' + this.state.startTime + '&endTime=' + this.state.endTime + '&_=1510492775658';
         NetUtil.get(url, function (res) {
             that.setState({
                 dataListSource: that.state.dataListSource.cloneWithRows(res.data.matches),
                 pageNum: 5
             });
-            // that.goPager(that.state.pageNum);
         })
     };
 

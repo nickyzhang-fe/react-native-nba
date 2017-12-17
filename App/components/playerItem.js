@@ -18,6 +18,7 @@ import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
 import HeaderBar from '../components/headerBar';
 import NetUtil from '../util/netUtil';
+import {getNavigator} from '../constant/router';
 
 class PlayerItem extends Component {
     constructor(props) {
@@ -27,11 +28,18 @@ class PlayerItem extends Component {
             rebound: [],
             assist: [],
             block: [],
-            steal: []
-        }
+            steal: [],
+            type: this.props.type
+        };
     };
+
+    componentDidMount() {
+
+    }
+
     render() {
-        const {point, rebound, assist, block, steal} = this.props.item;
+        const {point, rebound, assist, block, steal, oppPoints} = this.props.item;
+        const {type} = this.props.type;
         if (CommonUtil.isEmpty(point)){
             return (<View/>);
         }
@@ -39,7 +47,9 @@ class PlayerItem extends Component {
             <ScrollView style={styles.container}>
                 <View style={styles.playerItemTop}>
                     <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'得分'}</Text>
-                    <Image style={styles.img} source={require('../image/go.png')}/>
+                    <TouchableOpacity  onPress={() => this.goDetail()} activeOpacity={1}>
+                        <Image style={styles.img} source={require('../image/go.png')}/>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.playerItemBottom}>
                     {
@@ -82,6 +92,21 @@ class PlayerItem extends Component {
                         steal.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
+                {
+                    this.props.type === 3 ?
+                        <View>
+                            <View style={styles.playerItemTop}>
+                                <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'失分'}</Text>
+                                <Image style={styles.img} source={require('../image/go.png')}/>
+                            </View>
+                            <View style={styles.playerItemBottom}>
+                                {
+                                    oppPoints.map((item, index) => this.renderItem(item, index))
+                                }
+                            </View>
+                        </View>:
+                        <View/>
+                }
             </ScrollView>
         )
     }
@@ -96,10 +121,20 @@ class PlayerItem extends Component {
             </View>
         )
     };
+
+    goDetail = () => {
+        console.log(this.state.type);
+        if (this.state.type === 2){
+            getNavigator().push({
+                name: 'RankDetail'
+            })
+        }
+    }
 }
 
 FlatList.propTypes = {
-    item: PropType.object
+    item: PropType.object,
+    type: PropType.number
 };
 
 const styles = StyleSheet.create({

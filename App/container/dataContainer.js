@@ -78,9 +78,9 @@ class DataContainer extends Component {
                             />
                         )}>
                         <RankItem tabLabel="球队排行"/>
-                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily}/>
-                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll}/>
-                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll}/>
+                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily} type={1}/>
+                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll} type={2}/>
+                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll} type={3}/>
                     </ScrollableTabView>
                 </View>
             </View>
