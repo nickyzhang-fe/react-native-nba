@@ -5,7 +5,8 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    InteractionManager
 } from 'react-native';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 import HeaderBar from '../components/headerBar';
@@ -14,6 +15,8 @@ import CommonUtil from '../util/commonUtil';
 import CommonStyle from '../style/commonStyle';
 import Global from '../constant/global';
 import RankItem from '../components/rankItem';
+import PlayerItem from '../components/playerItem';
+import NetUtil from '../util/netUtil';
 
 const BLOG = {
     url: Global.BLOG_URL,
@@ -28,6 +31,17 @@ const GITHUB = {
 class DataContainer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            playerDaily: {},
+            playerAll: {},
+            teamAll: {}
+        }
+    }
+
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => this.getPlayerDaily());
+        InteractionManager.runAfterInteractions(this.getPlayerAll());
+        InteractionManager.runAfterInteractions(this.getTeamAll())
     }
 
     render() {
@@ -64,9 +78,9 @@ class DataContainer extends Component {
                             />
                         )}>
                         <RankItem tabLabel="球队排行"/>
-                        <RankItem tabLabel="日榜"/>
-                        <RankItem tabLabel="球员榜"/>
-                        <RankItem tabLabel="球队榜"/>
+                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily}/>
+                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll}/>
+                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll}/>
                     </ScrollableTabView>
                 </View>
             </View>
@@ -77,6 +91,45 @@ class DataContainer extends Component {
         getNavigator().push({
             name: 'PersonInfo',
             url: url
+        })
+    };
+
+    getPlayerDaily =() => {
+        let that = this;
+        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
+        '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
+        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
+        'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=1&seasonId=2017';
+        NetUtil.get(url, function (res) {
+            that.setState({
+                playerDaily: res.data
+            })
+        })
+    };
+
+    getPlayerAll = () => {
+        let that = this;
+        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
+        '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
+        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
+        'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=3&seasonId=2017';
+        NetUtil.get(url, function (res) {
+            that.setState({
+                playerAll: res.data
+            })
+        })
+    };
+
+    getTeamAll = () =>{
+        let that = this;
+        let url = 'http://sportsnba.qq.com/team/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
+            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
+        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
+        'point%2Crebound%2Cassist%2Cblock%2Csteal%2CoppPoints&num=3&tabType=3&seasonId=2017';
+        NetUtil.get(url, function (res) {
+            that.setState({
+                teamAll: res.data
+            })
         })
     }
 }
