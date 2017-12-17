@@ -90,7 +90,7 @@ class PlayerItem extends Component {
         return(
             <View style={styles.playerItemBottomItem} key={index}>
                     <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
-                    <Image style={styles.icon} source={{uri: item.playerIcon}}/>
+                    <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
                     <Text numberOfLines={1}>{item.playerName}</Text>
                     <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
             </View>
