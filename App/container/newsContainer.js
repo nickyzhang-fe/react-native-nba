@@ -1,7 +1,7 @@
 /**
  * Created by Cral-Gates on 2017/11/14.
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
     View,
     Text,
@@ -18,7 +18,7 @@ import NetUtil from '../util/netUtil';
 import Global from '../constant/global';
 import {getNavigator} from '../constant/router';
 
-class NewsContainer extends Component {
+class NewsContainer extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

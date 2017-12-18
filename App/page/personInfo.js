@@ -68,10 +68,11 @@ class PersonInfo extends Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
-                    />
+                    onNavigationStateChange={this._onNavigationStateChange.bind(this)}/>
             </View>
         )
     }
+
     // onNavigationStateChange={this._onNavigationStateChange.bind(this)}
     hidePersonInfo = () => {
         getNavigator().pop();
@@ -94,7 +95,6 @@ class PersonInfo extends Component {
             return true;//true 系统不再处理 false交给系统处理
         } else {
             this.hidePersonInfo();
-            return false;
         }
     }
 }

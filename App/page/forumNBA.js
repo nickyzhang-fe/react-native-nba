@@ -1,7 +1,7 @@
 /**
  * Created by Cral-Gates on 2017/11/14.
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
     View,
     Text,
@@ -20,7 +20,7 @@ import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
 
 
-class ForumNBA extends Component {
+class ForumNBA extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -79,7 +79,6 @@ class ForumNBA extends Component {
         });
         let url = Global.TEN_SHE_QU_URL + '/module/timeLineAsGroup?lastId=0&count=20&gid=17&_=1510496938551';
         NetUtil.get(url, function (res) {
-            console.log(res.data.list);
             that.setState({
                 dataSource: res.data.list,
                 lastId: res.data.lastId,

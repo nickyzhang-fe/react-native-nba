@@ -1,7 +1,7 @@
 /**
  * Created by Cral-Gates on 2017/11/14.
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
     View,
     Text,
@@ -20,7 +20,7 @@ import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
 
 
-class ForumTeam extends Component {
+class ForumTeam extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

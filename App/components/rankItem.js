@@ -65,7 +65,7 @@ class RankItem extends Component {
             <View style={styles.rankItem} key={index}>
                 <View style={[styles.rankLeft, {width: '36%'}]}>
                     <Text style={[styles.rankIndex, styles.rankTitleFW, {color:(index <= 7 ? '#ff0000' : '#000000')}]}>{index+1}</Text>
-                    <Image style={styles.rankImg} source={{uri: item[0].badge}}/>
+                    <Image style={styles.rankImg} source={{uri: item[0].badge.replace('http', 'https')}}/>
                     <Text style={[styles.rankName, styles.rankTitleFW]}>{item[0].name}</Text>
                 </View>
                 <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{`${item[1]} - ${item[2]}`}</Text>

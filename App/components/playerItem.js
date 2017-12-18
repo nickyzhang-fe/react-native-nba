@@ -40,14 +40,14 @@ class PlayerItem extends Component {
     render() {
         const {point, rebound, assist, block, steal, oppPoints} = this.props.item;
         const {type} = this.props.type;
-        if (CommonUtil.isEmpty(point)){
+        if (CommonUtil.isEmpty(point)) {
             return (<View/>);
         }
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.playerItemTop}>
                     <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'得分'}</Text>
-                    <TouchableOpacity  onPress={() => this.goDetail()} activeOpacity={1}>
+                    <TouchableOpacity onPress={() => this.goDetail()} activeOpacity={1}>
                         <Image style={styles.img} source={require('../image/go.png')}/>
                     </TouchableOpacity>
                 </View>
@@ -104,7 +104,7 @@ class PlayerItem extends Component {
                                     oppPoints.map((item, index) => this.renderItem(item, index))
                                 }
                             </View>
-                        </View>:
+                        </View> :
                         <View/>
                 }
             </ScrollView>
@@ -112,19 +112,20 @@ class PlayerItem extends Component {
     }
 
     renderItem = (item, index) => {
-        return(
+        return (
             <View style={styles.playerItemBottomItem} key={index}>
-                    <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
-                    <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
-                    <Text numberOfLines={1}>{item.playerName}</Text>
-                    <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
+                <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
+                <Image style={styles.icon}
+                       source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo.replace('http', 'https') : item.playerIcon}}/>
+                <Text numberOfLines={1}>{item.playerName}</Text>
+                <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
             </View>
         )
     };
 
     goDetail = () => {
         console.log(this.state.type);
-        if (this.state.type === 2){
+        if (this.state.type === 2) {
             getNavigator().push({
                 name: 'RankDetail'
             })
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
         borderBottomColor: CommonStyle.GRAY_COLOR
     },
     playerItemBottomItem: {
-        width: CommonUtil.getScreenWidth()/3,
+        width: CommonUtil.getScreenWidth() / 3,
         height: 150,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
     icon: {
         height: 66,
         width: 66,
-        backgroundColor: CommonStyle.GRAY_COLOR,
+        // backgroundColor: CommonStyle.GRAY_COLOR,
         borderRadius: 33,
         marginVertical: 5
     }
