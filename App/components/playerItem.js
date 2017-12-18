@@ -141,8 +141,7 @@ FlatList.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: CommonUtil.getScreenHeight() - 64,
-        width: CommonUtil.getScreenWidth()
+        backgroundColor: CommonStyle.DARK_RED
     },
     playerItem: {
         width: CommonUtil.getScreenWidth(),
@@ -179,7 +178,6 @@ const styles = StyleSheet.create({
     icon: {
         height: 66,
         width: 66,
-        // backgroundColor: CommonStyle.GRAY_COLOR,
         borderRadius: 33,
         marginVertical: 5
     }

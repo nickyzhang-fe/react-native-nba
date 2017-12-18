@@ -96,9 +96,7 @@ FlatList.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        height: CommonUtil.getScreenHeight() - 64,
-        width: CommonUtil.getScreenWidth()
+        flex: 1
     },
     rankItem: {
         flexDirection: 'row',

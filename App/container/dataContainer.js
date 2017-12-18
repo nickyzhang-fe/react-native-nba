@@ -46,7 +46,7 @@ class DataContainer extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={{flex: 1}}>
                 <View>
                     <HeaderBar
                         title="数据"
@@ -59,8 +59,9 @@ class DataContainer extends Component {
                         onPressRight={() => this.showPersonInfo(GITHUB)}
                         onPress={() => this.showPersonInfo(BLOG)}/>
                 </View>
-                <View style={styles.container}>
+                <View style={{flex: 1}}>
                     <ScrollableTabView
+                        style={styles.content}
                         locked={false}
                         tabBarPosition={'top'}
                         prerenderingSiblingsNumber={4}
@@ -75,10 +76,10 @@ class DataContainer extends Component {
                                 textStyle={styles.tabText}
                             />
                         )}>
-                        <RankItem tabLabel="球队排行"/>
-                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily} type={1}/>
-                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll} type={2}/>
-                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll} type={3}/>
+                        <RankItem tabLabel="球队排行" style={{flex: 1}}/>
+                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily} type={1} style={{flex: 1}}/>
+                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll} type={2} style={{flex: 1}}/>
+                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll} type={3} style={{flex: 1}}/>
                     </ScrollableTabView>
                 </View>
             </View>
@@ -92,12 +93,12 @@ class DataContainer extends Component {
         })
     };
 
-    getPlayerDaily =() => {
+    getPlayerDaily = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
-        '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
-        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
-        'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=1&seasonId=2017';
+        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType=' +
+            'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=1&seasonId=2017';
         NetUtil.get(url, function (res) {
             that.setState({
                 playerDaily: res.data
@@ -107,10 +108,10 @@ class DataContainer extends Component {
 
     getPlayerAll = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
-        '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
-        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
-        'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=3&seasonId=2017';
+        let url = 'http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType=' +
+            'point%2Crebound%2Cassist%2Cblock%2Csteal&num=3&tabType=3&seasonId=2017';
         NetUtil.get(url, function (res) {
             that.setState({
                 playerAll: res.data
@@ -118,12 +119,12 @@ class DataContainer extends Component {
         })
     };
 
-    getTeamAll = () =>{
+    getTeamAll = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/team/statsRank?appver=4.0.1&appvid=4.0.1&deviceId'+
-            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height'+
-        '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType='+
-        'point%2Crebound%2Cassist%2Cblock%2Csteal%2CoppPoints&num=3&tabType=3&seasonId=2017';
+        let url = 'http://sportsnba.qq.com/team/statsRank?appver=4.0.1&appvid=4.0.1&deviceId' +
+            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height' +
+            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType=' +
+            'point%2Crebound%2Cassist%2Cblock%2Csteal%2CoppPoints&num=3&tabType=3&seasonId=2017';
         NetUtil.get(url, function (res) {
             that.setState({
                 teamAll: res.data
