@@ -51,7 +51,7 @@ class PersonInfo extends Component {
         return (
             <View style={styles.container}>
                 <HeaderBar
-                    title={this.state.title}
+                    title={CommonUtil.isEmpty(this.state.title) ? '我的博客' : this.state.title}
                     showLeftState={true}
                     showRightState={true}
                     showRightImage={true}
@@ -68,12 +68,12 @@ class PersonInfo extends Component {
                     javaScriptEnabled={true}
                     domStorageEnabled={true}
                     startInLoadingState={true}
+                    mixedContentMode={'compatibility'}
                     onNavigationStateChange={this._onNavigationStateChange.bind(this)}/>
             </View>
         )
     }
 
-    // onNavigationStateChange={this._onNavigationStateChange.bind(this)}
     hidePersonInfo = () => {
         getNavigator().pop();
     };

@@ -90,7 +90,7 @@ class HeaderBar extends Component {
                             ?
                             <TouchableOpacity onPress={this.props.onPress}>
                                 <View style={styles.leftItem}>
-                                    <Image style={styles.nav_img} source={this.props.leftImageSource}></Image>
+                                    <Image style={styles.nav_img} source={this.props.leftImageSource}/>
                                     <Text style={styles.nav_text}>{this.props.leftItemTitle}</Text>
                                 </View>
                             </TouchableOpacity>
@@ -105,7 +105,7 @@ class HeaderBar extends Component {
                         {
                             rightItemState
                                 ? (showRightImage ?
-                                <Image style={styles.nav_img} source={this.props.rightImageSource}></Image>
+                                <Image style={styles.nav_img} source={this.props.rightImageSource}/>
                                 : <Text style={styles.nav_text}>{this.props.rightItemTitle}</Text>)
                                 : null
                         }
@@ -126,11 +126,13 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         backgroundColor: 'transparent',
+        alignItems: 'center'
     },
     textStyle: {
         fontSize: 20,
         color: commonStyle.WHITE,
-        textAlign: 'center'
+        textAlign: 'center',
+        width: '50%'
     },
     leftItem: {
         flexDirection: 'row',

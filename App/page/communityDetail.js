@@ -69,7 +69,7 @@ class CommunityDetail extends Component {
                     <View>
                         {
                             CommonUtil.isEmpty(eliteList) ?
-                                <View></View> :
+                                <View/> :
                                 <View>
                                     <View style={styles.commitTitle}>
                                         <View style={styles.commitTag}/>
