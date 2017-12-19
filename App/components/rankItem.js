@@ -18,6 +18,7 @@ import CommonUtil from '../util/commonUtil';
 import Global from '../constant/global';
 import HeaderBar from '../components/headerBar';
 import NetUtil from '../util/netUtil';
+import {getNavigator} from '../constant/router';
 
 class RankItem extends Component {
     constructor(props) {
@@ -37,7 +38,11 @@ class RankItem extends Component {
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.rankItem}>
-                    <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '36%', textAlign: 'left', paddingLeft: 25}]}>{'西部排行'}</Text>
+                    <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {
+                        width: '36%',
+                        textAlign: 'left',
+                        paddingLeft: 25
+                    }]}>{'西部排行'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜-负'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜场差'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜率'}</Text>
@@ -47,7 +52,11 @@ class RankItem extends Component {
                     (westList.map((item, index) => this.renderItem(item, index)))
                 }
                 <View style={styles.rankItem}>
-                    <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '36%', textAlign: 'left', paddingLeft: 25}]}>{'东部排行'}</Text>
+                    <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {
+                        width: '36%',
+                        textAlign: 'left',
+                        paddingLeft: 25
+                    }]}>{'东部排行'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜-负'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜场差'}</Text>
                     <Text style={[styles.rankTitleTxt, styles.rankTitleFW, {width: '16%'}]}>{'胜率'}</Text>
@@ -61,22 +70,25 @@ class RankItem extends Component {
     }
 
     renderItem = (item, index) => {
-        return(
-            <View style={styles.rankItem} key={index}>
-                <View style={[styles.rankLeft, {width: '36%'}]}>
-                    <Text style={[styles.rankIndex, styles.rankTitleFW, {color:(index <= 7 ? '#ff0000' : '#000000')}]}>{index+1}</Text>
-                    <Image style={styles.rankImg} source={{uri: item[0].badge.replace('http', 'https')}}/>
-                    <Text style={[styles.rankName, styles.rankTitleFW]}>{item[0].name}</Text>
+        return (
+            <TouchableOpacity onPress={() => this.goTeamDetail(item)} key={index} activeOpacity={1}>
+                <View style={styles.rankItem}>
+                    <View style={[styles.rankLeft, {width: '36%'}]}>
+                        <Text
+                            style={[styles.rankIndex, styles.rankTitleFW, {color: (index <= 7 ? '#ff0000' : '#000000')}]}>{index + 1}</Text>
+                        <Image style={styles.rankImg} source={{uri: item[0].badge.replace('http', 'https')}}/>
+                        <Text style={[styles.rankName, styles.rankTitleFW]}>{item[0].name}</Text>
+                    </View>
+                    <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{`${item[1]} - ${item[2]}`}</Text>
+                    <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[4]}</Text>
+                    <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[3]}</Text>
+                    <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[10]}</Text>
                 </View>
-                <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{`${item[1]} - ${item[2]}`}</Text>
-                <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[4]}</Text>
-                <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[3]}</Text>
-                <Text style={[styles.rankTitleTxt, {width: '16%'}]}>{item[10]}</Text>
-            </View>
+            </TouchableOpacity>
         )
     };
 
-    getRankList =() => {
+    getRankList = () => {
         let that = this;
         let url = `http://sportsnba.qq.com/team/rank?appver=4.0.1&appvid=4.0.1&deviceId=
                 09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
@@ -86,6 +98,13 @@ class RankItem extends Component {
                 eastList: res.data[0].rows,
                 westList: res.data[1].rows
             })
+        })
+    };
+
+    goTeamDetail = (item) => {
+        getNavigator().push({
+            name: 'TeamDetail',
+            teamInfo: item
         })
     }
 }

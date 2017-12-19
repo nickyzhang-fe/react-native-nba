@@ -9,6 +9,8 @@ import GameContainer from '../container/gameContainer';
 import GameDetail from '../page/gameDetail';
 import DataContainer from '../container/dataContainer';
 import RankDetail from '../page/rankDetail';
+import PlayerDetail from '../page/playerDetail';
+import TeamDetail from '../page/teamDetail';
 import CommunityContainer from '../container/communityContainer';
 import ForumNBA from '../page/forumNBA';
 import ForumTeam from '../page/forumTeam';
@@ -47,6 +49,14 @@ routeMap.set('DataContainer', {
 
 routeMap.set('RankDetail', {
     component: RankDetail
+});
+
+routeMap.set('PlayerDetail', {
+    component: PlayerDetail
+});
+
+routeMap.set('TeamDetail', {
+    component: TeamDetail
 });
 
 routeMap.set('CommunityContainer', {

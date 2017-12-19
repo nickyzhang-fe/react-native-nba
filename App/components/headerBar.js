@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     nav_text: {
-        fontSize: 16
+        fontSize: 16,
+        color: commonStyle.WHITE
     },
     nav_img: {
         flexDirection: 'row',
