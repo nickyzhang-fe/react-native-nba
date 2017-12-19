@@ -8,7 +8,7 @@ import {
     StyleSheet,
     InteractionManager
 } from 'react-native';
-import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {ScrollableTabBar, DefaultTabBar} from 'react-native-scrollable-tab-view';
 import HeaderBar from '../components/headerBar';
 import {getNavigator} from '../constant/router';
 import CommonUtil from '../util/commonUtil';
@@ -39,7 +39,7 @@ class DataContainer extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => this.getPlayerDaily());
+        InteractionManager.runAfterInteractions(this.getPlayerDaily());
         InteractionManager.runAfterInteractions(this.getPlayerAll());
         InteractionManager.runAfterInteractions(this.getTeamAll())
     }
@@ -47,21 +47,18 @@ class DataContainer extends Component {
     render() {
         return (
             <View style={{flex: 1}}>
-                <View>
-                    <HeaderBar
-                        title="数据"
-                        showLeftState={true}
-                        showRightState={true}
-                        showRightImage={true}
-                        leftItemTitle={''}
-                        rightImageSource={require('../image/person/github.png')}
-                        leftImageSource={require('../image/menu_person.png')}
-                        onPressRight={() => this.showPersonInfo(GITHUB)}
-                        onPress={() => this.showPersonInfo(BLOG)}/>
-                </View>
-                <View style={{flex: 1}}>
+                <HeaderBar
+                    title="数据"
+                    showLeftState={true}
+                    showRightState={true}
+                    showRightImage={true}
+                    leftItemTitle={''}
+                    rightImageSource={require('../image/person/github.png')}
+                    leftImageSource={require('../image/menu_person.png')}
+                    onPressRight={() => this.showPersonInfo(GITHUB)}
+                    onPress={() => this.showPersonInfo(BLOG)}/>
+                <View style={{flex:1}}>
                     <ScrollableTabView
-                        style={styles.content}
                         locked={false}
                         tabBarPosition={'top'}
                         prerenderingSiblingsNumber={4}
@@ -71,15 +68,15 @@ class DataContainer extends Component {
                         tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}
                         tabBarInactiveTextColor={CommonStyle.TEXT_GRAY_COLOR}
                         renderTabBar={() => (
-                            <ScrollableTabBar
+                            <DefaultTabBar
                                 tabStyle={styles.tab}
                                 textStyle={styles.tabText}
                             />
                         )}>
-                        <RankItem tabLabel="球队排行" style={{flex: 1}}/>
-                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily} type={1} style={{flex: 1}}/>
-                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll} type={2} style={{flex: 1}}/>
-                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll} type={3} style={{flex: 1}}/>
+                        <RankItem tabLabel="球队排行" style={{flex:1}}/>
+                        <PlayerItem tabLabel="日榜" item={this.state.playerDaily} type={1} style={{flex:1}}/>
+                        <PlayerItem tabLabel="球员榜" item={this.state.playerAll} type={2} style={{flex:1}}/>
+                        <PlayerItem tabLabel="球队榜" item={this.state.teamAll} type={3} style={{flex:1}}/>
                     </ScrollableTabView>
                 </View>
             </View>
@@ -138,9 +135,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     content: {
-        flex: 1,
-        width: CommonUtil.getScreenWidth(),
-        height: CommonUtil.getScreenHeight() - 64
+        // flex: 1,
+        // width: CommonUtil.getScreenWidth(),
+        // height: CommonUtil.getScreenHeight() - 100
     },
     subView: {
         flex: 1,

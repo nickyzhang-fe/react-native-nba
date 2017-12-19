@@ -41,7 +41,7 @@ class PlayerItem extends Component {
         const {point, rebound, assist, block, steal, oppPoints} = this.props.item;
         const {type} = this.props.type;
         if (CommonUtil.isEmpty(point)) {
-            return (<View/>);
+            return (<Text>{'test'}</Text>);
         }
         return (
             <ScrollView style={styles.container}>
@@ -141,7 +141,7 @@ FlatList.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: CommonStyle.DARK_RED
+        // backgroundColor: CommonStyle.DARK_RED
     },
     playerItem: {
         width: CommonUtil.getScreenWidth(),
