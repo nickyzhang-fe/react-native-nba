@@ -27,8 +27,8 @@ class TeamDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.teamInfo[0].name,
-            teamId: this.props.teamInfo[0].teamId,
+            title: CommonUtil.isEmpty(this.props.teamInfo.teamName) ? this.props.teamInfo[0].name : this.props.teamInfo.teamName,
+            teamId: CommonUtil.isEmpty(this.props.teamInfo.teamId) ? this.props.teamInfo[0].teamId : this.props.teamInfo.teamId,
             baseInfo: {},
             rankInfo: {},
             stats:{},

@@ -113,22 +113,37 @@ class PlayerItem extends Component {
 
     renderItem = (item, index) => {
         return (
-            <View style={styles.playerItemBottomItem} key={index}>
-                <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
-                <Image style={styles.icon}
-                       source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo.replace('http', 'https') : item.playerIcon}}/>
-                <Text numberOfLines={1}>{item.playerName}</Text>
-                <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
-            </View>
+            <TouchableOpacity onPress={() => this.goDetail(item)} activeOpacity={1} key={index}>
+                <View style={styles.playerItemBottomItem}>
+                    <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
+                    <Image style={styles.icon}
+                           source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo.replace('http', 'https') : item.playerIcon}}/>
+                    <Text numberOfLines={1}>{item.playerName}</Text>
+                    <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
+                </View>
+            </TouchableOpacity>
         )
     };
 
-    goDetail = () => {
-        console.log(this.state.type);
-        if (this.state.type === 2) {
-            getNavigator().push({
-                name: 'RankDetail'
-            })
+    goDetail = (item) => {
+        console.log(item);
+        switch (this.state.type) {
+            case 1:
+                getNavigator().push({
+                    name: 'PlayerDetail'
+                });
+                break;
+            case 2:
+                getNavigator().push({
+                    name: 'PlayerDetail'
+                });
+                break;
+            case 3:
+                getNavigator().push({
+                    name: 'TeamDetail',
+                    teamInfo: item
+                });
+                break;
         }
     }
 }
@@ -141,7 +156,6 @@ FlatList.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: CommonStyle.DARK_RED
     },
     playerItem: {
         width: CommonUtil.getScreenWidth(),
@@ -176,9 +190,9 @@ const styles = StyleSheet.create({
         width: 14
     },
     icon: {
-        height: 66,
-        width: 66,
-        borderRadius: 33,
+        height: 60,
+        width: 60,
+        borderRadius: 30,
         marginVertical: 5
     }
 });
