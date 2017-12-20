@@ -138,7 +138,7 @@ class TeamDetail extends Component {
 
     renderPlayer = (item, index) => {
         return (
-            <TouchableOpacity onPress={() => this.goPlayerDetail()} activeOpacity={1} key={index}>
+            <TouchableOpacity onPress={() => this.goPlayerDetail(item)} activeOpacity={1} key={index}>
                 <View style={styles.playerItem}>
                     <Image style={styles.icon} source={{uri: item.icon}}/>
                     <View style={{flex: 1, paddingLeft: 15}}>
@@ -158,9 +158,15 @@ class TeamDetail extends Component {
         getNavigator().pop();
     };
 
-    goPlayerDetail = () => {
+    goPlayerDetail = (item) => {
         getNavigator().push({
-            name: 'PlayerDetail'
+            name: 'PlayerDetail',
+            playerInfo: {
+                playerName: item.cnName,
+                playerId: item.id,
+                playerIcon: item.icon,
+                teamIcon: item.teamLogo,
+            }
         })
     };
 

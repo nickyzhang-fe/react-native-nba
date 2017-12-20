@@ -134,18 +134,23 @@ class PlayerDetail extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View style={styles.subTitle}>
-                        <Text style={styles.subTitleTxt}>{'最近5场'}</Text>
-                    </View>
-                    <View>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                            <View>
-                                {
-                                    lastMatches.map((item, index) => this.renderRegularItem(item, index, '4'))
-                                }
+                    {
+                        CommonUtil.isEmpty(lastMatches) ? <View/> :
+                        <View>
+                            <View style={styles.subTitle}>
+                                <Text style={styles.subTitleTxt}>{'最近5场'}</Text>
                             </View>
-                        </ScrollView>
-                    </View>
+                            <View>
+                                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                    <View>
+                                        {
+                                            lastMatches.map((item, index) => this.renderRegularItem(item, index, '4'))
+                                        }
+                                    </View>
+                                </ScrollView>
+                            </View>
+                        </View>
+                    }
                 </ScrollView>
             </View>
         )
@@ -207,10 +212,10 @@ class PlayerDetail extends Component {
         =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
         =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&playerId=${this.state.playerId}&tabType=1`;
         NetUtil.get(url, function (res) {
-            let tempLastMatches = res.data.lastMatches.rows.unshift(res.data.lastMatches.head);
+            let tempLastMatches = res.data.hasOwnProperty('lastMatches') ? res.data.lastMatches.rows.unshift(res.data.lastMatches.head) : [];
             let tempStats = res.data.stats.rows.unshift(res.data.stats.head);
             that.setState({
-                lastMatches: res.data.lastMatches.rows,
+                lastMatches: CommonUtil.isEmpty(res.data.lastMatches.rows) ? res.data.lastMatches.rows : [],
                 stats: res.data.stats.rows,
             })
         })
