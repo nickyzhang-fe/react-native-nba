@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: commonStyle.WHITE,
         textAlign: 'center',
-        width: '50%'
+        width: '60%'
     },
     leftItem: {
         flexDirection: 'row',
