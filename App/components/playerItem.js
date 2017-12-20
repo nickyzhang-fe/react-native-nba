@@ -129,16 +129,17 @@ class PlayerItem extends Component {
     };
 
     goDetail = (item) => {
-        console.log(item);
         switch (this.state.type) {
             case 1:
                 getNavigator().push({
-                    name: 'PlayerDetail'
+                    name: 'PlayerDetail',
+                    playerInfo: item
                 });
                 break;
             case 2:
                 getNavigator().push({
-                    name: 'PlayerDetail'
+                    name: 'PlayerDetail',
+                    playerInfo: item
                 });
                 break;
             case 3:
