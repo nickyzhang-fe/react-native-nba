@@ -54,7 +54,7 @@ class PlayerDetail extends Component {
                 <HeaderBar
                     title={this.state.title}
                     showLeftState={true}
-                    showRightState={true}
+                    showRightState={false}
                     showRightImage={false}
                     leftItemTitle={'资料'}
                     leftImageSource={require('../image/back.png')}
@@ -104,18 +104,24 @@ class PlayerDetail extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View style={styles.subTitle}>
-                        <Text style={styles.subTitleTxt}>{'季后赛平均'}</Text>
-                    </View>
-                    <View>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    {
+                        CommonUtil.isEmpty(postSeason) ? <View/> :
                             <View>
-                                {
-                                    postSeason.map((item, index) => this.renderRegularItem(item, index))
-                                }
+                                <View style={styles.subTitle}>
+                                    <Text style={styles.subTitleTxt}>{'季后赛平均'}</Text>
+                                </View>
+                                <View>
+                                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                        <View>
+                                            {
+                                                postSeason.map((item, index) => this.renderRegularItem(item, index))
+                                            }
+                                        </View>
+                                    </ScrollView>
+                                </View>
                             </View>
-                        </ScrollView>
-                    </View>
+                    }
+
                     <View style={styles.subTitle}>
                         <Text style={styles.subTitleTxt}>{'本赛季平均'}</Text>
                     </View>
@@ -157,7 +163,8 @@ class PlayerDetail extends Component {
 
     renderItem = (item, index, data) => {
         return (
-            <Text key={index} style={[styles.scrollItemTxt, {width: (index === 0 && data === '4') ? 120 : 66}]}>{item}</Text>
+            <Text key={index}
+                  style={[styles.scrollItemTxt, {width: (index === 0 && data === '4') ? 120 : 66}]}>{item}</Text>
         )
     };
 
@@ -186,10 +193,10 @@ class PlayerDetail extends Component {
         =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&playerId=${this.state.playerId}&tabType=2`;
         NetUtil.get(url, function (res) {
             let tempRegular = res.data.reg.rows.unshift(res.data.reg.head);
-            let tempPost = res.data.playoff.rows.unshift(res.data.reg.head);
+            let tempPost = res.data.hasOwnProperty('playoff') ? res.data.playoff.rows.unshift(res.data.reg.head) : [];
             that.setState({
                 regularSeason: res.data.reg.rows,
-                postSeason: res.data.playoff.rows,
+                postSeason: res.data.hasOwnProperty('playoff') ? res.data.playoff.rows : [],
             })
         })
     };
@@ -270,7 +277,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         height: 40,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
     scrollItemTxt: {
         width: 66,
