@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
     },
     rankTitleTxt: {
         color: CommonStyle.BLACK,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'arial'
     },
     rankTitleFW: {
         fontWeight: 'bold',

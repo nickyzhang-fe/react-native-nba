@@ -115,10 +115,13 @@ class PlayerItem extends Component {
         return (
             <TouchableOpacity onPress={() => this.goDetail(item)} activeOpacity={1} key={index}>
                 <View style={styles.playerItemBottomItem}>
-                    <Text style={{fontWeight: 'bold'}}>{item.value}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 16}}>{item.value}</Text>
                     <Image style={styles.icon}
                            source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo.replace('http', 'https') : item.playerIcon}}/>
-                    <Text numberOfLines={1}>{item.playerName}</Text>
+                    {
+                        CommonUtil.isEmpty(item.playerName) ? <View/> :
+                        <Text numberOfLines={1}>{item.playerName}</Text>
+                    }
                     <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
                 </View>
             </TouchableOpacity>

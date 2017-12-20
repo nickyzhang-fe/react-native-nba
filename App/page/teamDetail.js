@@ -71,8 +71,7 @@ class TeamDetail extends Component {
                         </View>
                     </View>
                     <View>
-                        <Text
-                            style={[styles.outlineTxt, styles.outlineTxtSize]}>{`排名: ${rankInfo.conferenceRank}`}</Text>
+                        <Text style={[styles.outlineTxt, styles.outlineTxtSize]}>{`排名: ${rankInfo.conferenceRank}`}</Text>
                         <Text style={[styles.outlineTxt, styles.outlineTxtSize]}>{`教练: ${baseInfo.coach}`}</Text>
                         <Text style={[styles.outlineTxt, styles.outlineTxtSize]}>{`连续战绩: ${rankInfo.streak}`}</Text>
                     </View>
@@ -143,7 +142,7 @@ class TeamDetail extends Component {
                 <View style={styles.playerItem}>
                     <Image style={styles.icon} source={{uri: item.icon}}/>
                     <View style={{flex: 1, paddingLeft: 15}}>
-                        <Text>{item.cnName}</Text>
+                        <Text style={{color: CommonStyle.THEME}}>{item.cnName}</Text>
                         <Text style={styles.jerseyNum}>{item.enName}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
         width: 60
     },
     outlineTxt: {
-        color: CommonStyle.WHITE
+        color: CommonStyle.WHITE,
     },
     outlineTxtSize: {
         fontSize: 14
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     teamItem: {
-        height: CommonUtil.getScreenWidth()/5,
+        height: CommonUtil.getScreenWidth()/4,
         width: CommonUtil.getScreenWidth()/3,
         justifyContent: 'center',
         alignItems: 'center'

@@ -85,8 +85,9 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         fontSize: 16,
-        color: CommonStyle.TEXT_COLOR,
-        lineHeight: 20
+        color: CommonStyle.BLACK,
+        lineHeight: 20,
+        fontFamily: 'arial'
     },
     image: {
         marginTop: 10,
