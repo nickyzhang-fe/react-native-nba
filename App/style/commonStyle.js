@@ -6,7 +6,7 @@ const colors = {
     LINE_GRAY_COLOR: '#E8E8E8',
     GRAY_COLOR: '#DADADA',
     TEXT_GRAY_COLOR: '#79767C',
-    TEXT_COLOR: '#443046',
+    TEXT_COLOR: '#454545',
     BACKGROUND_COLOR: '#F7F7F7',
     LIGHT_BLUE_COLOR: '#5CACEE',//浅蓝色
     LIGHT_GRAY_COLOR: '#ccccc44',//浅灰色

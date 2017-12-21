@@ -39,15 +39,27 @@ class GameDetail extends Component {
     }
 
     componentWillMount() {
-        // InteractionManager.runAfterInteractions(this.getBaseInfo());
-        // InteractionManager.runAfterInteractions(this.getGameDetailIds());
+        InteractionManager.runAfterInteractions(() => this.getBaseInfo());
+        InteractionManager.runAfterInteractions(() => this.getGameDetailIds());
         this.loadGame = setInterval(
             ()=> {
-                this.getBaseInfo();
                 this.getGameDetailIds();
             },
-            2000
+            20000
         );
+    }
+
+    componentDidUpdate() {
+        console.log('update');
+        console.log(this.state.matchPeriod);
+        console.log(typeof this.state.matchPeriod);
+        if (this.state.matchPeriod === '2'){
+            this.loadGame && clearInterval(this.loadGame);
+        }
+    }
+
+    componentWillUnmount() {
+        this.loadGame && clearInterval(this.loadGame);
     }
 
     render() {

@@ -36,11 +36,7 @@ class GameContainer extends Component {
     }
 
     componentDidMount() {
-        this.loadGame = setInterval(
-            ()=> this.getMatchList(),
-            2000
-        );
-        // InteractionManager.runAfterInteractions(this.getMatchList())
+        InteractionManager.runAfterInteractions(() => this.getMatchList())
     }
 
     componentWillUnmount() {
@@ -115,7 +111,7 @@ class GameContainer extends Component {
                                 (rowData.matchPeriod === '2') ?
                                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
-                                        <Text style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR, marginHorizontal: 10}]}>{'已结束'}</Text>
+                                        <Text style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR, marginHorizontal: 10, fontWeight: 'bold'}]}>{'已结束'}</Text>
                                         <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
                                     </View> :
                                     (rowData.matchPeriod === '0' ?

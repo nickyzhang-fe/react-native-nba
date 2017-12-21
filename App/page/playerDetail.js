@@ -43,17 +43,17 @@ class PlayerDetail extends Component {
     };
 
     componentDidMount() {
-        this.loadPlayer = setInterval(
-            () => {
-                this.getPlayerBaseInfo();
-                this.getPlayerCareerData();
-                this.getPlayerSeasonData();
-            },
-            2000
-        );
-        // InteractionManager.runAfterInteractions(() => this.getPlayerBaseInfo());
-        // InteractionManager.runAfterInteractions(() => this.getPlayerCareerData());
-        // InteractionManager.runAfterInteractions(() => this.getPlayerSeasonData());
+        // this.loadPlayer = setInterval(
+        //     () => {
+        //         this.getPlayerBaseInfo();
+        //         this.getPlayerCareerData();
+        //         this.getPlayerSeasonData();
+        //     },
+        //     2000
+        // );
+        InteractionManager.runAfterInteractions(() => this.getPlayerBaseInfo());
+        InteractionManager.runAfterInteractions(() => this.getPlayerCareerData());
+        InteractionManager.runAfterInteractions(() => this.getPlayerSeasonData());
     }
 
     componentWillUnmount() {
@@ -192,6 +192,7 @@ class PlayerDetail extends Component {
     };
 
     getPlayerBaseInfo = () => {
+        console.log('player');
         let that = this;
         let url = `http://sportsnba.qq.com/player/baseInfo?appver=4.0.1&appvid=4.0.1&deviceId
         =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height

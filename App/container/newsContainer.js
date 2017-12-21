@@ -31,11 +31,11 @@ class NewsContainer extends PureComponent {
     }
 
     componentDidMount() {
-        // InteractionManager.runAfterInteractions(this.getNewsListIds());
-        this.loadNewsList = setInterval(
-            () => this.getNewsListIds(),
-            2000
-        )
+        InteractionManager.runAfterInteractions(() => this.getNewsListIds());
+        // this.loadNewsList = setInterval(
+        //     () => this.getNewsListIds(),
+        //     2000
+        // )
     }
 
     componentWillUnmount() {

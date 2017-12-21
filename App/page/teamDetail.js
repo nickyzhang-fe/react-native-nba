@@ -41,15 +41,15 @@ class TeamDetail extends Component {
     };
 
     componentDidMount() {
-        this.loadTeam = setInterval(
-            () => {
-                this.getTeamInfo();
-                this.getTeamPlayer();
-            },
-            2000
-        );
-        // InteractionManager.runAfterInteractions(() => this.getTeamInfo());
-        // this.getTeamPlayer();
+        // this.loadTeam = setInterval(
+        //     () => {
+        //         this.getTeamInfo();
+        //         this.getTeamPlayer();
+        //     },
+        //     2000
+        // );
+        InteractionManager.runAfterInteractions(() => this.getTeamInfo());
+        InteractionManager.runAfterInteractions(() => this.getTeamPlayer());
     }
 
     componentWillUnmount() {

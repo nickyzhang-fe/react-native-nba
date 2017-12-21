@@ -40,17 +40,17 @@ class DataContainer extends Component {
     }
 
     componentDidMount() {
-        this.loadData = setInterval(
-            () => {
-                this.getPlayerAll();
-                this.getPlayerDaily();
-                this.getTeamAll()
-            },
-            2000
-        );
-        // InteractionManager.runAfterInteractions(this.getPlayerDaily());
-        // InteractionManager.runAfterInteractions(this.getPlayerAll());
-        // InteractionManager.runAfterInteractions(this.getTeamAll())
+        // this.loadData = setInterval(
+        //     () => {
+        //         this.getPlayerAll();
+        //         this.getPlayerDaily();
+        //         this.getTeamAll()
+        //     },
+        //     2000
+        // );
+        InteractionManager.runAfterInteractions(() => this.getPlayerDaily());
+        InteractionManager.runAfterInteractions(() => this.getPlayerAll());
+        InteractionManager.runAfterInteractions(() => this.getTeamAll())
     }
 
     componentWillUnmount() {
