@@ -9,7 +9,7 @@
 
 ### 项目描述
 - 利用`react-native-viewpager`实现比赛日程的左右滑动
-- 获取当日比赛的比分信息，支持当日赛程的文字直播(未实现)
+- 获取当日比赛的比分信息，支持当日赛程的文字直播, 支持数据实时刷新功能
 - `NBA`社区分为热门社区和全部社区
 - 针对不同的球队粉丝有不同的社区，实现加载评论详情、评论功能(不支持)
 - 新闻列表，查看新闻详情,支持下拉刷新和上拉加载更多
@@ -17,9 +17,9 @@
 - 实现`Android`的返回功能
 - 支持`Android`沉浸式状态栏
 - 使用`react-native-splash-screen`添加`Android`和`iOS`启动页
-- 添加球员球队数据查看功能，可查看每日和赛季榜单
-- 查看球员详细信息(未实现)
-- 查看球队详细信息(未实现)
+- 可查看当前球队排行，可查看当日、当赛季球员榜单和球队赛季榜单
+- 可查看球员详细信息
+- 可查看球队详细信息
 
 ### 项目运行
 
@@ -30,17 +30,11 @@
 - `npm install react-native-scrollable-tab-view --save`
 - `npm install react-native-deprecated-custom-components --save`
 - `npm install --save prop-types`
-- 安装 `redux`
-			
-		npm install --save redux
-
-- 安装 react-redux
-
-		npm install --save react-redux
-
-- 安装 redux-thunk  
-
-		npm install --save redux-thunk
+- 安装 `redux`、`react-redux`、`redux-thunk  `
+	- `npm install --save redux`
+	- `npm install --save react-redux`
+	- `npm install --save redux-thunk`
+		
 - `npm install react-native-orientation --save`
 - `npm install react-native-wechat --save`
 - `npm install react-native-splash-screen --save`

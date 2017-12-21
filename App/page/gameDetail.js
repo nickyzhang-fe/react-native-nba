@@ -41,8 +41,10 @@ class GameDetail extends Component {
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => this.getBaseInfo());
         InteractionManager.runAfterInteractions(() => this.getGameDetailIds());
+        // 每20s刷新一次
         this.loadGame = setInterval(
             ()=> {
+                this.getBaseInfo();
                 this.getGameDetailIds();
             },
             20000
@@ -50,9 +52,7 @@ class GameDetail extends Component {
     }
 
     componentDidUpdate() {
-        console.log('update');
-        console.log(this.state.matchPeriod);
-        console.log(typeof this.state.matchPeriod);
+        //直播结束时停止数据实时刷新
         if (this.state.matchPeriod === '2'){
             this.loadGame && clearInterval(this.loadGame);
         }

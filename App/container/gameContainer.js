@@ -36,7 +36,18 @@ class GameContainer extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => this.getMatchList())
+        InteractionManager.runAfterInteractions(() => this.getMatchList());
+        this.loadGame = setInterval(
+            () => this.getMatchList(),
+            20000
+        )
+    }
+
+    componentDidUpdate() {
+        // 当前页的第一个matchPeriod为2是取消刷新
+        if (this.state.dataListSource._dataBlob.s1[0].matchInfo.matchPeriod === '2'){
+            this.loadGame && clearInterval(this.loadGame);
+        }
     }
 
     componentWillUnmount() {
