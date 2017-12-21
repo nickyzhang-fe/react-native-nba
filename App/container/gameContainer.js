@@ -22,6 +22,7 @@ import CommonStyle from '../style/commonStyle';
 class GameContainer extends Component {
     constructor(props) {
         super(props);
+        this.loadGame = null;
         this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
@@ -35,7 +36,15 @@ class GameContainer extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(this.getMatchList())
+        this.loadGame = setInterval(
+            ()=> this.getMatchList(),
+            2000
+        );
+        // InteractionManager.runAfterInteractions(this.getMatchList())
+    }
+
+    componentWillUnmount() {
+        this.loadGame && clearInterval(this.loadGame);
     }
 
     render() {

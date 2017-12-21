@@ -31,6 +31,7 @@ const GITHUB = {
 class DataContainer extends Component {
     constructor(props) {
         super(props);
+        this.loadData = null;
         this.state = {
             playerDaily: {},
             playerAll: {},
@@ -39,9 +40,21 @@ class DataContainer extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(this.getPlayerDaily());
-        InteractionManager.runAfterInteractions(this.getPlayerAll());
-        InteractionManager.runAfterInteractions(this.getTeamAll())
+        this.loadData = setInterval(
+            () => {
+                this.getPlayerAll();
+                this.getPlayerDaily();
+                this.getTeamAll()
+            },
+            2000
+        );
+        // InteractionManager.runAfterInteractions(this.getPlayerDaily());
+        // InteractionManager.runAfterInteractions(this.getPlayerAll());
+        // InteractionManager.runAfterInteractions(this.getTeamAll())
+    }
+
+    componentWillUnmount() {
+        this.loadData && clearInterval(this.loadData)
     }
 
     render() {

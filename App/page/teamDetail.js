@@ -27,6 +27,7 @@ import PlayerData from '../../player.json';
 class TeamDetail extends Component {
     constructor(props) {
         super(props);
+        this.loadTeam = null;
         this.state = {
             title: CommonUtil.isEmpty(this.props.teamInfo.teamName) ? this.props.teamInfo[0].name : this.props.teamInfo.teamName,
             teamId: CommonUtil.isEmpty(this.props.teamInfo.teamId) ? this.props.teamInfo[0].teamId : this.props.teamInfo.teamId,
@@ -40,8 +41,19 @@ class TeamDetail extends Component {
     };
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => this.getTeamInfo());
-        this.getTeamPlayer();
+        this.loadTeam = setInterval(
+            () => {
+                this.getTeamInfo();
+                this.getTeamPlayer();
+            },
+            2000
+        );
+        // InteractionManager.runAfterInteractions(() => this.getTeamInfo());
+        // this.getTeamPlayer();
+    }
+
+    componentWillUnmount() {
+        this.loadTeam && clearInterval(this.loadTeam);
     }
 
     render() {

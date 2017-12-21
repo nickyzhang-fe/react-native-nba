@@ -8,7 +8,7 @@ import {Provider} from "react-redux";
 
 const store = configureStore();
 
-class root extends Component {
+class root extends Component<{}> {
     render() {
         return (
             <Provider store={store}>

@@ -39,8 +39,15 @@ class GameDetail extends Component {
     }
 
     componentWillMount() {
-        InteractionManager.runAfterInteractions(this.getBaseInfo());
-        InteractionManager.runAfterInteractions(this.getGameDetailIds());
+        // InteractionManager.runAfterInteractions(this.getBaseInfo());
+        // InteractionManager.runAfterInteractions(this.getGameDetailIds());
+        this.loadGame = setInterval(
+            ()=> {
+                this.getBaseInfo();
+                this.getGameDetailIds();
+            },
+            2000
+        );
     }
 
     render() {

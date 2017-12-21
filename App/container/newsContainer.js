@@ -21,6 +21,7 @@ import {getNavigator} from '../constant/router';
 class NewsContainer extends PureComponent {
     constructor(props) {
         super(props);
+        this.loadNewsList = null;
         this.state = {
             dataSource: [],
             isRefreshing: false,
@@ -30,7 +31,15 @@ class NewsContainer extends PureComponent {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(this.getNewsListIds());
+        // InteractionManager.runAfterInteractions(this.getNewsListIds());
+        this.loadNewsList = setInterval(
+            () => this.getNewsListIds(),
+            2000
+        )
+    }
+
+    componentWillUnmount() {
+        this.loadNewsList && clearInterval(this.loadNewsList)
     }
 
     render() {
@@ -93,10 +102,6 @@ class NewsContainer extends PureComponent {
         let that = this;
         let ids = '';
         let tempArray = [];
-        // that.setState({
-        //     isRefreshing: true,
-        //     page: 1
-        // });
         for (let i = 20 * (that.state.page - 1); i <= that.state.ids.length - 1; i++) {
             if (i <= (20 * that.state.page - 1)) {
                 ids += that.state.ids[i].id + ',';

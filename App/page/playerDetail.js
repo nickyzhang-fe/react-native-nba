@@ -26,6 +26,7 @@ import {getNavigator} from '../constant/router';
 class PlayerDetail extends Component {
     constructor(props) {
         super(props);
+        this.loadPlayer = null;
         this.state = {
             title: this.props.playerInfo.playerName,
             playerId: this.props.playerInfo.playerId,
@@ -42,9 +43,21 @@ class PlayerDetail extends Component {
     };
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => this.getPlayerBaseInfo());
-        InteractionManager.runAfterInteractions(() => this.getPlayerCareerData());
-        InteractionManager.runAfterInteractions(() => this.getPlayerSeasonData());
+        this.loadPlayer = setInterval(
+            () => {
+                this.getPlayerBaseInfo();
+                this.getPlayerCareerData();
+                this.getPlayerSeasonData();
+            },
+            2000
+        );
+        // InteractionManager.runAfterInteractions(() => this.getPlayerBaseInfo());
+        // InteractionManager.runAfterInteractions(() => this.getPlayerCareerData());
+        // InteractionManager.runAfterInteractions(() => this.getPlayerSeasonData());
+    }
+
+    componentWillUnmount() {
+        this.loadPlayer && clearInterval(this.loadPlayer);
     }
 
     render() {

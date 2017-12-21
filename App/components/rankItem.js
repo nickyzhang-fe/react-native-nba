@@ -23,6 +23,7 @@ import {getNavigator} from '../constant/router';
 class RankItem extends Component {
     constructor(props) {
         super(props);
+        this.loadRank = null;
         this.state = {
             eastList: [],
             westList: []
@@ -30,7 +31,15 @@ class RankItem extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(this.getRankList())
+        // InteractionManager.runAfterInteractions(this.getRankList())
+        this.loadRank = setInterval(
+            () => this.getRankList(),
+            2000
+        )
+    }
+
+    componentWillUnmount() {
+        this.loadRank && clearInterval(this.loadRank);
     }
 
     render() {

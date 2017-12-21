@@ -23,18 +23,18 @@ import CommonStyle from './style/commonStyle'
 
 let lastClickTime = 0;
 
-class App extends Component<{}> {
+class App extends Component {
     constructor(props) {
         super(props);
         this.renderScene = this.renderScene.bind(this);
-        this.onBackHandler = this.onBackHandler.bind(this);
+        // this.onBackHandler = this.onBackHandler.bind(this);
     }
 
     componentWillMount() {
         Orientation.lockToPortrait();
         if (Platform.OS === 'android') {
             // Orientation.registerOnOrientationChanged();
-            BackHandler.addEventListener('hardwareBackPress', this.onBackHandler);
+            // BackHandler.addEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
 
@@ -47,9 +47,10 @@ class App extends Component<{}> {
 
     componentWillUnmount() {
         if (Platform.OS === 'android') {
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
+            // BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
+
 
     render() {
         return (
@@ -86,14 +87,14 @@ class App extends Component<{}> {
         );
     };
 
-    onBackHandler() {
+    onBackHandler = () => {
         const routers = this.navigator.getCurrentRoutes();
         if (routers.length > 1) {
             this.navigator.pop();
             return true;
         }
         let now = new Date().getTime();
-        if (now - lastClickTime < 2500) {//2.5秒内点击后退键两次推出应用程序
+        if (now - lastClickTime < 2000) {//2秒内点击后退键两次推出应用程序
             return false;
         }
         lastClickTime = now;
