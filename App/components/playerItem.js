@@ -19,6 +19,7 @@ import Global from '../constant/global';
 import HeaderBar from '../components/headerBar';
 import NetUtil from '../util/netUtil';
 import {getNavigator} from '../constant/router';
+import RankTitle from '../components/rankTitle';
 
 class PlayerItem extends Component {
     constructor(props) {
@@ -39,66 +40,45 @@ class PlayerItem extends Component {
 
     render() {
         const {point, rebound, assist, block, steal, oppPoints} = this.props.item;
-        const {type} = this.props.type;
         if (CommonUtil.isEmpty(point)) {
             return (<Text>{'test'}</Text>);
         }
         return (
             <ScrollView style={styles.container}>
-                <View style={styles.playerItemTop}>
-                    <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'得分'}</Text>
-                    <TouchableOpacity onPress={() => this.goDetail()} activeOpacity={1}>
-                        <Image style={styles.img} source={require('../image/go.png')}/>
-                    </TouchableOpacity>
-                </View>
+                <RankTitle title={'得分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 1)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         point.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <View style={styles.playerItemTop}>
-                    <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'篮板'}</Text>
-                    <Image style={styles.img} source={require('../image/go.png')}/>
-                </View>
+                <RankTitle title={'篮板'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 2)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         rebound.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <View style={styles.playerItemTop}>
-                    <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'助攻'}</Text>
-                    <Image style={styles.img} source={require('../image/go.png')}/>
-                </View>
+                <RankTitle title={'助攻'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 3)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         assist.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <View style={styles.playerItemTop}>
-                    <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'盖帽'}</Text>
-                    <Image style={styles.img} source={require('../image/go.png')}/>
-                </View>
+                <RankTitle title={'盖帽'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 4)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         block.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <View style={styles.playerItemTop}>
-                    <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'抢断'}</Text>
-                    <Image style={styles.img} source={require('../image/go.png')}/>
-                </View>
+                <RankTitle title={'抢断'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 5)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         steal.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
                 {
-                    this.props.type === 3 ?
+                    this.props.type === 'team' ?
                         <View>
-                            <View style={styles.playerItemTop}>
-                                <Text style={{color: CommonStyle.TEXT_GRAY_COLOR}}>{'失分'}</Text>
-                                <Image style={styles.img} source={require('../image/go.png')}/>
-                            </View>
+                            <RankTitle title={'失分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 6)}/>
                             <View style={styles.playerItemBottom}>
                                 {
                                     oppPoints.map((item, index) => this.renderItem(item, index))
@@ -128,33 +108,40 @@ class PlayerItem extends Component {
         )
     };
 
+    /*
+    * 跳转到球员详情或球队详情
+    * */
     goDetail = (item) => {
         switch (this.state.type) {
-            case 1:
+            case "player":
                 getNavigator().push({
                     name: 'PlayerDetail',
                     playerInfo: item
                 });
                 break;
-            case 2:
-                getNavigator().push({
-                    name: 'PlayerDetail',
-                    playerInfo: item
-                });
-                break;
-            case 3:
+            case 'team':
                 getNavigator().push({
                     name: 'TeamDetail',
                     teamInfo: item
                 });
                 break;
         }
+    };
+    /*
+    * rank榜
+    * */
+    goRankDetail = (type, index) => {
+        getNavigator().push({
+            name: 'RankDetail',
+            type: type,
+            index: index
+        })
     }
 }
 
 FlatList.propTypes = {
     item: PropType.object,
-    type: PropType.number
+    type: PropType.string
 };
 
 const styles = StyleSheet.create({
@@ -165,16 +152,16 @@ const styles = StyleSheet.create({
         width: CommonUtil.getScreenWidth(),
         flexDirection: 'column'
     },
-    playerItemTop: {
-        width: CommonUtil.getScreenWidth(),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: CommonStyle.GRAY_COLOR,
-        height: 40,
-        alignItems: 'center',
-        paddingHorizontal: 15
-    },
+    // playerItemTop: {
+    //     width: CommonUtil.getScreenWidth(),
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between',
+    //     borderBottomWidth: 1,
+    //     borderBottomColor: CommonStyle.GRAY_COLOR,
+    //     height: 40,
+    //     alignItems: 'center',
+    //     paddingHorizontal: 15
+    // },
     playerItemBottom: {
         width: CommonUtil.getScreenWidth(),
         height: 150,
@@ -189,10 +176,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    img: {
-        height: 14,
-        width: 14
-    },
+    // img: {
+    //     height: 14,
+    //     width: 14
+    // },
     icon: {
         height: 60,
         width: 60,

@@ -32,10 +32,6 @@ class RankItem extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(this.getRankList())
-        // this.loadRank = setInterval(
-        //     () => this.getRankList(),
-        //     2000
-        // )
     }
 
     componentWillUnmount() {
