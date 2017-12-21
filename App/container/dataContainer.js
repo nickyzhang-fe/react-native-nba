@@ -31,7 +31,6 @@ const GITHUB = {
 class DataContainer extends Component {
     constructor(props) {
         super(props);
-        this.loadData = null;
         this.state = {
             playerDaily: {},
             playerAll: {},
@@ -40,26 +39,14 @@ class DataContainer extends Component {
     }
 
     componentDidMount() {
-        // this.loadData = setInterval(
-        //     () => {
-        //         this.getPlayerAll();
-        //         this.getPlayerDaily();
-        //         this.getTeamAll()
-        //     },
-        //     2000
-        // );
         InteractionManager.runAfterInteractions(() => this.getPlayerDaily());
         InteractionManager.runAfterInteractions(() => this.getPlayerAll());
         InteractionManager.runAfterInteractions(() => this.getTeamAll())
     }
 
-    componentWillUnmount() {
-        this.loadData && clearInterval(this.loadData)
-    }
-
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={styles.container}>
                 <HeaderBar
                     title="数据"
                     showLeftState={true}
@@ -70,7 +57,7 @@ class DataContainer extends Component {
                     leftImageSource={require('../image/menu_person.png')}
                     onPressRight={() => this.showPersonInfo(GITHUB)}
                     onPress={() => this.showPersonInfo(BLOG)}/>
-                <View style={{flex:1}}>
+                <View style={styles.container}>
                     <ScrollableTabView
                         locked={false}
                         tabBarPosition={'top'}
@@ -146,15 +133,6 @@ class DataContainer extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    content: {
-        // flex: 1,
-        // width: CommonUtil.getScreenWidth(),
-        // height: CommonUtil.getScreenHeight() - 100
-    },
-    subView: {
-        flex: 1,
-        backgroundColor: CommonStyle.THEME
     },
     tab: {
         paddingBottom: 0

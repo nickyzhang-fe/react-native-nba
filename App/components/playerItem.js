@@ -45,31 +45,31 @@ class PlayerItem extends Component {
         }
         return (
             <ScrollView style={styles.container}>
-                <RankTitle title={'得分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 1)}/>
+                <RankTitle title={'得分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 0)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         point.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'篮板'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 2)}/>
+                <RankTitle title={'篮板'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 1)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         rebound.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'助攻'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 3)}/>
+                <RankTitle title={'助攻'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 2)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         assist.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'盖帽'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 4)}/>
+                <RankTitle title={'盖帽'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 3)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         block.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'抢断'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 5)}/>
+                <RankTitle title={'抢断'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 4)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         steal.map((item, index) => this.renderItem(item, index))
@@ -78,7 +78,7 @@ class PlayerItem extends Component {
                 {
                     this.props.type === 'team' ?
                         <View>
-                            <RankTitle title={'失分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 6)}/>
+                            <RankTitle title={'失分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 5)}/>
                             <View style={styles.playerItemBottom}>
                                 {
                                     oppPoints.map((item, index) => this.renderItem(item, index))
