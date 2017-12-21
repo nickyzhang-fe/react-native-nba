@@ -26,7 +26,6 @@ import {getNavigator} from '../constant/router';
 class PlayerDetail extends Component {
     constructor(props) {
         super(props);
-        this.loadPlayer = null;
         this.state = {
             title: this.props.playerInfo.playerName,
             playerId: this.props.playerInfo.playerId,
@@ -43,21 +42,9 @@ class PlayerDetail extends Component {
     };
 
     componentDidMount() {
-        // this.loadPlayer = setInterval(
-        //     () => {
-        //         this.getPlayerBaseInfo();
-        //         this.getPlayerCareerData();
-        //         this.getPlayerSeasonData();
-        //     },
-        //     2000
-        // );
         InteractionManager.runAfterInteractions(() => this.getPlayerBaseInfo());
         InteractionManager.runAfterInteractions(() => this.getPlayerCareerData());
         InteractionManager.runAfterInteractions(() => this.getPlayerSeasonData());
-    }
-
-    componentWillUnmount() {
-        this.loadPlayer && clearInterval(this.loadPlayer);
     }
 
     render() {
@@ -110,7 +97,7 @@ class PlayerDetail extends Component {
                     </View>
                     <View>
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                            <View>
+                            <View style={{borderBottomWidth: 1, borderBottomColor: CommonStyle.GRAY_COLOR}}>
                                 {
                                     regularSeason.map((item, index) => this.renderRegularItem(item, index))
                                 }
@@ -125,7 +112,7 @@ class PlayerDetail extends Component {
                                 </View>
                                 <View>
                                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                        <View>
+                                        <View style={{borderBottomWidth: 1, borderBottomColor: CommonStyle.GRAY_COLOR}}>
                                             {
                                                 postSeason.map((item, index) => this.renderRegularItem(item, index))
                                             }
@@ -140,7 +127,7 @@ class PlayerDetail extends Component {
                     </View>
                     <View>
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                            <View>
+                            <View style={{borderBottomWidth: 1, borderBottomColor: CommonStyle.GRAY_COLOR}}>
                                 {
                                     stats.map((item, index) => this.renderRegularItem(item, index))
                                 }
@@ -155,7 +142,7 @@ class PlayerDetail extends Component {
                             </View>
                             <View>
                                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                    <View>
+                                    <View style={{borderBottomWidth: 1, borderBottomColor: CommonStyle.GRAY_COLOR}}>
                                         {
                                             lastMatches.map((item, index) => this.renderRegularItem(item, index, '4'))
                                         }
@@ -264,6 +251,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 70,
         width: CommonUtil.getScreenWidth(),
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR
     },
     dataItem: {
         flex: 1,
@@ -284,8 +273,6 @@ const styles = StyleSheet.create({
         width: CommonUtil.getScreenWidth(),
         borderBottomWidth: 1,
         borderBottomColor: CommonStyle.GRAY_COLOR,
-        borderTopWidth: 1,
-        borderTopColor: CommonStyle.GRAY_COLOR,
         justifyContent: 'center',
         paddingLeft: 15
     },

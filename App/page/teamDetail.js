@@ -235,8 +235,6 @@ const styles = StyleSheet.create({
         width: CommonUtil.getScreenWidth(),
         borderBottomWidth: 1,
         borderBottomColor: CommonStyle.GRAY_COLOR,
-        borderTopWidth: 1,
-        borderTopColor: CommonStyle.GRAY_COLOR,
         justifyContent: 'center',
         paddingLeft: 15
     },
@@ -248,11 +246,15 @@ const styles = StyleSheet.create({
         width: CommonUtil.getScreenWidth(),
         paddingHorizontal: 15,
         lineHeight: 20,
-        paddingVertical: 10
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR
     },
     teamData: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR
     },
     teamItem: {
         height: CommonUtil.getScreenWidth()/4,
