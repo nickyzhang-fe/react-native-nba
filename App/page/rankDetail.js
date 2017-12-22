@@ -28,8 +28,12 @@ class RankDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: this.props.type === 'player' ? '球员数据详情' : '球队数据详情',
-            index: this.props.index
+            title: this.props.type === 'day' ? '每日数据' : (this.props.type === 'player' ? '球员榜' : '球队榜'),
+            index: this.props.index,
+            tabType: this.props.type === 'day' ? 1 : 3,
+            seasonId: new Date().getFullYear(),
+            statType: 'point',
+            data: []
         };
         console.log(this.props)
     };
@@ -39,6 +43,9 @@ class RankDetail extends Component {
     }
 
     render() {
+        console.log(111111);
+        console.log(this.state.data[this.state.statType]);
+        let data = this.state.data[this.state.statType];
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -59,27 +66,79 @@ class RankDetail extends Component {
                         tabBarUnderlineStyle={{backgroundColor: CommonStyle.WHITE}}
                         tabBarInactiveTextColor={CommonStyle.TEXT_GRAY_COLOR}
                         renderTabBar={() => (<DefaultTabBar/>)}
-                        initialPage={this.state.index}>
-                        <View tabLabel="得分"/>
-                        <View tabLabel="篮板"/>
-                        <View tabLabel="助攻"/>
-                        <View tabLabel="盖帽"/>
-                        <View tabLabel="抢断"/>
+                        initialPage={this.state.index}
+                        onChangeTab={(obj)=>this.getPlayerRank(obj)}>
+                        <View tabLabel="得分" style={styles.item}/>
+                        <View tabLabel="篮板" style={styles.item}>
+
+                        </View>
+                        <View tabLabel="助攻" style={styles.item}/>
+                        <View tabLabel="盖帽" style={styles.item}/>
+                        <View tabLabel="抢断" style={styles.item}/>
+                        <View tabLabel="失分" style={styles.item}/>
                     </ScrollableTabView>
                 </View>
             </View>
         )
     }
 
-    getPlayerDaily = () => {
+// {
+//     data.map((item, index) => this.renderItem(item, index))
+// }
+
+    renderItem = (item) => {
+        console.log(item);
+        return (
+            <View>
+
+            </View>
+        )
+    };
+
+    getPlayerRank = (obj) => {
         let that = this;
-        let url = `http://sportsnba.qq.com/player/statsRank?appver=4.0.1&appvid=4.0.1&deviceId
-        =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
-        =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&statType=point&num=-1&tabType=3&seasonId=2017`;
-
+        switch (obj.i){
+            case 0:
+                that.setState({
+                    statType: 'point'
+                });
+                break;
+            case 1:
+                that.setState({
+                    statType: 'rebound'
+                });
+                break;
+            case 2:
+                that.setState({
+                    statType: 'assist'
+                });
+                break;
+            case 3:
+                that.setState({
+                    statType: 'block'
+                });
+                break;
+            case 4:
+                that.setState({
+                    statType: 'steal'
+                });
+                break;
+            case 5:
+                that.setState({
+                    statType: 'oppPoints'
+                });
+                break;
+        }
+        console.log(this.state.statType);
+        console.log(this.state.tabType);
+        console.log(this.state.seasonId);
+        let params = that.state.title === '球队榜'? 'team/statsRank?' : 'player/statsRank?';
+        let url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType='+that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId
+        console.log(url);
         NetUtil.get(url, function (res) {
+            // console.log(res.data);
             that.setState({
-
+                data: res.data
             })
         })
     };
@@ -93,6 +152,13 @@ class RankDetail extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    item: {
+        width: CommonUtil.getScreenWidth(),
+        height: 60,
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: CommonStyle.GRAY_COLOR
     }
 });
 

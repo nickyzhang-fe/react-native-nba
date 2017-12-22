@@ -22,9 +22,18 @@ const GITHUB_URL = 'https://github.com/5ibinbin/react-native-nba';
 * */
 const BLOG_URL = 'http://www.5ibinbin.com';
 /*
-* 社区
+* 社区url
 * */
 const TEN_SHE_QU_URL = 'https://shequweb.sports.qq.com';
+/*
+ * base url
+ * */
+const BASE_URL = 'http://sportsnba.qq.com/';
+/*
+* 手机基础信息(写死)
+* */
+const BASE_PARAMS = '/appver=4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from='+
+    'app&guid=09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&';
 /*
 * 背景图
 * */
@@ -33,6 +42,7 @@ const DEFAULT_PIC = require('../image/default_pic.png');
  * 默认logo
  * */
 const DEFAULT_LOGO = 'https://mat1.gtimg.com/chinanba/images/NBA_APP_Logo_58';
+
 /*
 * 热门社区
 * */
@@ -99,5 +109,7 @@ export default {
     DEFAULT_LOGO,
     HOT_FORUM,
     WEST_FORUM,
-    EAST_FORUM
+    EAST_FORUM,
+    BASE_PARAMS,
+    BASE_URL
 }
