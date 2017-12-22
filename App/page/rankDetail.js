@@ -27,6 +27,7 @@ import {getNavigator} from '../constant/router';
 class RankDetail extends Component {
     constructor(props) {
         super(props);
+        this.loadData = null;
         this.state = {
             title: this.props.type === 'day' ? '每日数据' : (this.props.type === 'player' ? '球员榜' : '球队榜'),
             index: this.props.index,
@@ -39,7 +40,10 @@ class RankDetail extends Component {
     };
 
     componentDidMount() {
-
+        this.loadData = setTimeout(() => {
+            this.getPlayerRank(this.state.index)
+        }, 2000);
+        // InteractionManager.runAfterInteractions(() => this.getPlayerRank(this.state.index));
     }
 
     render() {
@@ -67,15 +71,21 @@ class RankDetail extends Component {
                         tabBarInactiveTextColor={CommonStyle.TEXT_GRAY_COLOR}
                         renderTabBar={() => (<DefaultTabBar/>)}
                         initialPage={this.state.index}
-                        onChangeTab={(obj)=>this.getPlayerRank(obj)}>
-                        <View tabLabel="得分" style={styles.item}/>
-                        <View tabLabel="篮板" style={styles.item}>
+                        onChangeTab={(obj) => this.getPlayerRank(obj.i)}
+                        goToPage={() => this.getPlayerRank(obj.i)}>
+                        <View tabLabel="得分">
 
                         </View>
-                        <View tabLabel="助攻" style={styles.item}/>
-                        <View tabLabel="盖帽" style={styles.item}/>
-                        <View tabLabel="抢断" style={styles.item}/>
-                        <View tabLabel="失分" style={styles.item}/>
+                        <View tabLabel="篮板">
+                        </View>
+                        <View tabLabel="助攻">
+                        </View>
+                        <View tabLabel="盖帽">
+                        </View>
+                        <View tabLabel="抢断">
+                        </View>
+                        <View tabLabel="失分">
+                        </View>
                     </ScrollableTabView>
                 </View>
             </View>
@@ -86,18 +96,21 @@ class RankDetail extends Component {
 //     data.map((item, index) => this.renderItem(item, index))
 // }
 
-    renderItem = (item) => {
+    renderItem = (item, index) => {
         console.log(item);
         return (
-            <View>
-
+            <View key={index} style={styles.item}>
+                <Text>{index}</Text>
+                <Text>{item.playerName}</Text>
+                <Text>{item.teamName}</Text>
+                <Text>{item.value}</Text>
             </View>
         )
     };
 
-    getPlayerRank = (obj) => {
+    getPlayerRank = (index) => {
         let that = this;
-        switch (obj.i){
+        switch (index) {
             case 0:
                 that.setState({
                     statType: 'point'
@@ -129,16 +142,13 @@ class RankDetail extends Component {
                 });
                 break;
         }
-        console.log(this.state.statType);
-        console.log(this.state.tabType);
-        console.log(this.state.seasonId);
-        let params = that.state.title === '球队榜'? 'team/statsRank?' : 'player/statsRank?';
-        let url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType='+that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId
-        console.log(url);
+        let params = that.state.title === '球队榜' ? 'team/statsRank?' : 'player/statsRank?';
+        let url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId
         NetUtil.get(url, function (res) {
             // console.log(res.data);
             that.setState({
-                data: res.data
+                data: res.data,
+                index: index
             })
         })
     };
@@ -158,7 +168,8 @@ const styles = StyleSheet.create({
         height: 60,
         alignItems: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: CommonStyle.GRAY_COLOR
+        borderBottomColor: CommonStyle.GRAY_COLOR,
+        flexDirection: 'row'
     }
 });
 
