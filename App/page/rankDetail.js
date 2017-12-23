@@ -86,32 +86,35 @@ class RankDetail extends Component {
         let data = this.state.data;
         return (
             <View tabLabel={item} key={index}>
-                {
-                    CommonUtil.isEmpty(data) ? <View/> :
-                    data.map((item, index) => this.renderItem(item, index))
-                }
+                <ScrollView>
+                    {
+                        CommonUtil.isEmpty(data) ? <View/> :
+                            data.map((item, index) => this.renderItem(item, index))
+                    }
+                </ScrollView>
             </View>
         )
     };
 
     renderItem = (item, index) => {
         return (
-            <View key={index} style={styles.item}>
-                <Text style={{marginLeft: 15}}>{index+1+'.'}</Text>
-                <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
-                <View>
-                    {
-                        CommonUtil.isEmpty(item.playerName) ? <View/> : <Text style={{color: CommonStyle.THEME, marginBottom: 2}}>{item.playerName}</Text>
-                    }
-                    <Text>{item.teamName}</Text>
+            <TouchableOpacity key={index} onPress={() => this.goPlayerOrTeamDetail(item)}>
+                <View style={styles.item}>
+                    <Text style={{marginLeft: 15}}>{index+1+'.'}</Text>
+                    <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
+                    <View>
+                        {
+                            CommonUtil.isEmpty(item.playerName) ? <View/> : <Text style={{color: CommonStyle.THEME, marginBottom: 2}}>{item.playerName}</Text>
+                        }
+                        <Text>{item.teamName}</Text>
+                    </View>
+                    <Text style={styles.itemValue}>{item.value}</Text>
                 </View>
-                <Text style={styles.itemValue}>{item.value}</Text>
-            </View>
+            </TouchableOpacity>
         )
     };
 
     chooseStatType = (index) => {
-        console.log(index);
         let that = this;
         let url = '';
         let params = that.state.title === '球队榜' ? 'team/statsRank?' : 'player/statsRank?';
@@ -185,6 +188,29 @@ class RankDetail extends Component {
         })
     };
 
+    goPlayerOrTeamDetail = (item) => {
+        switch (this.props.type) {
+            case "day":
+                getNavigator().push({
+                    name: 'PlayerDetail',
+                    playerInfo: item
+                });
+                break;
+            case "player":
+                getNavigator().push({
+                    name: 'PlayerDetail',
+                    playerInfo: item
+                });
+                break;
+            case 'team':
+                getNavigator().push({
+                    name: 'TeamDetail',
+                    teamInfo: item
+                });
+                break;
+        }
+    };
+
     goBack = () => {
         getNavigator().pop();
     }
@@ -213,7 +239,7 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'right',
         paddingRight: 20,
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: 'bold'
     }
 });

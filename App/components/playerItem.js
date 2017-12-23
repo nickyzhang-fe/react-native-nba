@@ -113,6 +113,12 @@ class PlayerItem extends Component {
     * */
     goDetail = (item) => {
         switch (this.state.type) {
+            case "day":
+                getNavigator().push({
+                    name: 'PlayerDetail',
+                    playerInfo: item
+                });
+                break;
             case "player":
                 getNavigator().push({
                     name: 'PlayerDetail',
