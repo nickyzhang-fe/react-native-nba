@@ -45,31 +45,36 @@ class PlayerItem extends Component {
         }
         return (
             <ScrollView style={styles.container}>
-                <RankTitle title={'得分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 0)}/>
+                <RankTitle title={'得分'} img={require('../image/go.png')}
+                           click={() => this.goRankDetail(this.state.type, 0)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         point.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'篮板'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 1)}/>
+                <RankTitle title={'篮板'} img={require('../image/go.png')}
+                           click={() => this.goRankDetail(this.state.type, 1)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         rebound.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'助攻'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 2)}/>
+                <RankTitle title={'助攻'} img={require('../image/go.png')}
+                           click={() => this.goRankDetail(this.state.type, 2)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         assist.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'盖帽'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 3)}/>
+                <RankTitle title={'盖帽'} img={require('../image/go.png')}
+                           click={() => this.goRankDetail(this.state.type, 3)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         block.map((item, index) => this.renderItem(item, index))
                     }
                 </View>
-                <RankTitle title={'抢断'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 4)}/>
+                <RankTitle title={'抢断'} img={require('../image/go.png')}
+                           click={() => this.goRankDetail(this.state.type, 4)}/>
                 <View style={styles.playerItemBottom}>
                     {
                         steal.map((item, index) => this.renderItem(item, index))
@@ -78,7 +83,8 @@ class PlayerItem extends Component {
                 {
                     this.props.type === 'team' ?
                         <View>
-                            <RankTitle title={'失分'} img={require('../image/go.png')} click={() => this.goRankDetail(this.state.type, 5)}/>
+                            <RankTitle title={'失分'} img={require('../image/go.png')}
+                                       click={() => this.goRankDetail(this.state.type, 5)}/>
                             <View style={styles.playerItemBottom}>
                                 {
                                     oppPoints.map((item, index) => this.renderItem(item, index))
@@ -100,7 +106,7 @@ class PlayerItem extends Component {
                            source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo.replace('http', 'https') : item.playerIcon}}/>
                     {
                         CommonUtil.isEmpty(item.playerName) ? <View/> :
-                        <Text numberOfLines={1}>{item.playerName}</Text>
+                            <Text numberOfLines={1}>{item.playerName}</Text>
                     }
                     <Text style={{marginTop: 5, color: CommonStyle.TEXT_GRAY_COLOR}}>{item.teamName}</Text>
                 </View>
@@ -109,8 +115,8 @@ class PlayerItem extends Component {
     };
 
     /*
-    * 跳转到球员详情或球队详情
-    * */
+     * 跳转到球员详情或球队详情
+     * */
     goDetail = (item) => {
         switch (this.state.type) {
             case "day":
@@ -134,8 +140,8 @@ class PlayerItem extends Component {
         }
     };
     /*
-    * rank榜
-    * */
+     * rank榜
+     * */
     goRankDetail = (type, index) => {
         getNavigator().push({
             name: 'RankDetail',
@@ -158,16 +164,6 @@ const styles = StyleSheet.create({
         width: CommonUtil.getScreenWidth(),
         flexDirection: 'column'
     },
-    // playerItemTop: {
-    //     width: CommonUtil.getScreenWidth(),
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     borderBottomWidth: 1,
-    //     borderBottomColor: CommonStyle.GRAY_COLOR,
-    //     height: 40,
-    //     alignItems: 'center',
-    //     paddingHorizontal: 15
-    // },
     playerItemBottom: {
         width: CommonUtil.getScreenWidth(),
         height: 150,
@@ -182,10 +178,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    // img: {
-    //     height: 14,
-    //     width: 14
-    // },
     icon: {
         height: 60,
         width: 60,

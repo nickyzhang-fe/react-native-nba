@@ -40,13 +40,9 @@ class RankDetail extends Component {
             statType: 'point',
             data: []
         };
-        console.log(this.props)
     };
 
     componentDidMount() {
-        // this.loadData = setTimeout(() => {
-        //     this.getPlayerRank(this.state.index)
-        // }, 2000);
         InteractionManager.runAfterInteractions(() => this.chooseStatType(this.state.index));
     }
 
@@ -100,11 +96,13 @@ class RankDetail extends Component {
         return (
             <TouchableOpacity key={index} onPress={() => this.goPlayerOrTeamDetail(item)}>
                 <View style={styles.item}>
-                    <Text style={{marginLeft: 15}}>{index+1+'.'}</Text>
-                    <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
+                    <Text style={{marginLeft: 15}}>{index + 1 + '.'}</Text>
+                    <Image style={styles.icon}
+                           source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
                     <View>
                         {
-                            CommonUtil.isEmpty(item.playerName) ? <View/> : <Text style={{color: CommonStyle.THEME, marginBottom: 2}}>{item.playerName}</Text>
+                            CommonUtil.isEmpty(item.playerName) ? <View/> :
+                                <Text style={{color: CommonStyle.THEME, marginBottom: 2}}>{item.playerName}</Text>
                         }
                         <Text>{item.teamName}</Text>
                     </View>
@@ -230,7 +228,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     icon: {
-        height:40,
+        height: 40,
         width: 40,
         borderRadius: 20,
         marginHorizontal: 15
