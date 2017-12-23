@@ -24,12 +24,16 @@ import HeaderBar from '../components/headerBar';
 import NetUtil from '../util/netUtil';
 import {getNavigator} from '../constant/router';
 
+const playerTitleName = ['得分', '篮板', '助攻', '盖帽', '抢断'];
+const teamTitleName = ['得分', '篮板', '助攻', '盖帽', '抢断', '失分'];
+
 class RankDetail extends Component {
     constructor(props) {
         super(props);
         this.loadData = null;
         this.state = {
             title: this.props.type === 'day' ? '每日数据' : (this.props.type === 'player' ? '球员榜' : '球队榜'),
+            tabsName: this.props.type === 'team' ? teamTitleName : playerTitleName,
             index: this.props.index,
             tabType: this.props.type === 'day' ? 1 : 3,
             seasonId: new Date().getFullYear(),
@@ -40,16 +44,13 @@ class RankDetail extends Component {
     };
 
     componentDidMount() {
-        this.loadData = setTimeout(() => {
-            this.getPlayerRank(this.state.index)
-        }, 2000);
-        // InteractionManager.runAfterInteractions(() => this.getPlayerRank(this.state.index));
+        // this.loadData = setTimeout(() => {
+        //     this.getPlayerRank(this.state.index)
+        // }, 2000);
+        InteractionManager.runAfterInteractions(() => this.chooseStatType(this.state.index));
     }
 
     render() {
-        console.log(111111);
-        console.log(this.state.data[this.state.statType]);
-        let data = this.state.data[this.state.statType];
         return (
             <View style={styles.container}>
                 <HeaderBar
@@ -71,83 +72,114 @@ class RankDetail extends Component {
                         tabBarInactiveTextColor={CommonStyle.TEXT_GRAY_COLOR}
                         renderTabBar={() => (<DefaultTabBar/>)}
                         initialPage={this.state.index}
-                        onChangeTab={(obj) => this.getPlayerRank(obj.i)}
-                        goToPage={() => this.getPlayerRank(obj.i)}>
-                        <View tabLabel="得分">
-
-                        </View>
-                        <View tabLabel="篮板">
-                        </View>
-                        <View tabLabel="助攻">
-                        </View>
-                        <View tabLabel="盖帽">
-                        </View>
-                        <View tabLabel="抢断">
-                        </View>
-                        <View tabLabel="失分">
-                        </View>
+                        onChangeTab={(obj) => this.chooseStatType(obj.i)}>
+                        {
+                            this.state.tabsName.map((item, index) => this.renderTitle(item, index))
+                        }
                     </ScrollableTabView>
                 </View>
             </View>
         )
     }
 
-// {
-//     data.map((item, index) => this.renderItem(item, index))
-// }
-
-    renderItem = (item, index) => {
-        console.log(item);
+    renderTitle = (item, index) => {
+        let data = this.state.data;
         return (
-            <View key={index} style={styles.item}>
-                <Text>{index}</Text>
-                <Text>{item.playerName}</Text>
-                <Text>{item.teamName}</Text>
-                <Text>{item.value}</Text>
+            <View tabLabel={item} key={index}>
+                {
+                    CommonUtil.isEmpty(data) ? <View/> :
+                    data.map((item, index) => this.renderItem(item, index))
+                }
             </View>
         )
     };
 
-    getPlayerRank = (index) => {
+    renderItem = (item, index) => {
+        return (
+            <View key={index} style={styles.item}>
+                <Text style={{marginLeft: 15}}>{index+1+'.'}</Text>
+                <Image style={styles.icon} source={{uri: CommonUtil.isEmpty(item.playerIcon) ? item.teamLogo : item.playerIcon}}/>
+                <View>
+                    {
+                        CommonUtil.isEmpty(item.playerName) ? <View/> : <Text style={{color: CommonStyle.THEME, marginBottom: 2}}>{item.playerName}</Text>
+                    }
+                    <Text>{item.teamName}</Text>
+                </View>
+                <Text style={styles.itemValue}>{item.value}</Text>
+            </View>
+        )
+    };
+
+    chooseStatType = (index) => {
+        console.log(index);
         let that = this;
+        let url = '';
+        let params = that.state.title === '球队榜' ? 'team/statsRank?' : 'player/statsRank?';
         switch (index) {
             case 0:
                 that.setState({
-                    statType: 'point'
+                    statType: 'point',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
             case 1:
                 that.setState({
-                    statType: 'rebound'
+                    statType: 'rebound',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
             case 2:
                 that.setState({
-                    statType: 'assist'
+                    statType: 'assist',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
             case 3:
                 that.setState({
-                    statType: 'block'
+                    statType: 'block',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
             case 4:
                 that.setState({
-                    statType: 'steal'
+                    statType: 'steal',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
             case 5:
                 that.setState({
-                    statType: 'oppPoints'
+                    statType: 'oppPoints',
+                    data: []
+                }, function () {
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    that.getPlayerRank(url, index);
                 });
                 break;
+            default:
+                break;
         }
-        let params = that.state.title === '球队榜' ? 'team/statsRank?' : 'player/statsRank?';
-        let url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId
+    };
+
+    getPlayerRank = (url, index) => {
+        let that = this;
         NetUtil.get(url, function (res) {
-            // console.log(res.data);
             that.setState({
-                data: res.data,
+                data: res.data[that.state.statType],
                 index: index
             })
         })
@@ -170,6 +202,19 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: CommonStyle.GRAY_COLOR,
         flexDirection: 'row'
+    },
+    icon: {
+        height:40,
+        width: 40,
+        borderRadius: 20,
+        marginHorizontal: 15
+    },
+    itemValue: {
+        flex: 1,
+        textAlign: 'right',
+        paddingRight: 20,
+        fontSize: 24,
+        fontWeight: 'bold'
     }
 });
 
