@@ -60,6 +60,9 @@
 - 使用`react-native-splash-screen`时报 `java.lang.NoSuchFieldException: No field mAssets in class Landroid/content/res/MiuiResourcesImpl`
 	> `Android Studio --> File --> Invalidate Caches/Restart` 试一下，如果这个不行，那就`gg`
 
+- 微信分享 ios需要手动link
+	> [参考这边文章](https://www.jianshu.com/p/3f424cccb888)	
+
 ### Android签名
 
 - 签名文件为`ibinbin.jks`
