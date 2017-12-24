@@ -35,6 +35,7 @@
 		394B5DE56E7B4765AEC36036 /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4669E3039B4761B7EC584E /* libRCTToast.a */; };
 		8080B2023CEE4C96A29788CF /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FCBF26B6F7046D9AE94BF59 /* libRCTOrientation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		863CF66B1FEFECE700B899B8 /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B631DE1FDAFEB400C05A01 /* libRCTWeChat.a */; };
 		868634EB1FE001D7006A908B /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		868634EC1FE0034F006A908B /* Images.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		86B24ECC1FDC232500B22D2F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B24ECB1FDC232500B22D2F /* SystemConfiguration.framework */; };
@@ -440,6 +441,7 @@
 				8080B2023CEE4C96A29788CF /* libRCTOrientation.a in Frameworks */,
 				B7A38785CC924E2F8DEF9FCB /* libSplashScreen.a in Frameworks */,
 				C283510113CC4DFFBD661267 /* libReact.a in Frameworks */,
+				863CF66B1FEFECE700B899B8 /* libRCTWeChat.a in Frameworks */,
 				B8263C7FC1254B4AAEFB7D4A /* libyoga.a in Frameworks */,
 				07CE98FF27154E509492CFCA /* libcxxreact.a in Frameworks */,
 				A033AA0765F44D77973C22F8 /* libjschelpers.a in Frameworks */,
