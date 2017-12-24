@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':@remobile/react-native-toast')
     compile project(':react-native-wechat')
     compile project(':react-native-splash-screen')
     compile project(':react-native-orientation')

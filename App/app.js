@@ -19,7 +19,7 @@ import * as Orientation from "react-native-orientation";
 import Toast from './components/toast';
 import SplashScreen from 'react-native-splash-screen';
 import CommonStyle from './style/commonStyle'
-// import * as WeChat from 'react-native-wechat';
+import * as weChat from 'react-native-wechat';
 
 let lastClickTime = 0;
 
@@ -39,7 +39,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        // WeChat.registerApp('wxa106668d81b9dba8');
+        weChat.registerApp('wxa106668d81b9dba8');
         setTimeout(() => {
             SplashScreen.hide();
         }, 1000);

@@ -23,7 +23,7 @@ import CommonStyle from '../style/commonStyle';
 import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
 import Toast from '../components/toast';
-// import * as WeChat from 'react-native-wechat';
+import * as WeChat from 'react-native-wechat';
 
 const share = [
     {icon: require('../image/share/weixing.png'), name: '微信'},
@@ -122,8 +122,8 @@ class NewsDetail extends Component {
         let platform = Platform.OS === 'ios' ? 'ios' : 'android';
         switch (index) {
             case 0:
-                break;
                 this.shareToSession();
+                break;
             case 1:
                 this.shareToTimeline();
                 break;
@@ -140,11 +140,16 @@ class NewsDetail extends Component {
         this._closeModal();
     };
 
-    shareToSession() {
+    shareToSession = () => {
         WeChat.isWXAppInstalled()
             .then((isInstalled) => {
                 if (isInstalled) {
-                    WeChat.shareToSession(this.state.shareUrl)
+                    WeChat.shareToSession({
+                        type: 'NBA',
+                        title: '新闻详情',
+                        description: this.state.detail.item.title,
+                        webpageUrl: this.state.shareUrl
+                    })
                         .catch((error) => {
                             Toast.show(error.message);
                         });
@@ -152,13 +157,18 @@ class NewsDetail extends Component {
                     Toast.show('没有安装微信软件，请您安装微信之后再试');
                 }
             });
-    }
+    };
 
-    shareToTimeline() {
+    shareToTimeline = () => {
         WeChat.isWXAppInstalled()
             .then((isInstalled) => {
                 if (isInstalled) {
-                    WeChat.shareToTimeline(this.state.shareUrl)
+                    WeChat.shareToTimeline({
+                        type: 'NBA',
+                        title: '新闻详情',
+                        description: this.state.detail.item.title,
+                        webpageUrl: this.state.shareUrl
+                    })
                         .catch((error) => {
                             Toast.show(error.message);
                         });
@@ -166,9 +176,9 @@ class NewsDetail extends Component {
                     Toast.show('没有安装微信软件，请您安装微信之后再试');
                 }
             });
-    }
+    };
 
-    setToClipboard() {
+    setToClipboard = () => {
         Clipboard.setString(this.state.shareUrl);
         Toast.show('已复制到剪贴板');
     }
