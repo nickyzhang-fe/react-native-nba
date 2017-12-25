@@ -6,9 +6,11 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
+    Alert,
     Image,
     InteractionManager,
     ListView,
+    Platform,
     ScrollView,
     StyleSheet,
     TouchableOpacity
@@ -19,6 +21,18 @@ import {getNavigator} from '../constant/router';
 import NetUtil from '../util/netUtil';
 import CommonUtil from '../util/commonUtil';
 import CommonStyle from '../style/commonStyle';
+// import {
+//     isFirstTime,
+//     isRolledBack,
+//     packageVersion,
+//     currentVersion,
+//     checkUpdate,
+//     downloadUpdate,
+//     switchVersion,
+//     switchVersionLater,
+//     markSuccess,
+// } from 'react-native-update';
+// const {appKey} = _updateConfig[Platform.OS];
 
 class GameContainer extends Component {
     constructor(props) {
@@ -29,9 +43,74 @@ class GameContainer extends Component {
             startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             pageNum: 0,
-            gameData:[]
+            gameData: []
         };
     }
+
+    componentWillMount() {
+        // if (isFirstTime) {
+        //     Alert.alert('提示', '这是当前版本第一次启动,是否要模拟启动失败?失败将回滚到上一版本', [
+        //         {
+        //             text: '是', onPress: () => {
+        //             throw new Error('模拟启动失败,请重启应用')
+        //         }
+        //         },
+        //         {
+        //             text: '否', onPress: () => {
+        //             markSuccess()
+        //         }
+        //         },
+        //     ]);
+        // } else if (isRolledBack) {
+        //     Alert.alert('提示', '刚刚更新失败了,版本被回滚.');
+        // }
+    }
+
+    // doUpdate = info => {
+    //     downloadUpdate(info).then(hash => {
+    //         Alert.alert('提示', '下载完毕,是否重启应用?', [
+    //             {
+    //                 text: '是', onPress: () => {
+    //                 switchVersion(hash);
+    //             }
+    //             },
+    //             {text: '否',},
+    //             {
+    //                 text: '下次启动时', onPress: () => {
+    //                 switchVersionLater(hash);
+    //             }
+    //             },
+    //         ]);
+    //     }).catch(err => {
+    //         Alert.alert('提示', '更新失败.');
+    //     });
+    // };
+    // checkUpdate = () => {
+    //     checkUpdate(appKey).then(info => {
+    //         if (info.expired) {
+    //             Alert.alert('提示', '您的应用版本已更新,请前往应用商店下载新的版本', [
+    //                 {
+    //                     text: '确定', onPress: () => {
+    //                     info.downloadUrl && Linking.openURL(info.downloadUrl)
+    //                 }
+    //                 },
+    //             ]);
+    //         } else if (info.upToDate) {
+    //             Alert.alert('提示', '您的应用版本已是最新.');
+    //         } else {
+    //             Alert.alert('提示', '检查到新的版本' + info.name + ',是否下载?\n' + info.description, [
+    //                 {
+    //                     text: '是', onPress: () => {
+    //                     this.doUpdate(info)
+    //                 }
+    //                 },
+    //                 {text: '否',},
+    //             ]);
+    //         }
+    //     }).catch(err => {
+    //         Alert.alert('提示', '更新失败.');
+    //     });
+    // };
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => this.getMatchList());
@@ -43,8 +122,8 @@ class GameContainer extends Component {
 
     componentDidUpdate() {
         // 当前页的第一个matchPeriod为2是取消刷新
-        if (!CommonUtil.isEmpty(this.state.gameData)){
-            if (this.state.gameData[0].matchInfo.matchPeriod === '2'){
+        if (!CommonUtil.isEmpty(this.state.gameData)) {
+            if (this.state.gameData[0].matchInfo.matchPeriod === '2') {
                 this.loadGame && clearInterval(this.loadGame);
             }
         }
@@ -68,15 +147,18 @@ class GameContainer extends Component {
                     <Text style={{color: CommonStyle.WHITE, fontSize: 16}}>{this.state.currentTime}</Text>
                     <Image style={styleSheet.dateImgStyle} source={require('../image/back_right.png')}/>
                 </View>
-                <ScrollView>
-                    <View style={styleSheet.listView}>
-                        {
-                            CommonUtil.isEmpty(this.state.gameData) ?
-                                this.renderEmpty() :
-                                this.state.gameData.map((item, index) => this.renderRow(item, index))
-                        }
-                    </View>
-                </ScrollView>
+                {
+                    CommonUtil.isEmpty(this.state.gameData) ?
+                        this.renderEmpty() :
+                        <ScrollView>
+                            <View style={styleSheet.listView}>
+                                {
+                                    this.state.gameData.map((item, index) => this.renderRow(item, index))
+                                }
+                            </View>
+                        </ScrollView>
+                }
+
             </View>
         )
     }
@@ -105,10 +187,12 @@ class GameContainer extends Component {
 
     renderEmpty = () => {
         return (
-            <View style={styleSheet.listEmpty}>
-                <Image style={styleSheet.emptyImg} source={require('../image/no_data.png')}/>
-                <Text style={styleSheet.nbaName}>{'今天没有比赛哟'}</Text>
-            </View>
+            <TouchableOpacity onPress={this.checkUpdate} activeOpacity={1}>
+                <View style={styleSheet.listEmpty}>
+                    <Image style={styleSheet.emptyImg} source={require('../image/no_data.png')}/>
+                    <Text style={styleSheet.nbaName}>{'今天没有比赛哟'}</Text>
+                </View>
+            </TouchableOpacity>
         )
     };
 
@@ -129,13 +213,21 @@ class GameContainer extends Component {
                                 (rowData.matchPeriod === '2') ?
                                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
-                                        <Text style={[styleSheet.itemText, {color: CommonStyle.TEXT_COLOR, marginHorizontal: 10, fontWeight: 'bold'}]}>{'已结束'}</Text>
+                                        <Text style={[styleSheet.itemText, {
+                                            color: CommonStyle.TEXT_COLOR,
+                                            marginHorizontal: 10,
+                                            fontWeight: 'bold'
+                                        }]}>{'已结束'}</Text>
                                         <Text style={styleSheet.itemTextBig}>{rowData.rightGoal}</Text>
                                     </View> :
                                     (rowData.matchPeriod === '0' ?
                                         <View style={{justifyContent: 'center', alignItems: 'center'}}><Text
-                                            style={styleSheet.itemTextBig}>{rowData.startTime.slice(10,16)}</Text></View> :
-                                        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                                            style={styleSheet.itemTextBig}>{rowData.startTime.slice(10, 16)}</Text></View> :
+                                        <View style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'center',
+                                            alignItems: 'center'
+                                        }}>
                                             <Text style={styleSheet.itemTextBig}>{rowData.leftGoal}</Text>
                                             <View style={{flexDirection: 'column', marginHorizontal: 10}}>
                                                 <Text style={styleSheet.itemText}>{rowData.quarter}</Text>
@@ -206,18 +298,17 @@ const styleSheet = StyleSheet.create({
     },
     dateImgStyle: {
         height: 20,
-        width:20
+        width: 20
     },
     listView: {
         flex: 1,
         width: CommonUtil.getScreenWidth()
     },
     listEmpty: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: CommonStyle.BACKGROUND_COLOR,
-        height: CommonUtil.getScreenHeight() - 120,
+        height: CommonUtil.getScreenHeight() - 160,
         width: CommonUtil.getScreenWidth()
     },
     emptyImg: {

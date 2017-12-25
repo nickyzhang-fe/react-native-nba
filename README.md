@@ -69,3 +69,4 @@
 - 签名文件为`ibinbin.jks`
 - 密码：`5ibinbin`
 - `alias`：`china`
+- `./gradlew assembleRelease` `Android`打包
