@@ -57,7 +57,7 @@ class PlayerDetail extends Component {
                     showRightState={false}
                     showRightImage={false}
                     leftItemTitle={'资料'}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     onPress={() => this.goBack()}/>
                 <View style={styles.outline}>
                     <Image style={styles.teamLogo} source={{uri: this.state.playerIcon}}/>

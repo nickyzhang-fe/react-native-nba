@@ -50,7 +50,7 @@ class CommunityDetail extends Component {
                     showLeftState={true}
                     showRightState={false}
                     leftItemTitle={''}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     onPress={() => this.goBack()}/>
                 <ScrollView
                     style={{marginBottom: 52}}

@@ -55,7 +55,7 @@ class RankDetail extends Component {
                     showRightState={false}
                     showRightImage={false}
                     leftItemTitle={''}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     onPress={() => this.goBack()}/>
                 <View style={styles.container}>
                     <ScrollableTabView

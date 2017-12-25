@@ -56,7 +56,7 @@ class PersonInfo extends Component {
                     showRightState={true}
                     showRightImage={true}
                     leftItemTitle={''}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     rightImageSource={require('../image/close.png')}
                     onPress={() => this.goBack()}
                     onPressRight={() => this.hidePersonInfo()}/>

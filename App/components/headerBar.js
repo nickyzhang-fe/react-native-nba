@@ -43,7 +43,7 @@ class HeaderBar extends Component {
         showRightImage: false,
         leftItemTitle: '返回',
         rightItemTitle: '完成',
-        leftImageSource: require('../image/back.png'),
+        leftImageSource: require('../image/back_left.png'),
         rightImageSource: require('../image/menu_person.png')
     };
 

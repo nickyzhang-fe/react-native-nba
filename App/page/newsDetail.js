@@ -74,7 +74,7 @@ class NewsDetail extends Component {
                     showRightImage={true}
                     leftItemTitle={''}
                     rightItemTitle={''}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     rightImageSource={require('../image/share/share.png')}
                     onPress={() => this.goBack()}
                     onPressRight={() => this.showModal()}/>

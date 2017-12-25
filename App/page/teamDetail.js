@@ -69,7 +69,7 @@ class TeamDetail extends Component {
                     showRightState={false}
                     showRightImage={false}
                     leftItemTitle={'数据'}
-                    leftImageSource={require('../image/back.png')}
+                    leftImageSource={require('../image/back_left.png')}
                     onPress={() => this.goBack()}/>
                 <View style={styles.outline}>
                     <Image style={styles.teamLogo} source={{uri: baseInfo.teamLogo}}/>

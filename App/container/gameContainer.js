@@ -63,8 +63,10 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
-                <View >
-                    <Text>{this.state.currentTime}</Text>
+                <View style={styleSheet.dateStyle}>
+                    <Image style={styleSheet.dateImgStyle} source={require('../image/back_left.png')}/>
+                    <Text style={{color: CommonStyle.WHITE, fontSize: 16}}>{this.state.currentTime}</Text>
+                    <Image style={styleSheet.dateImgStyle} source={require('../image/back_right.png')}/>
                 </View>
                 <ScrollView>
                     <View style={styleSheet.listView}>
@@ -193,7 +195,19 @@ const styleSheet = StyleSheet.create({
         flex: 1,
         backgroundColor: CommonStyle.LINE_GRAY_COLOR,
     },
-
+    dateStyle: {
+        height: 40,
+        width: CommonUtil.getScreenWidth(),
+        backgroundColor: CommonStyle.THEME,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: 15
+    },
+    dateImgStyle: {
+        height: 20,
+        width:20
+    },
     listView: {
         flex: 1,
         width: CommonUtil.getScreenWidth()
