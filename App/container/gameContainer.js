@@ -51,7 +51,7 @@ class GameContainer extends Component {
     }
 
     componentWillUnmount() {
-        // this.loadGame && clearInterval(this.loadGame);
+        this.loadGame && clearInterval(this.loadGame);
     }
 
     render() {
@@ -98,7 +98,7 @@ class GameContainer extends Component {
         )
     }
 
-    renderEmpty(){
+    renderEmpty = () => {
         return (
             <View style={styleSheet.listEmpty}>
                 <Image style={styleSheet.emptyImg} source={require('../image/no_data.png')}/>
