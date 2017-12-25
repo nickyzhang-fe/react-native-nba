@@ -72,3 +72,7 @@
 - 密码：`5ibinbin`
 - `alias`：`china`
 - `./gradlew assembleRelease` `Android`打包
+
+### apk
+
+![Android](../NBA/icon/apk.png)
