@@ -75,4 +75,4 @@
 
 ### apk
 
-![Android](../NBA/icon/apk.png)
+![Android](./NBA/icon/apk.png)
