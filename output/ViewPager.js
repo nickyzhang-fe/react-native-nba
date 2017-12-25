@@ -43,6 +43,7 @@ var ViewPager = createReactClass({
         autoPlay: PropTypes.bool,
         animation: PropTypes.func,
         initialPage: PropTypes.number,
+        onBeyondRange: PropTypes.func   //add
     },
 
     fling: false,
@@ -184,6 +185,11 @@ var ViewPager = createReactClass({
     movePage(step, gs, animate = true) {
         var pageCount = this.props.dataSource.getPageCount();
         var pageNumber = this.state.currentPage + step;
+
+        if (pageNumber == -1 || pageNumber > pageCount - 1) { //add this
+            this.props.onBeyondRange && this.props.onBeyondRange(pageNumber);
+        }
+
         if (this.props.isLoop) {
             pageNumber = pageCount == 0 ? pageNumber = 0 : ((pageNumber + pageCount) % pageCount);
         } else {
