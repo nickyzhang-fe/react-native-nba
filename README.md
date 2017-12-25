@@ -75,4 +75,4 @@
 
 ### apk
 
-![Android](./NBA/icon/apk.png)
+![Android](https://github.com/5ibinbin/react-native-nba/blob/develop/icon/apk.png)
