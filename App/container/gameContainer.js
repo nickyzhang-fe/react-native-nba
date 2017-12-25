@@ -59,10 +59,13 @@ class GameContainer extends Component {
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
-                    title="比赛"
+                    title="赛程"
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
+                <View >
+                    <Text>{this.state.currentTime}</Text>
+                </View>
                 <ScrollView>
                     <View style={styleSheet.listView}>
                         {
@@ -190,6 +193,7 @@ const styleSheet = StyleSheet.create({
         flex: 1,
         backgroundColor: CommonStyle.LINE_GRAY_COLOR,
     },
+
     listView: {
         flex: 1,
         width: CommonUtil.getScreenWidth()
