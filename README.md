@@ -19,7 +19,7 @@
 - 实现`Android`的返回功能(有`bug`待修复)
 - 支持`Android`沉浸式状态栏
 - 添加`Android`和`iOS`启动页
-
+- 新增`Android`热更新
 
 ### 项目运行
 
@@ -62,7 +62,9 @@
 	> `Android Studio --> File --> Invalidate Caches/Restart` 试一下，如果这个不行，那就`gg`
 
 - 微信分享执行`react-native link`之后`iOS`需要手动`link`
-	> [参考这边文章](https://www.jianshu.com/p/3f424cccb888)	
+	> [参考这边文章](https://www.jianshu.com/p/3f424cccb888)
+- 热更新`pushy`配置教程
+	> [看这里](https://github.com/reactnativecn/react-native-pushy/blob/master/docs/guide.md)
 
 ### Android签名
 
