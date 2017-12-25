@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <SplashScreen.h>
+#import <RCTHotUpdate.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -27,6 +28,11 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#if DEBUG
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+#else
+  jsCodeLocation=[RCTHotUpdate bundleURL];
+#endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"NBA"
