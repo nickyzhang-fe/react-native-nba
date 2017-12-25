@@ -9,6 +9,7 @@ import {
     Image,
     InteractionManager,
     ListView,
+    ScrollView,
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
@@ -23,15 +24,12 @@ class GameContainer extends Component {
     constructor(props) {
         super(props);
         this.loadGame = null;
-        this.ps = new ViewPager.DataSource({pageHasChanged: (p1, p2) => p1 !== p2,});
-        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             pageNum: 0,
-            dataPageSource: this.ps.cloneWithPages([]),
-            dataListSource: this.ds.cloneWithRows([])
+            gameData:[]
         };
     }
 
@@ -45,13 +43,15 @@ class GameContainer extends Component {
 
     componentDidUpdate() {
         // 当前页的第一个matchPeriod为2是取消刷新
-        if (this.state.dataListSource._dataBlob.s1[0].matchInfo.matchPeriod === '2'){
-            this.loadGame && clearInterval(this.loadGame);
+        if (!CommonUtil.isEmpty(this.state.gameData)){
+            if (this.state.gameData[0].matchInfo.matchPeriod === '2'){
+                this.loadGame && clearInterval(this.loadGame);
+            }
         }
     }
 
     componentWillUnmount() {
-        this.loadGame && clearInterval(this.loadGame);
+        // this.loadGame && clearInterval(this.loadGame);
     }
 
     render() {
@@ -63,12 +63,15 @@ class GameContainer extends Component {
                     showLeftState={false}
                     showRightState={false}
                     showRightImage={false}/>
-                <ListView
-                    style={styleSheet.listView}
-                    renderRow={(rowData) => this.renderRow(rowData)}
-                    dataSource={this.state.dataListSource}
-                    enableEmptySections={true}/>
-
+                <ScrollView>
+                    <View style={styleSheet.listView}>
+                        {
+                            CommonUtil.isEmpty(this.state.gameData) ?
+                                this.renderEmpty() :
+                                this.state.gameData.map((item, index) => this.renderRow(item, index))
+                        }
+                    </View>
+                </ScrollView>
             </View>
         )
     }
@@ -85,30 +88,29 @@ class GameContainer extends Component {
 
     _renderPage(data, pageId) {
         return (
-            <ListView
-                style={styleSheet.listView}
-                renderRow={(rowData) => this.renderRow(rowData)}
-                dataSource={this.state.dataListSource.cloneWithRows(data)}
-                enableEmptySections={true}/>
+            <ScrollView>
+                <View style={styleSheet.listView}>
+                    {
+                        this.state.gameData.map((item, index) => this.renderRow(item, index))
+                    }
+                </View>
+            </ScrollView>
         )
     }
 
-    _onBeyondRange = (id) => {
-        console.log('onBeyondRange' + id);
+    renderEmpty(){
+        return (
+            <View style={styleSheet.listEmpty}>
+                <Image style={styleSheet.emptyImg} source={require('../image/no_data.png')}/>
+                <Text style={styleSheet.nbaName}>{'今天没有比赛哟'}</Text>
+            </View>
+        )
     };
 
-    onChangePage = (id) => {
-        console.log("onchangePage" + id);
-    };
-
-    goPager = (index) => {
-        this.viewPager.goToPage(index);
-    };
-
-    renderRow(item) {
+    renderRow(item, index) {
         const rowData = item.matchInfo;
         return (
-            <TouchableOpacity onPress={() => this.goMatchDetail(rowData)}>
+            <TouchableOpacity key={index} onPress={() => this.goMatchDetail(rowData)}>
                 <View style={[styleSheet.item, {backgroundColor: CommonStyle.WHITE}]}>
                     <View><Text style={styleSheet.itemTop}>{rowData.matchDesc}</Text></View>
                     <View style={styleSheet.itemBottom}>
@@ -147,7 +149,19 @@ class GameContainer extends Component {
                 </View>
             </TouchableOpacity>
         )
-    }
+    };
+
+    _onBeyondRange = (id) => {
+        console.log('onBeyondRange' + id);
+    };
+
+    onChangePage = (id) => {
+        console.log("onchangePage" + id);
+    };
+
+    goPager = (index) => {
+        this.viewPager.goToPage(index);
+    };
 
     getMatchList = () => {
         let that = this;
@@ -157,7 +171,7 @@ class GameContainer extends Component {
             'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + this.state.currentTime;
         NetUtil.get(url, function (res) {
             that.setState({
-                dataListSource: that.state.dataListSource.cloneWithRows(res.data.matches),
+                gameData: res.data.matches,
                 pageNum: 5
             });
         })
@@ -179,6 +193,19 @@ const styleSheet = StyleSheet.create({
     listView: {
         flex: 1,
         width: CommonUtil.getScreenWidth()
+    },
+    listEmpty: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: CommonStyle.BACKGROUND_COLOR,
+        height: CommonUtil.getScreenHeight() - 120,
+        width: CommonUtil.getScreenWidth()
+    },
+    emptyImg: {
+        height: 100,
+        width: 100,
+        marginBottom: 20
     },
     item: {
         flexDirection: 'column',
