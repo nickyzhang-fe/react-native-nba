@@ -27,14 +27,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.renderScene = this.renderScene.bind(this);
-        // this.onBackHandler = this.onBackHandler.bind(this);
+        this.onBackHandler = this.onBackHandler.bind(this);
     }
 
     componentWillMount() {
         Orientation.lockToPortrait();
         if (Platform.OS === 'android') {
             // Orientation.registerOnOrientationChanged();
-            // BackHandler.addEventListener('hardwareBackPress', this.onBackHandler);
+            BackHandler.addEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
 
@@ -47,7 +47,7 @@ class App extends Component {
 
     componentWillUnmount() {
         if (Platform.OS === 'android') {
-            // BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
         }
     }
 
@@ -95,7 +95,8 @@ class App extends Component {
         }
         let now = new Date().getTime();
         if (now - lastClickTime < 2000) {//2秒内点击后退键两次推出应用程序
-            return false;
+            BackHandler.exitApp();
+            return true;
         }
         lastClickTime = now;
         Toast.show('再按一次退出程序');
