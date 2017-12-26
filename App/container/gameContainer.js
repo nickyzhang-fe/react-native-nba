@@ -21,6 +21,7 @@ import {getNavigator} from '../constant/router';
 import NetUtil from '../util/netUtil';
 import CommonUtil from '../util/commonUtil';
 import CommonStyle from '../style/commonStyle';
+import Toast from '../components/toast';
 import {
     isFirstTime,
     isRolledBack,
@@ -39,12 +40,19 @@ class GameContainer extends Component {
     constructor(props) {
         super(props);
         this.loadGame = null;
+        this.tempMatches = [];
+        this.tempDate = [];
+        this.dataSource = new ViewPager.DataSource({
+            pageHasChanged: (p1, p2) => p1 !== p2,
+        });
         this.state = {
-            currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
+            matchTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            // currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
             startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
-            endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            // endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             pageNum: 0,
-            gameData: []
+            gameData: [],
+            dataSource: this.dataSource.cloneWithPages([])
         };
     }
 
@@ -115,20 +123,20 @@ class GameContainer extends Component {
     };
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => this.getMatchList());
-        this.loadGame = setInterval(
-            () => this.getMatchList(),
-            20000
-        )
+        InteractionManager.runAfterInteractions(() => {
+            for (let i = 0; i<=12; i++){
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, i))
+            }
+        });
     }
 
     componentDidUpdate() {
         // 当前页的第一个matchPeriod为2是取消刷新
-        if (!CommonUtil.isEmpty(this.state.gameData)) {
-            if (this.state.gameData[0].matchInfo.matchPeriod === '2') {
-                this.loadGame && clearInterval(this.loadGame);
-            }
-        }
+        // if (!CommonUtil.isEmpty(this.state.gameData)) {
+        //     if (this.state.gameData[0].matchInfo.matchPeriod === '2') {
+        //         this.loadGame && clearInterval(this.loadGame);
+        //     }
+        // }
     }
 
     componentWillUnmount() {
@@ -145,51 +153,50 @@ class GameContainer extends Component {
                     showRightState={false}
                     showRightImage={false}/>
                 <View style={styleSheet.dateStyle}>
-                    <Image style={styleSheet.dateImgStyle} source={require('../image/back_left.png')}/>
-                    <Text style={{color: CommonStyle.WHITE, fontSize: 16}}>{this.state.currentTime}</Text>
-                    <Image style={styleSheet.dateImgStyle} source={require('../image/back_right.png')}/>
+                    <TouchableOpacity onPress={() => this.preDay()}>
+                        <Image style={styleSheet.dateImgStyle} source={require('../image/back_left.png')}/>
+                    </TouchableOpacity>
+                    <Text style={{color: CommonStyle.WHITE, fontSize: 16}}>{this.state.matchTime}</Text>
+                    <TouchableOpacity onPress={() => this.nextDay()}>
+                        <Image style={styleSheet.dateImgStyle} source={require('../image/back_right.png')}/>
+                    </TouchableOpacity>
                 </View>
-                {
-                    CommonUtil.isEmpty(this.state.gameData) ?
-                        this.renderEmpty() :
-                        <ScrollView>
-                            <View style={styleSheet.listView}>
-                                {
-                                    this.state.gameData.map((item, index) => this.renderRow(item, index))
-                                }
-                            </View>
-                        </ScrollView>
-                }
-
+                <ViewPager
+                    ref={(viewPager) => {this.viewPager = viewPager}}
+                    style={styleSheet.container}
+                    initialPage={0}
+                    onBeyondRange={this._onBeyondRange}
+                    dataSource={this.state.dataSource}
+                    renderPage={this._renderPage.bind(this)}
+                    renderPageIndicator={false}
+                    onChangePage={this.onChangePage.bind(this)}/>
             </View>
         )
     }
 
-// <ViewPager
-// ref={(viewPager) => {this.viewPager = viewPager}}
-// style={styleSheet.container}
-// initialPage={pageNum}
-// onBeyondRange={this._onBeyondRange}
-// dataSource={this.state.dataPageSource}
-// renderPage={this._renderPage.bind(this)}
-// renderPageIndicator={false}
-// onChangePage={this.onChangePage.bind(this)}/>
-
     _renderPage(data, pageId) {
+        // console.log(data.today);
+        // console.log('pageId'+pageId);
         return (
-            <ScrollView>
-                <View style={styleSheet.listView}>
-                    {
-                        this.state.gameData.map((item, index) => this.renderRow(item, index))
-                    }
-                </View>
-            </ScrollView>
+            <View>
+                {
+                    CommonUtil.isEmpty(data) ?
+                        this.renderEmpty() :
+                        <ScrollView>
+                            <View style={styleSheet.listView}>
+                                {
+                                    data.map((item, index) => this.renderRow(item, index))
+                                }
+                            </View>
+                        </ScrollView>
+                }
+            </View>
         )
     }
 
     renderEmpty = () => {
         return (
-            <TouchableOpacity onPress={()=>this.checkUpdate()} activeOpacity={1}>
+            <TouchableOpacity onPress={() => this.checkUpdate()} activeOpacity={1}>
                 <View style={styleSheet.listEmpty}>
                     <Image style={styleSheet.emptyImg} source={require('../image/no_data.png')}/>
                     <Text style={styleSheet.nbaName}>{'今天没有比赛哟'}</Text>
@@ -251,27 +258,49 @@ class GameContainer extends Component {
     };
 
     _onBeyondRange = (id) => {
-        console.log('onBeyondRange' + id);
+        Toast.show('只能查看最近14天数据');
     };
 
     onChangePage = (id) => {
         console.log("onchangePage" + id);
+        this.setState({
+            matchTime: this.tempDate[id],
+            pageNum: id
+        })
+    };
+
+    preDay = () => {
+        if (this.state.pageNum > 0){
+            this.viewPager.goToPage(--this.state.pageNum);
+        } else {
+            Toast.show('只能查看最近14天数据');
+        }
+    };
+
+    nextDay = () => {
+        console.log(this.state.pageNum);
+        if (this.state.pageNum < 12){
+            this.viewPager.goToPage(++this.state.pageNum);
+        } else {
+            Toast.show('只能查看最近14天数据');
+        }
     };
 
     goPager = (index) => {
         this.viewPager.goToPage(index);
     };
 
-    getMatchList = () => {
+    async getMatchList(date){
         let that = this;
-        let tempArray = [];
+        that.tempDate.push(date);
         let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
             'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
-            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + this.state.currentTime;
+            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + date;
         NetUtil.get(url, function (res) {
+            that.tempMatches.push(res.data.matches);
             that.setState({
-                gameData: res.data.matches,
-                pageNum: 5
+                pageNum: 6,
+                dataSource: that.dataSource.cloneWithPages(that.tempMatches)
             });
         })
     };

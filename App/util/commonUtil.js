@@ -72,7 +72,15 @@ class commonUtil extends Component {
         d = d < 10 ? ('0' + d) : d;
         return y + '-' + m + '-' + d;
     };
-
+    /*
+    * 日期运算
+    * */
+    static addDate(date,days){
+        var date=new Date(date);
+        date.setDate(date.getDate()+days);
+        var m=date.getMonth()+1;
+        return date.getFullYear()+'-'+m+'-'+date.getDate();
+    }
     /*
      * 屏幕宽高
      * */
