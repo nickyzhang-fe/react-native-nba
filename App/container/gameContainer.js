@@ -46,9 +46,9 @@ class GameContainer extends Component {
             pageHasChanged: (p1, p2) => p1 !== p2,
         });
         this.state = {
-            matchTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            matchTime: CommonUtil.FormatDate(new Date().getTime() - 2 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             // currentTime: CommonUtil.FormatDate(new Date().getTime(), 'yyyy-MM-dd'),
-            startTime: CommonUtil.FormatDate(new Date().getTime() - 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
+            startTime: CommonUtil.FormatDate(new Date().getTime() - 2 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             // endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             pageNum: 0,
             gameData: [],
@@ -124,10 +124,17 @@ class GameContainer extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            for (let i = 0; i<=12; i++){
+            //同步执行 async await
+            for (let i = 0; i <= 4; i++) {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, i))
             }
         });
+
+        this.loadGame = setInterval(() => {
+            if (this.state.pageNum === 2) {
+                this.getMatchList(this.state.matchTime);
+            }
+        }, 20000)
     }
 
     componentDidUpdate() {
@@ -162,7 +169,9 @@ class GameContainer extends Component {
                     </TouchableOpacity>
                 </View>
                 <ViewPager
-                    ref={(viewPager) => {this.viewPager = viewPager}}
+                    ref={(viewPager) => {
+                        this.viewPager = viewPager
+                    }}
                     style={styleSheet.container}
                     initialPage={0}
                     onBeyondRange={this._onBeyondRange}
@@ -175,8 +184,6 @@ class GameContainer extends Component {
     }
 
     _renderPage(data, pageId) {
-        // console.log(data.today);
-        // console.log('pageId'+pageId);
         return (
             <View>
                 {
@@ -258,11 +265,11 @@ class GameContainer extends Component {
     };
 
     _onBeyondRange = (id) => {
-        Toast.show('只能查看最近14天数据');
+        Toast.show('只能查看最近5天数据');
     };
 
     onChangePage = (id) => {
-        console.log("onchangePage" + id);
+        console.log('onchangepage' + id);
         this.setState({
             matchTime: this.tempDate[id],
             pageNum: id
@@ -270,19 +277,18 @@ class GameContainer extends Component {
     };
 
     preDay = () => {
-        if (this.state.pageNum > 0){
-            this.viewPager.goToPage(--this.state.pageNum);
+        if (this.state.pageNum > 0) {
+            this.goPager(--this.state.pageNum);
         } else {
-            Toast.show('只能查看最近14天数据');
+            Toast.show('只能查看最近5天数据');
         }
     };
 
     nextDay = () => {
-        console.log(this.state.pageNum);
-        if (this.state.pageNum < 12){
-            this.viewPager.goToPage(++this.state.pageNum);
+        if (this.state.pageNum < 4) {
+            this.goPager(++this.state.pageNum);
         } else {
-            Toast.show('只能查看最近14天数据');
+            Toast.show('只能查看最近5天数据');
         }
     };
 
@@ -290,17 +296,30 @@ class GameContainer extends Component {
         this.viewPager.goToPage(index);
     };
 
-    async getMatchList(date){
+    getMatchList = async (date) => {
         let that = this;
         that.tempDate.push(date);
         let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
             'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
             'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + date;
-        NetUtil.get(url, function (res) {
-            that.tempMatches.push(res.data.matches);
+        await NetUtil.get(url, function (res) {
+            if (that.state.pageNum === 2) {
+                that.tempMatches[2] = res.data.matches;
+            } else {
+                that.tempMatches.push(res.data.matches);
+            }
+
+            console.log(date);
             that.setState({
-                pageNum: 6,
                 dataSource: that.dataSource.cloneWithPages(that.tempMatches)
+            }, function () {
+                if (that.tempMatches.length === 5) {
+                    that.setState({
+                        pageNum: 2
+                    }, function () {
+                        that.goPager(2);
+                    });
+                }
             });
         })
     };
