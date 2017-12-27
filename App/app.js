@@ -39,7 +39,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        weChat.registerApp('wxa106668d81b9dba8');
+        weChat.registerApp('wx2fc24108d8c0cecd');
         setTimeout(() => {
             SplashScreen.hide();
         }, 1000);

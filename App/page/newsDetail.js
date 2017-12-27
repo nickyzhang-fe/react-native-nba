@@ -23,7 +23,7 @@ import CommonStyle from '../style/commonStyle';
 import {getNavigator} from '../constant/router';
 import Global from '../constant/global';
 import Toast from '../components/toast';
-import * as WeChat from 'react-native-wechat';
+import * as weChat from 'react-native-wechat';
 
 const share = [
     {icon: require('../image/share/weixing.png'), name: '微信'},
@@ -44,6 +44,10 @@ class NewsDetail extends Component {
             transparent: true,//是否透明显示
             showModal: false
         };
+    }
+
+    componentDidMount() {
+        weChat.registerApp('wx2fc24108d8c0cecd');
     }
 
     render() {
@@ -141,18 +145,25 @@ class NewsDetail extends Component {
     };
 
     shareToSession = () => {
-        WeChat.isWXAppInstalled()
-            .then((isInstalled) => {
+        weChat.isWXAppInstalled()
+            .then(async (isInstalled) => {
+                console.log('152' + isInstalled);
                 if (isInstalled) {
-                    WeChat.shareToSession({
-                        type: 'NBA',
-                        title: '新闻详情',
-                        description: this.state.detail.item.title,
-                        webpageUrl: this.state.shareUrl
-                    })
-                        .catch((error) => {
-                            Toast.show(error.message);
+                    try {
+                        let result = await weChat.shareToSession({
+                            type: 'news',
+                            title: this.state.detail.item.title,
+                            description: this.state.detail.item.title,
+                            thumbImage: Global.DEFAULT_LOGO,
+                            webpageUrl: this.state.shareUrl
                         });
+                    } catch (e) {
+                        if (e instanceof weChat.WechatError) {
+                            console.error(e.stack);
+                        } else {
+                            throw e;
+                        }
+                    }
                 } else {
                     Toast.show('没有安装微信软件，请您安装微信之后再试');
                 }
@@ -160,18 +171,24 @@ class NewsDetail extends Component {
     };
 
     shareToTimeline = () => {
-        WeChat.isWXAppInstalled()
-            .then((isInstalled) => {
+        weChat.isWXAppInstalled()
+            .then(async (isInstalled) => {
                 if (isInstalled) {
-                    WeChat.shareToTimeline({
-                        type: 'NBA',
-                        title: '新闻详情',
-                        description: this.state.detail.item.title,
-                        webpageUrl: this.state.shareUrl
-                    })
-                        .catch((error) => {
-                            Toast.show(error.message);
+                    try {
+                        let result = await weChat.shareToTimeline({
+                            type: 'news',
+                            title: this.state.detail.item.title,
+                            description: this.state.detail.item.title,
+                            thumbImage: Global.DEFAULT_LOGO,
+                            webpageUrl: this.state.shareUrl
                         });
+                    } catch (e) {
+                        if (e instanceof weChat.WechatError) {
+                            console.error(e.stack);
+                        } else {
+                            throw e;
+                        }
+                    }
                 } else {
                     Toast.show('没有安装微信软件，请您安装微信之后再试');
                 }

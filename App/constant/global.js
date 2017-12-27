@@ -41,7 +41,7 @@ const DEFAULT_PIC = require('../image/default_pic.png');
 /*
  * 默认logo
  * */
-const DEFAULT_LOGO = 'https://mat1.gtimg.com/chinanba/images/NBA_APP_Logo_58';
+const DEFAULT_LOGO = 'https://github.com/5ibinbin/react-native-nba/blob/master/icon/120*120.png';
 
 /*
 * 热门社区

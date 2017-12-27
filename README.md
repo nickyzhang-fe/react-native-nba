@@ -5,7 +5,7 @@
 `"node": "6.10.2"`
 
 ### 声明
-> 该APP所用到的API均由 [「腾讯NBA」](http://sports.qq.com/nba/)提供，[本人](https://github.com/5ibinbin)采取非正常手段获取。获取有侵犯权益的嫌疑。请您了解相关情况，并保证不侵犯[「腾讯NBA」](http://sports.qq.com/nba/)的相关利益，并遵守开源协议，谢谢！！！
+> 该APP所用到的API均由 [「腾讯NBA」](http://sports.qq.com/nba/)提供，[本人](https://github.com/5ibinbin)采取非正常手段获取。获取有侵犯权益的嫌疑，如追责，请删除。请您了解相关情况，并保证不侵犯[「腾讯NBA」](http://sports.qq.com/nba/)的相关利益，并遵守开源协议，谢谢！！！
 
 ### 项目描述
 
@@ -15,7 +15,7 @@
 - 可查看当前球队排行、当日、当赛季球员榜单和球队赛季榜单
 - 可查看球员详细信息
 - 可查看球队详细信息
-- 实现新闻的分享功能(未实现)
+- 实现新闻的分享功能
 - 实现`Android`的返回功能(有`bug`待修复)
 - 支持`Android`沉浸式状态栏
 - 添加`Android`和`iOS`启动页
@@ -62,7 +62,8 @@
 	> `Android Studio --> File --> Invalidate Caches/Restart` 试一下，如果这个不行，那就`gg`
 
 - 微信分享执行`react-native link`之后`iOS`需要手动`link`
-	> [参考这边文章](https://www.jianshu.com/p/3f424cccb888)
+	> [参考这边文章](https://www.jianshu.com/p/3f424cccb888)  
+	[bug请移步这里](https://github.com/yorkie/react-native-wechat)
 - 热更新`pushy`配置教程
 	> [看这里](https://github.com/reactnativecn/react-native-pushy/blob/master/docs/guide.md)
 
