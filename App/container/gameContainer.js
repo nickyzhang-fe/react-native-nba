@@ -133,20 +133,23 @@ class GameContainer extends Component {
             }, 1),
             setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 1))
-            }, 10),
-            setTimeout(() => {
-                this.getMatchList(CommonUtil.addDate(this.state.startTime, 2))
             }, 50),
             setTimeout(() => {
-                this.getMatchList(CommonUtil.addDate(this.state.startTime, 3))
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 2))
             }, 100),
             setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 3))
+            }, 150),
+            setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 4))
-            }, 150)]);
+            }, 200)]);
 
         this.loadGame = setInterval(() => {
             if (this.state.pageNum === 2) {
-                this.getMatchList(this.state.matchTime);
+                if (this.tempMatches[2][0].matchInfo.matchPeriod !== '2' ||
+                    this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod !== '2') {
+                    this.getMatchList(this.state.matchTime);
+                }
             }
         }, 20000)
     }
