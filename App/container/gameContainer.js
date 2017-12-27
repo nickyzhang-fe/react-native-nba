@@ -269,7 +269,6 @@ class GameContainer extends Component {
     };
 
     onChangePage = (id) => {
-        console.log('onchangepage' + id);
         this.setState({
             matchTime: this.tempDate[id],
             pageNum: id
