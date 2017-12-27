@@ -52,6 +52,7 @@ class GameContainer extends Component {
             // endTime: CommonUtil.FormatDate(new Date().getTime() + 6 * 24 * 60 * 60 * 1000, 'yyyy-MM-dd'),
             pageNum: 0,
             gameData: [],
+            firstEnter: true,
             dataSource: this.dataSource.cloneWithPages([])
         };
     }
@@ -123,12 +124,25 @@ class GameContainer extends Component {
     };
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => {
-            //同步执行 async await
-            for (let i = 0; i <= 4; i++) {
-                this.getMatchList(CommonUtil.addDate(this.state.startTime, i))
-            }
-        });
+        /*
+         * 保证同步执行
+         * */
+        Promise.all([
+            setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 0))
+            }, 1),
+            setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 1))
+            }, 10),
+            setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 2))
+            }, 50),
+            setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 3))
+            }, 100),
+            setTimeout(() => {
+                this.getMatchList(CommonUtil.addDate(this.state.startTime, 4))
+            }, 150)]);
 
         this.loadGame = setInterval(() => {
             if (this.state.pageNum === 2) {
@@ -139,15 +153,16 @@ class GameContainer extends Component {
 
     componentDidUpdate() {
         // 当前页的第一个matchPeriod为2是取消刷新
-        // if (!CommonUtil.isEmpty(this.state.gameData)) {
-        //     if (this.state.gameData[0].matchInfo.matchPeriod === '2') {
-        //         this.loadGame && clearInterval(this.loadGame);
-        //     }
-        // }
+        if (!CommonUtil.isEmpty(this.tempMatches[2])) {
+            if (this.tempMatches[2][0].matchInfo.matchPeriod !== '2' && this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod !== '2') {
+                this.loadGame && clearInterval(this.loadGame);
+            }
+        }
     }
 
     componentWillUnmount() {
         this.loadGame && clearInterval(this.loadGame);
+        console.log(this.loadGame);
     }
 
     render() {
@@ -295,32 +310,38 @@ class GameContainer extends Component {
         this.viewPager.goToPage(index);
     };
 
-    getMatchList = async (date) => {
+    getMatchList = (date) => {
         let that = this;
         that.tempDate.push(date);
         let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
             'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
             'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + date;
-        await NetUtil.get(url, function (res) {
-            if (that.state.pageNum === 2) {
-                that.tempMatches[2] = res.data.matches;
-            } else {
-                that.tempMatches.push(res.data.matches);
-            }
-
-            console.log(date);
-            that.setState({
-                dataSource: that.dataSource.cloneWithPages(that.tempMatches)
-            }, function () {
-                if (that.tempMatches.length === 5) {
-                    that.setState({
-                        pageNum: 2
-                    }, function () {
-                        that.goPager(2);
-                    });
+        let promise = new Promise(function (resolve, reject) {
+            NetUtil.get(url, function (res) {
+                if (that.state.pageNum === 2) {
+                    that.tempMatches[2] = res.data.matches;
+                } else {
+                    that.tempMatches.push(res.data.matches);
                 }
-            });
-        })
+                console.log(date);
+                that.setState({
+                    dataSource: that.dataSource.cloneWithPages(that.tempMatches)
+                }, function () {
+                    if (that.tempMatches.length === 5) {
+                        if (that.state.firstEnter) {
+                            that.setState({
+                                pageNum: 2,
+                                firstEnter: false
+                            }, function () {
+                                that.goPager(2);
+                            });
+                        }
+                    }
+                    resolve(that.state.dataSource);
+                });
+            })
+        });
+        return promise;
     };
 
     goMatchDetail = (rowData) => {

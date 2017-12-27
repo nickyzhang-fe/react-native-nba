@@ -19,7 +19,7 @@
 - 实现`Android`的返回功能(有`bug`待修复)
 - 支持`Android`沉浸式状态栏
 - 添加`Android`和`iOS`启动页
-- 新增`Android`热更新, `iOS`不支持(没有证书)
+- 新增`Android`热更新, `iOS`待验证(没有证书)
 
 ### 项目运行
 
