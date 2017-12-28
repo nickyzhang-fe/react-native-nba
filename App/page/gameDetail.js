@@ -203,9 +203,7 @@ class GameDetail extends Component {
 
     getBaseInfo = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/match/baseInfo?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
+        let url = `${Global.BASE_URL}match/baseInfo?${Global.BASE_PARAMS}&mid=${this.state.mid}`;
         NetUtil.get(url, function (res) {
             that.setState({
                 baseInfo: res.data,
@@ -215,9 +213,7 @@ class GameDetail extends Component {
 
     getGameDetailIds = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/match/textLiveIndex?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height '
-            + '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid;
+        let url = `${Global.BASE_URL}match/textLiveIndex?${Global.BASE_PARAMS}&mid=${this.state.mid}`;
         NetUtil.get(url, function (res) {
             that.setState({
                 ids: res.data.index,
@@ -238,10 +234,7 @@ class GameDetail extends Component {
                 ids += that.state.ids[i] + ',';
             }
         }
-        let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
-            '&ids=' + ids.substring(0, ids.length - 1);
+        let url = `${Global.BASE_URL}match/textLiveDetail?${Global.BASE_PARAMS}&mid=${this.state.mid}&ids=${ids.substring(0, ids.length - 1)}`;
         NetUtil.get(url, function (res) {
             for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);
@@ -266,10 +259,7 @@ class GameDetail extends Component {
                 ids += that.state.ids[i] + ',';
             }
         }
-        let url = 'http://sportsnba.qq.com/match/textLiveDetail?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&mid=' + this.state.mid +
-            '&ids=' + ids;
+        let url = `${Global.BASE_URL}match/textLiveDetail?${Global.BASE_PARAMS}&mid=${this.state.mid}&ids=${ids}`;
         NetUtil.get(url, function (res) {
             for (let i in res.data.detail) {
                 tempArray.push(res.data.detail[i]);

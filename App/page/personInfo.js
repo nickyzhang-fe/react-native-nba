@@ -29,24 +29,6 @@ class PersonInfo extends Component {
         };
     }
 
-    componentWillMount() {
-        // BackHandler.addEventListener("hardwareBackPress", () => {
-        //     try {
-        //         if (this.state.isBackButtonEnable) {
-        //             this.refs.webview.goBack();//返回上一个页面
-        //             return true;//true 系统不再处理 false交给系统处理
-        //         }
-        //     } catch (error) {
-        //         return false;
-        //     }
-        //     return false;
-        // })
-    }
-
-    componentWillUnmount() {
-        // BackHandler.removeEventListener("hardwareBackPress");
-    }
-
     render() {
         return (
             <View style={styles.container}>

@@ -82,7 +82,7 @@ class ForumTeam extends PureComponent {
             isRefreshing: true,
             page: 1
         });
-        let url = 'http://shequweb.sports.qq.com/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page +
+        let url = Global.TEN_SHE_QU_URL + '/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page +
             '&count=' + this.state.pageSize +'&period=all&order=&elite=0&activity=0';
         NetUtil.get(url, function (res) {
             that.setState({
@@ -97,7 +97,7 @@ class ForumTeam extends PureComponent {
         that.setState({
             isRefreshing: true,
         });
-        let url = 'http://shequweb.sports.qq.com/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page++ +
+        let url = Global.TEN_SHE_QU_URL + '/module/filterTopics?mid='+ this.state.mid +'&page='+ this.state.page++ +
             '&count=' + this.state.pageSize +'&period=all&order=&elite=0&activity=0';
         NetUtil.get(url, function (res) {
             that.setState({

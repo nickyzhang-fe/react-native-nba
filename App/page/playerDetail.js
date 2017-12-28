@@ -179,11 +179,8 @@ class PlayerDetail extends Component {
     };
 
     getPlayerBaseInfo = () => {
-        console.log('player');
         let that = this;
-        let url = `http://sportsnba.qq.com/player/baseInfo?appver=4.0.1&appvid=4.0.1&deviceId
-        =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
-        =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&playerId=${this.state.playerId}`;
+        let url = `${Global.BASE_URL}player/baseInfo?${Global.BASE_PARAMS}&playerId=${this.state.playerId}`;
         NetUtil.get(url, function (res) {
             that.setState({
                 baseInfo: res.data,
@@ -194,9 +191,7 @@ class PlayerDetail extends Component {
 
     getPlayerCareerData = () => {
         let that = this;
-        let url = `http://sportsnba.qq.com/player/stats?appver=4.0.1&appvid=4.0.1&deviceId
-        =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
-        =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&playerId=${this.state.playerId}&tabType=2`;
+        let url = `${Global.BASE_URL}player/stats?${Global.BASE_PARAMS}&playerId=${this.state.playerId}&tabType=2`;
         NetUtil.get(url, function (res) {
             let tempRegular = res.data.reg.rows.unshift(res.data.reg.head);
             let tempPost = res.data.hasOwnProperty('playoff') ? res.data.playoff.rows.unshift(res.data.reg.head) : [];
@@ -209,9 +204,7 @@ class PlayerDetail extends Component {
 
     getPlayerSeasonData = () => {
         let that = this;
-        let url = `http://sportsnba.qq.com/player/stats?appver=4.0.1&appvid=4.0.1&deviceId
-        =09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height
-        =1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&playerId=${this.state.playerId}&tabType=1`;
+        let url = `${Global.BASE_URL}player/stats?${Global.BASE_PARAMS}&playerId=${this.state.playerId}&tabType=1`;
         NetUtil.get(url, function (res) {
             let tempLastMatches = res.data.hasOwnProperty('lastMatches') ? res.data.lastMatches.rows.unshift(res.data.lastMatches.head) : [];
             let tempStats = res.data.stats.rows.unshift(res.data.stats.head);

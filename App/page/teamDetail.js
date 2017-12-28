@@ -1,9 +1,6 @@
 /**
  * Created by Cral-Gates on 2017/12/17.
  */
-/**
- * Created by Cral-Gates on 2017/12/14.
- */
 import React, {Component} from 'react';
 import PropType from 'prop-types';
 import {
@@ -37,17 +34,9 @@ class TeamDetail extends Component {
             stats: {},
             statsRank: {}
         };
-        console.log(this.props.teamInfo);
     };
 
     componentDidMount() {
-        // this.loadTeam = setInterval(
-        //     () => {
-        //         this.getTeamInfo();
-        //         this.getTeamPlayer();
-        //     },
-        //     2000
-        // );
         InteractionManager.runAfterInteractions(() => this.getTeamInfo());
         InteractionManager.runAfterInteractions(() => this.getTeamPlayer());
     }
@@ -184,9 +173,7 @@ class TeamDetail extends Component {
 
     getTeamInfo = () => {
         let that = this;
-        let url = `http://sportsnba.qq.com/team/info?teamId=${this.state.teamId}&selects=baseInfo&appver=
-        4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from=app&guid=
-        09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080`;
+        let url = `${Global.BASE_URL}team/info?${Global.BASE_PARAMS}&teamId=${this.state.teamId}&selects=baseInfo`;
         NetUtil.get(url, function (res) {
             that.setState({
                 baseInfo: res.data.baseInfo,
