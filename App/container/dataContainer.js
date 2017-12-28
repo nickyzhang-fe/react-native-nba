@@ -59,9 +59,11 @@ class DataContainer extends Component {
                     onPress={() => this.showPersonInfo(BLOG)}/>
                 <View style={styles.container}>
                     <ScrollableTabView
+                        style={{flex: 1}}
                         locked={false}
                         tabBarPosition={'top'}
-                        prerenderingSiblingsNumber={4}
+                        translucent={false}
+                        initialPage={0}
                         scrollWithoutAnimation={true}
                         tabBarBackgroundColor={CommonStyle.THEME}
                         tabBarActiveTextColor={CommonStyle.WHITE}
@@ -82,6 +84,8 @@ class DataContainer extends Component {
             </View>
         )
     }
+
+
 
     showPersonInfo = (url) => {
         getNavigator().push({

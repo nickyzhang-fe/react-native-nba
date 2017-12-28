@@ -14,10 +14,6 @@ class TabBar extends Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.scrollValue.addListener(this.setAnimationValue);
-    }
-
     render() {
         return (
             <View style={styles.tabs}>
@@ -41,10 +37,6 @@ class TabBar extends Component {
             </View>
         );
     }
-
-    setAnimationValue = (value) => {
-        console.log(value);
-    };
 }
 
 TabBar.PropTypes = {

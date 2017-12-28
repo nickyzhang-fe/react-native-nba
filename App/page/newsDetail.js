@@ -147,7 +147,6 @@ class NewsDetail extends Component {
     shareToSession = () => {
         weChat.isWXAppInstalled()
             .then(async (isInstalled) => {
-                console.log('152' + isInstalled);
                 if (isInstalled) {
                     try {
                         let result = await weChat.shareToSession({

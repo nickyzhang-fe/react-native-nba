@@ -8,7 +8,8 @@ import {
     View,
     BackAndroid,
     BackHandler,
-    Platform
+    Platform,
+    Text
 } from 'react-native';
 
 import {
@@ -23,7 +24,7 @@ import * as weChat from 'react-native-wechat';
 
 let lastClickTime = 0;
 
-class App extends Component {
+class App extends Component<{}> {
     constructor(props) {
         super(props);
         this.renderScene = this.renderScene.bind(this);
@@ -82,6 +83,14 @@ class App extends Component {
         this.navigator = navigator;
         registerNavigator(navigator);
         let Component = getRouteMap().get(route.name).component;
+        // console.log(route);
+        if (!Component) {
+            return (
+                <View style={styles.errorView}>
+                    <Text style={styles.errorText}>您所启动的Component未在routeMap中注册</Text>
+                </View>
+            );
+        }
         return (
             <Component {...route}/>
         );
@@ -94,9 +103,9 @@ class App extends Component {
             return true;
         }
         let now = new Date().getTime();
-        if (now - lastClickTime < 2000) {//2秒内点击后退键两次推出应用程序
+        if (now - lastClickTime < 2000) {
             BackHandler.exitApp();
-            return true;
+            return false;
         }
         lastClickTime = now;
         Toast.show('再按一次退出程序');
@@ -112,6 +121,16 @@ const styles = StyleSheet.create({
     navigator: {
         flex: 1,
         backgroundColor: CommonStyle.WHITE
+    },
+    errorView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white'
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 16
     }
 });
 

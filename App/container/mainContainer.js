@@ -40,15 +40,21 @@ class MainContainer extends Component {
                 scrollWithoutAnimation={true}
                 prerenderingSiblingsNumber={4}
                 overlayBottom={true}
-                renderTabBar={() => <TabBar
-                    tabIconNames={tabIcon}
-                    selectedTabIconNames={tabSelectedIcon}/>}>
-                <GameContainer style={styles.subView}/>
-                <NewsContainer style={styles.subView}/>
-                <CommunityContainer style={styles.subView}/>
-                <DataContainer style={styles.subView}/>
+                renderTabBar={() => {
+                    return <TabBar
+                        tabIconNames={tabIcon}
+                        selectedTabIconNames={tabSelectedIcon}/>
+                }}>
+                <GameContainer/>
+                <NewsContainer/>
+                <CommunityContainer/>
+                <DataContainer/>
             </ScrollableTabView>
         )
+    }
+
+    componentWillUnmount() {
+        console.log('unmount')
     }
 }
 
