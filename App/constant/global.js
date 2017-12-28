@@ -32,8 +32,8 @@ const BASE_URL = 'http://sportsnba.qq.com/';
 /*
 * 手机基础信息(写死)
 * */
-const BASE_PARAMS = '/appver=4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from='+
-    'app&guid=09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&';
+const BASE_PARAMS = 'appver=4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from='+
+    'app&guid=09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080';
 /*
 * 背景图
 * */

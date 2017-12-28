@@ -122,7 +122,7 @@ class RankDetail extends Component {
                     statType: 'point',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -131,7 +131,7 @@ class RankDetail extends Component {
                     statType: 'rebound',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -140,7 +140,7 @@ class RankDetail extends Component {
                     statType: 'assist',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -149,7 +149,7 @@ class RankDetail extends Component {
                     statType: 'block',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -158,7 +158,7 @@ class RankDetail extends Component {
                     statType: 'steal',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -167,7 +167,7 @@ class RankDetail extends Component {
                     statType: 'oppPoints',
                     data: []
                 }, function () {
-                    url = Global.BASE_URL + params + Global.BASE_PARAMS + 'statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
+                    url = Global.BASE_URL + params + Global.BASE_PARAMS + '&statType=' + that.state.statType + '&num=-1&tabType=' + that.state.tabType + '&seasonId=' + that.state.seasonId;
                     that.getPlayerRank(url, index);
                 });
                 break;
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'right',
         paddingRight: 20,
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold'
     }
 });

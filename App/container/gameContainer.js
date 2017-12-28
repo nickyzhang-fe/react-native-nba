@@ -22,6 +22,7 @@ import NetUtil from '../util/netUtil';
 import CommonUtil from '../util/commonUtil';
 import CommonStyle from '../style/commonStyle';
 import Toast from '../components/toast';
+import Global from '../constant/global';
 import {
     isFirstTime,
     isRolledBack,
@@ -123,7 +124,7 @@ class GameContainer extends Component {
         });
     };
 
-    componentDidMount() {
+    componentWillMount(){
         /*
          * 保证同步执行
          * */
@@ -133,21 +134,22 @@ class GameContainer extends Component {
             }, 1),
             setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 1))
-            }, 50),
+            }, 20),
             setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 2))
-            }, 100),
+            }, 50),
             setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 3))
-            }, 150),
+            }, 100),
             setTimeout(() => {
                 this.getMatchList(CommonUtil.addDate(this.state.startTime, 4))
-            }, 200)]);
+            }, 150)]);
 
         this.loadGame = setInterval(() => {
+
             if (this.state.pageNum === 2) {
-                if (this.tempMatches[2][0].matchInfo.matchPeriod !== '2' ||
-                    this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod !== '2') {
+                if (this.tempMatches[2][0].matchInfo.matchPeriod === '1' ||
+                    this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod === '0') {
                     this.getMatchList(this.state.matchTime);
                 }
             }
@@ -157,7 +159,7 @@ class GameContainer extends Component {
     componentDidUpdate() {
         // 当前页的第一个matchPeriod为2是取消刷新
         if (!CommonUtil.isEmpty(this.tempMatches[2])) {
-            if (this.tempMatches[2][0].matchInfo.matchPeriod !== '2' && this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod !== '2') {
+            if (this.tempMatches[2][0].matchInfo.matchPeriod === '2' && this.tempMatches[2][this.tempMatches[2].length - 1].matchInfo.matchPeriod === '2') {
                 this.loadGame && clearInterval(this.loadGame);
             }
         }
@@ -165,11 +167,9 @@ class GameContainer extends Component {
 
     componentWillUnmount() {
         this.loadGame && clearInterval(this.loadGame);
-        console.log(this.loadGame);
     }
 
     render() {
-        const {dataPageSource, pageNum} = this.state;
         return (
             <View style={styleSheet.container}>
                 <HeaderBar
@@ -316,9 +316,7 @@ class GameContainer extends Component {
     getMatchList = (date) => {
         let that = this;
         that.tempDate.push(date);
-        let url = 'http://sportsnba.qq.com/match/listByDate?appver=4.0.1&appvid=4.0.1&' +
-            'deviceId=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&' +
-            'height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&teamId=-1&date=' + date;
+        let url = `${Global.BASE_URL}match/listByDate?${Global.BASE_PARAMS}teamId=-1&date=${date}`;
         let promise = new Promise(function (resolve, reject) {
             NetUtil.get(url, function (res) {
                 if (that.state.pageNum === 2) {

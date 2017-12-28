@@ -88,7 +88,7 @@ class NewsContainer extends PureComponent {
 
     getNewsListIds = () => {
         let that = this;
-        let url = 'http://sportsnba.qq.com/news/index?appver=4.0.1&appvid=4.0.1&deviceId=09385DB300E081E142ED046B568B2E48&from=app&guid=09385DB300E081E142ED046B568B2E48&height=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner';
+        let url = `${Global.BASE_URL}news/index?${Global.BASE_PARAMS}&column=banner`;
         NetUtil.get(url, function (res) {
             that.setState({
                 ids: res.data,
@@ -107,9 +107,7 @@ class NewsContainer extends PureComponent {
                 ids += that.state.ids[i].id + ',';
             }
         }
-        let url = 'http://sportsnba.qq.com/news/item?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner&articleIds=' + ids;
+        let url = `${Global.BASE_URL}news/item?${Global.BASE_PARAMS}&column=banner&articleIds=${ids}`;
         NetUtil.get(url, function (res) {
             for (let i in res.data) {
                 tempArray.push(res.data[i]);
@@ -131,9 +129,7 @@ class NewsContainer extends PureComponent {
                 ids += that.state.ids[i].id + ',';
             }
         }
-        let url = 'http://sportsnba.qq.com/news/item?appver=4.0.1&appvid=4.0.1&deviceId' +
-            '=0928183600E081E142ED076B56E3DBAA&from=app&guid=0928183600E081E142ED076B56E3DBAA&height' +
-            '=1920&network=WIFI&os=Android&osvid=7.1.1&width=1080&column=banner&articleIds=' + ids;
+        let url = `${Global.BASE_URL}news/item?${Global.BASE_PARAMS}&column=banner&articleIds=${ids}`;
         NetUtil.get(url, function (res) {
             for (let i in res.data) {
                 tempArray.push(res.data[i]);
