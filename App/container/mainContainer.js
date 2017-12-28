@@ -52,16 +52,6 @@ class MainContainer extends Component {
             </ScrollableTabView>
         )
     }
-
-    componentWillUnmount() {
-        console.log('unmount')
-    }
 }
-
-const styles = StyleSheet.create({
-    subView: {
-        overflow: 'hidden'
-    }
-});
 
 export default MainContainer;

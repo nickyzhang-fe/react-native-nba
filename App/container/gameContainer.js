@@ -357,7 +357,7 @@ const styleSheet = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: CommonStyle.LINE_GRAY_COLOR,
-        overflow: 'hidden'
+        overflow: 'hidden' //解决ScrollableTabView 和viewpager 冲突
     },
     dateStyle: {
         height: 40,
