@@ -45,7 +45,7 @@
 	- 安装`react-native-deprecated-custom-components`
 	- `NavigatorBreadcrumbNavigationBar.js`相关`96`行`ES6`写法
 	- 请到[`github`](https://github.com/facebookarchive/react-native-custom-components/blob/master/src/Navigator.js)替换`react-native-deprecated-custom-components`中的`Navigator.js`文件
--  如遇到安装`react-native-viewpager`时报错
+-  如遇到安装`react-native-viewpager`时报错(RN版本问题)
 	
 	> 由于react-native的版本更新很快，而作者还没有来的急更新库，所以需要我们手动把相关代码转变为ES6写法；
 	- `DefaultViewPageIndicator.js` 文件中引入`PropTypes = require('prop-types');`(不解释)
@@ -74,6 +74,5 @@
 - `alias`：`china`
 - `./gradlew assembleRelease` `Android`打包
 
-### apk
-
-![Android](https://github.com/5ibinbin/react-native-nba/blob/develop/icon/apk.png)
+**备注**
+> APP开发基本完成，Android遇到两个问题暂时还没有解决，①监听Android返回再次进入之后无法点击，②scrollableTabview使用虚拟键返回之后才能显示。个人怀疑和rn版本有关，重构的时候再来看！！！
