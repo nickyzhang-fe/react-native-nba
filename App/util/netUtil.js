@@ -8,11 +8,11 @@ class NetUtil extends Component {
 
     /**
      * get请求
-     *url : 请求地址
-     *callback : 回调函数
+     * url : 请求地址
+     * callback : 回调函数
      */
     static get(url, callback) {
-        var fetchOptions = {
+        let fetchOptions = {
             method: 'GET'
         };
         fetch(url, fetchOptions)
@@ -41,6 +41,7 @@ class NetUtil extends Component {
                 callback(JSON.parse(responseText));
             }).done();
     }
+
     /**
      * post请求
      * url : 请求地址
@@ -65,6 +66,7 @@ class NetUtil extends Component {
             })
             .done();
     }
+
     /**
      * put请求
      * url : 请求地址
