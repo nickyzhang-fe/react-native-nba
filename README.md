@@ -76,3 +76,7 @@
 
 **备注**
 > APP开发基本完成，Android遇到两个问题暂时还没有解决，①监听Android返回再次进入之后无法点击，②scrollableTabview使用虚拟键返回之后才能显示。个人怀疑和rn版本有关，重构的时候再来看！！！
+
+**相关图片**
+
+![NBAPlayer](/screenshot/NBAPlayer.png)
